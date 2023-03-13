@@ -6,6 +6,7 @@ import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
+import SearchBar from './components/searchBar/SearchBar';
 
 const ROUTES = [
   {
@@ -27,6 +28,7 @@ const ROUTES = [
 function App() {
   return (
     <Router>
+      <SearchBar onSearch={(searchTerm: string) => console.log(searchTerm)} />
       <Routes>
         {ROUTES.map((ROUTE, i) => (
           <Route
