@@ -1,0 +1,33 @@
+.circle-image-container {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  .circle-image {
+    width: 100%;
+    height: auto;
+  }
+
+.cuadrado {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 10px solid red;
+  }
+  
