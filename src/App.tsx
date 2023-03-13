@@ -28,7 +28,6 @@ const ROUTES = [
 function App() {
   return (
     <Router>
-      <SearchBar onSearch={(searchTerm: string) => console.log(searchTerm)} />
       <Routes>
         {ROUTES.map((ROUTE, i) => (
           <Route
