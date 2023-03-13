@@ -13,13 +13,13 @@ export const UserSummary = () => {
         <div className="userSummary__userPic"></div>
       </div>
       <div className="userSummary__center-column">
-        <div className="userSummary__username"></div>
-        <div className="userSummary__currentMissions"></div>
-        <div className="userSummary__userLevel"></div>
+        <div className="userSummary__username">danituriño22</div>
+        <div className="userSummary__currentMissions">3 misiones en curso</div>
+        <div className="userSummary__userLevel">Nivel 3</div>
       </div>
       <div className="userSummary__right-column">
-        <div className="userSummary__contacts"></div>
-        <div className="userSummary__total-points"></div>
+        <div className="userSummary__contacts">123 contactos</div>
+        <div className="userSummary__total-points">520pts</div>
       </div>
     </div>
   );

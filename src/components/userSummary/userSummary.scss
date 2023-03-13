@@ -1,5 +1,59 @@
 .userSummary {
   display: flex;
   flex-direction: row;
-  background-color: rgb(54, 180, 253);
+  justify-content: space-between;
+  align-items: center;
+  width: 100vw;
+  height: 100px;
+  padding-left: 15px;
+  background-color: rgb(87, 160, 255);
+  color: white;
+
+  &__left-column {
+    flex: 1;
+  }
+
+  &__center-column {
+    flex: 1;
+    margin-left: -48px;
+    margin-right: 40px;
+  }
+
+  &__right-column {
+    flex: 1;
+    margin-right: -24px;
+  }
+
+  &__userPic {
+    background-color: #ccc;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+  }
+
+  &__username {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  &__currentMissions {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  &__userLevel {
+    font-size: 16px;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+
+  &__contacts {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  &__total-points {
+    font-size: 16px;
+    font-weight: bold;
+  }
 }
