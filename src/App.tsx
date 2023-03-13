@@ -1,16 +1,16 @@
 // @ts-ignore
 import './App.css';
-import React from 'react';
-import { Login } from './modules/login/Login';
+//import { Login } from './modules/login/Login';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
+import { TeamDropdown } from './components/teamDropdown/TeamDropdown';
 
 const ROUTES = [
   {
     path: '/login',
-    element: <Login />,
+    element: <TeamDropdown title="Opción 1" />,
   },
   {
     path: '/home',
