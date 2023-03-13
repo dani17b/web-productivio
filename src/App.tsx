@@ -6,6 +6,7 @@ import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
+import { IconSize, AddIcon} from './components/addIcon/addIcon';
 
 const ROUTES = [
   {
@@ -26,7 +27,8 @@ const ROUTES = [
 
 function App() {
   return (
-    <Router>
+    <AddIcon name='person-add-outline' size={IconSize.large}/>
+  /* <Router>
       <Routes>
         {ROUTES.map((ROUTE, i) => (
           <Route
@@ -40,7 +42,7 @@ function App() {
           />
         ))}
       </Routes>
-    </Router>
+    </Router>*/
   );
 }
 
