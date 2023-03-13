@@ -1,0 +1,46 @@
+.like-and-comments-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .like-and-comments {
+    display: flex;
+    align-items: center;
+    margin-right: 24px;
+    cursor: pointer;
+  
+    .heart {
+      position: relative;
+      color: white;
+      margin-right: 4px;
+  
+      &.--liked {
+        color: red;
+      }
+  
+      &::before {
+        content: '🤍';
+      }
+  
+      &.--liked::before {
+        content: '❤️';
+      }
+  
+      .fill {
+        position: absolute;
+      }
+    }
+  }
+  
+  .comment-container {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #444;
+    cursor: pointer;
+  
+    .comment-icon {
+      margin-right: 4px;
+    }
+  }
+  
