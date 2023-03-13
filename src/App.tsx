@@ -1,13 +1,14 @@
 // @ts-ignore
 import './App.css';
 import React from 'react';
-import { Login } from './modules/login/Login';
-import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
-import { Home } from './modules/home/Home';
-import { Admin } from './modules/admin/Admin';
-import { PrivateRoute } from './components/privateRoute/PrivateRoute';
+//import { Login } from './modules/login/Login';
+//import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
+//import { Home } from './modules/home/Home';
+//import { Admin } from './modules/admin/Admin';
+//import { PrivateRoute } from './components/privateRoute/PrivateRoute';
+import { LikeAndComments } from './components/likeAndComments/LikeAndComments';
 
-const ROUTES = [
+/*const ROUTES = [
   {
     path: '/login',
     element: <Login />,
@@ -23,10 +24,10 @@ const ROUTES = [
     restrictedTo: ['admin2'],
   },
 ];
-
+*/
 function App() {
   return (
-    <Router>
+    /*   <Router>
       <Routes>
         {ROUTES.map((ROUTE, i) => (
           <Route
@@ -40,7 +41,8 @@ function App() {
           />
         ))}
       </Routes>
-    </Router>
+    </Router>*/
+    <LikeAndComments />
   );
 }
 
