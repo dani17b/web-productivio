@@ -1,0 +1,28 @@
+.progress_bar_parent{
+
+    height: 23px;
+    width: 200px;
+    background-color: darkblue;
+    border-radius: 20px;
+    display: flex;
+
+}
+
+.progress_bar_parent span{
+    color: aquamarine;
+    font-size: 15px;
+}
+
+.progress_bar_child{
+    background-color: aquamarine;
+    height: 100%;
+    width: 80%;
+    border-radius: 20px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.progress_bar_child span{
+    color: darkblue;
+    font-size: 15px;
+}
