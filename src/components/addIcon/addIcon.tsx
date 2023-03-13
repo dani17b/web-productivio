@@ -1,10 +1,18 @@
 //@ts-nocheck
 import'src/components/addIcon/addIcon.scss'; 
 
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'ion-icon': any;
+    }
+  }
+}
+
 export enum IconSize{
-    small,
-    medium,
-    large
+    SMALL = 'small',
+    MEDIUM = 'medium',
+    large = 'large'
 }
 
 export interface IconProps {
@@ -13,45 +21,42 @@ export interface IconProps {
     action? : any
 }
 
-class MyComponent extends React.Component {
-    componentDidMount() {
-      const script1 = document.createElement("script");
-      script1.type = "module";
-      script1.src = "https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js";
-      document.head.appendChild(script1);
-  
-      const script2 = document.createElement("script");
-      script2.src = "https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js";
-      script2.setAttribute("nomodule", "");
-      document.head.appendChild(script2);
+export const AddIcon = (props: IconProps) => {
+  const{name, size, action} = props;
+  const [isLoaded, setIsLoaded] = React.useState(false);
+
+  React.useEffect(() => {
+    const script1 = document.createElement("script");
+    script1.type = "module";
+    script1.src = "https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js";
+    script1.onload = handleScriptLoad;
+    document.head.appendChild(script1);
+
+    const script2 = document.createElement("script");
+    script2.src = "https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js";
+    script2.setAttribute("nomodule", "");
+    script2.onload = handleScriptLoad;
+    document.head.appendChild(script2);
+
+    return () => {
+      document.head.removeChild(script1);
+      document.head.removeChild(script2);
     }
-  
-    render() {
-      return (
-        <div>
-          <h1>Ionicons Example</h1>
-          <i class="icon ion-md-heart"></i>
-          <i class="icon ion-ios-star"></i>
-          <i class="icon ion-logo-github"></i>
-        </div>
-      );
-    }
+  }, []);
+
+  function handleScriptLoad() {
+    setIsLoaded(true);
   }
 
-  
-  
-    import React from 'react';
-  import MyComponent from './MyComponent';
-  
-  class AnotherComponent extends React.Component {
-    render() {
-      return (
-        <div>
-          <h2>Another Component</h2>
-          <MyComponent />
-        </div>
-      );
-    }
-  }
-  
-  export default AnotherComponent;
+  return (
+    <div>
+      <button className="rounded-button" type="button" > 
+        {isLoaded ? (
+          <ion-icon name={name} size={size}></ion-icon>
+        ) : (
+          <span>Loading icon...</span>
+        )}
+      </button>
+    </div>
+  );
+}

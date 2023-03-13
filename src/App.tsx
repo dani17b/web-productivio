@@ -7,6 +7,7 @@ import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
 import { IconSize, AddIcon} from './components/addIcon/addIcon';
+import'src/components/addIcon/addIcon.scss'; 
 
 const ROUTES = [
   {
@@ -28,6 +29,7 @@ const ROUTES = [
 function App() {
   return (
     <AddIcon name='person-add-outline' size={IconSize.large}/>
+    
   /* <Router>
       <Routes>
         {ROUTES.map((ROUTE, i) => (
