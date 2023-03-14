@@ -12,4 +12,9 @@
     color: white;
     font-weight: bold;
   }
+
+  @media (max-width: 575.98px) {
+    width: 100vw;
+    max-width: 100vw;
+  }
 }

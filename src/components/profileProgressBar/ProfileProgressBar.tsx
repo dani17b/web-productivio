@@ -2,9 +2,18 @@ import React from 'react';
 import './profileProgressBar.scss';
 
 interface ProgressBarProps {
-  completed: number; // The percentage completed
-  bgColor: string; // The background color of the progress bar
-  completedColor: string; // The color of the completed progress bar
+  /**
+   * The percentage completed
+   */
+  completed: number;
+  /**
+   * The background color of the progress bar
+   */
+  bgColor: string;
+  /**
+   * The color of the completed progress bar
+   */
+  completedColor: string;
 }
 
 const ProfileProgressBar: React.FC<ProgressBarProps> = ({
