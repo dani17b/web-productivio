@@ -1,5 +1,5 @@
 import React from "react";
-import "./UserPhoto.scss";
+import "./userPhoto.scss";
 
 interface UserPhotoProps {
   imageSrc: string;
