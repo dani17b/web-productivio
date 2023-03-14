@@ -11,7 +11,7 @@ const StyleExample = () => {
         Aquí uso @include mobile-full-width y @include primary-bg para que se
         vea al 100% del ancho en móvil y con el color "oficial" de fondo.
       </div>
-      <div className="styles__blue-text">Puedes usar los colores "oficiales" en cualquier propedad con $primary-color y $secondary-color</div>
+      <div className="styles__blue-text">Puedes usar los colores "oficiales" en cualquier propiedad usando las variables $primary-color y $secondary-color</div>
     </div>
   );
 };
