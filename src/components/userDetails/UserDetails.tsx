@@ -1,17 +1,20 @@
+import './userDetails.scss';
+
 export interface UserDetailsProps {
-    user: string;
+  user: { username: string; description: string; score: number; img: string };
 }
 
 export const UserDetails = (props: UserDetailsProps) => {
-    const { user } = props;
+  const { user } = props;
 
-
-    return (<div>
-        Aqui debe ir la imagen del usuario<img src={user} alt="UserImage" />
-        <p> Aqui debe ir el username</p>
-        <p>Aquí  ira la descripción</p>
-        Aqui deben ir las estrellas <img />
-
+  return (
+    <div className="user-details">
+      <img className="user-details__pic" src={user.img} alt="UserImage" />
+      <div className="user-details__username">
+        <p>{user.username}</p>
+      </div>
+      <p>{user.description}</p>
+      <img className="__user-details-stars" src="" />
     </div>
-    );
+  );
 };

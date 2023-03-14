@@ -1,0 +1,17 @@
+
+
+.user-details{
+    display: flex;
+    flex-direction: column;
+  
+
+    &__pic{
+        border-radius: 10px 10px ;
+
+    }
+    &__username{
+        top: 0;
+        left: 110px;
+        position: fixed;
+    }
+}
