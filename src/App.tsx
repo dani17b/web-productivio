@@ -6,6 +6,7 @@ import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
+import StyleExample from './modules/styleExample/StyleExample';
 
 const ROUTES = [
   {
@@ -22,6 +23,10 @@ const ROUTES = [
     element: <Admin />,
     restrictedTo: ['admin2'],
   },
+  {
+    path: '/style',
+    element: <StyleExample/>
+  }
 ];
 
 function App() {

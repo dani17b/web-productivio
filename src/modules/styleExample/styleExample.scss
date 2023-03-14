@@ -1,0 +1,24 @@
+@import '../../App.scss';
+
+.styles{
+    & div{
+        padding: 20px;
+    }
+    
+    &__red-mobile {
+        @include for-mobile-only {
+            color: red;
+        }
+    }
+    
+    &__wide-mobile {
+        @include mobile-full-width;
+        @include primary-bg; 
+    }
+    
+    &__blue-text{
+        border: 5px solid $primary-color;
+        color: $secondary-color;
+        margin-top: 20px;
+    }
+}
