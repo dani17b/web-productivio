@@ -1,6 +1,6 @@
 import './teamDropdown.scss';
 import { useState } from 'react';
-import { HiOutlineArrowSmRight, HiOutlineArrowSmDown } from 'react-icons/hi';
+import { IoIosArrowForward, IoIosArrowDown } from 'react-icons/io';
 
 export interface TeamDropdownProps {
   title: string;
@@ -20,10 +20,10 @@ export const TeamDropdown = (props: TeamDropdownProps) => {
   return (
     <div>
       <div className="dropdown-container" onClick={() => handleToggle()} style={{backgroundColor: bgColor || '#FF00FF'}}>
-        <span className="dropdown-container__arrow">
-          {isExpanded ? <HiOutlineArrowSmDown /> : <HiOutlineArrowSmRight />}
-        </span>
         <div className="dropdown-container__title">{title}</div>
+        <span className="dropdown-container__arrow">
+          {isExpanded ? <IoIosArrowDown /> : <IoIosArrowForward />}
+        </span>
       </div>
       {isExpanded && (
         <div className="dropdown-container__data">
