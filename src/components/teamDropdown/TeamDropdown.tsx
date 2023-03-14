@@ -4,22 +4,24 @@ import { IoIosArrowForward, IoIosArrowDown } from 'react-icons/io';
 
 export interface TeamDropdownProps {
   title: string;
-  data: any[]; //Cambiar cuando se sepan los datos que van al componente del perfil
+  data: any[]; //TODO Cambiar cuando se sepan los datos que van al componente del perfil
   bgColor?: string;
 }
 
+const DEFAULT_COLOR = '#FF00FF'; //TODO definir el color por defecto
+
 export const TeamDropdown = (props: TeamDropdownProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
-
-  const handleToggle = () => {
-    setIsExpanded(!isExpanded);
-  };
 
   const { title, data, bgColor } = props;
 
   return (
     <div>
-      <div className="dropdown-container" onClick={() => handleToggle()} style={{backgroundColor: bgColor || '#FF00FF'}}>
+      <div
+        className="dropdown-container"
+        onClick={() => setIsExpanded(!isExpanded)}
+        style={{ backgroundColor: bgColor || DEFAULT_COLOR }}
+      >
         <div className="dropdown-container__title">{title}</div>
         <span className="dropdown-container__arrow">
           {isExpanded ? <IoIosArrowDown /> : <IoIosArrowForward />}
@@ -29,7 +31,7 @@ export const TeamDropdown = (props: TeamDropdownProps) => {
         <div className="dropdown-container__data">
           {data.map((profileData, index) => (
             <div key={index} className="dropdown-container__data__profile">
-              {/*Aquí va el componente de cada perfil*/}
+              {/*TODO Aquí va el componente de cada perfil*/}
               <div>{`Perfil #${index} ${profileData.name}`}</div>
             </div>
           ))}
