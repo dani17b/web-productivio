@@ -1,18 +1,18 @@
 import React from "react";
 import "./UserPhoto.scss";
 
-interface Props {
+interface UserPhotoProps {
   imageSrc: string;
   borderColor: string;
 }
 
-export const UserImage: React.FC<Props> = ({ imageSrc, borderColor }) => {
+export const UserImage: React.FC<UserPhotoProps> = ({ imageSrc, borderColor }) => {
   const circleStyle = {
     borderColor: borderColor,
   };
 
   return (
-    <div className="Cuadrado">
+    <div className="square">
     <div className="circle-image-container">
       <div className="circle" style={circleStyle}>
         <img src={imageSrc} alt="User" className="circle-image" />
