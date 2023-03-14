@@ -5,23 +5,29 @@
   align-items: center;
   width: 100vw;
   height: 100px;
-  padding-left: 15px;
+  padding: 5px;
   background-color: rgb(87, 160, 255);
   color: white;
+  position: relative;
 
   &__left-column {
     flex: 1;
+    position: absolute;
+    left: 16px;
   }
 
   &__center-column {
     flex: 1;
-    margin-left: -48px;
+    position: absolute;
+    left: 110px;
     margin-right: 40px;
   }
 
   &__right-column {
     flex: 1;
-    margin-right: -24px;
+    position: absolute;
+    right: 32px;
+    text-align: end;
   }
 
   &__user-pic {
