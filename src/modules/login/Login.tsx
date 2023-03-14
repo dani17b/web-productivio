@@ -5,7 +5,6 @@ import { login, LoginProps } from './actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-
 export const Login = () => {
   const [form, setForm] = useState<LoginProps>({
     login: '',
@@ -18,7 +17,7 @@ export const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (userInfo != null) {
+    if(userInfo != null){
       navigate('/home');
     }
   }, [userInfo, navigate]);

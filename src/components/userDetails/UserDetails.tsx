@@ -16,7 +16,7 @@ export const UserDetails = (props: UserDetailsProps) => {
     <div className="user-details">
       {/* TODO implementar el componente de la foto de prefil */}
       <div className="user-details__pic">
-        <img src="../../../logo.svg" alt="UserImage" />
+        <img src={user.img} alt="UserImage" />
       </div>
       <div className="user-details__info">
         <div className="user-details__info__top">
