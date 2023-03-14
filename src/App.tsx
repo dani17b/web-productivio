@@ -7,10 +7,16 @@ import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
 import { TeamDropdown } from './components/teamDropdown/TeamDropdown';
 
+const teamData = [
+  { name: 'John', age: 25, role: 'Developer' },
+  { name: 'Alice', age: 30, role: 'Designer' },
+  { name: 'Bob', age: 35, role: 'Manager' },
+];
+
 const ROUTES = [
   {
     path: '/login',
-    element: <TeamDropdown title="Opción 1" />,
+    element: <TeamDropdown title="DropDown1" data={teamData} />,
   },
   {
     path: '/home',

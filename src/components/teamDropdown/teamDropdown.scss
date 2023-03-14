@@ -3,4 +3,21 @@
     background-color: red;
     max-width: 100vw;
     padding: 10px;
+    display: flex;
+    flex-direction: initial;
+    
+    &__arrow{
+    margin-top: 3px;
+    margin-right: 2px;
+    }
+
+    &__data{
+        &__profile{
+            display: flex;
+            flex-direction: column;
+            margin: 5px;
+            padding: 5px;
+        }
+    }
+
 }
