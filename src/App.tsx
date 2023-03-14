@@ -1,4 +1,3 @@
-// @ts-ignore
 import './App.css';
 import React from 'react';
 import { Login } from './modules/login/Login';
@@ -6,8 +5,6 @@ import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
-import { IconSize, AddIcon} from './components/addIcon/addIcon';
-import'src/components/addIcon/addIcon.scss'; 
 
 const ROUTES = [
   {
@@ -26,11 +23,11 @@ const ROUTES = [
   },
 ];
 
+
 function App() {
   return (
-    <AddIcon name='person-add-outline' size={IconSize.large}/>
     
-  /* <Router>
+   <Router>
       <Routes>
         {ROUTES.map((ROUTE, i) => (
           <Route
@@ -44,7 +41,8 @@ function App() {
           />
         ))}
       </Routes>
-    </Router>*/
+    </Router>
+    
   );
 }
 
