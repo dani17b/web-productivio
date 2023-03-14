@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import { useSpring, animated } from 'react-spring';
-import Cookies from 'universal-cookie';
 
 import './likeAndComments.scss';
 
 export const LikeAndComments = () => {
-  const cookies = new Cookies();
-  const [isLiked, setIsLiked] = useState(cookies.get('isLiked') === 'true');
-  const [numberOfLikes, setNumberOfLikes] = useState(
-    parseInt(cookies.get('numberOfLikes')) || 0
-  );
+  const [isLiked, setIsLiked] = useState(false);
+  const [numberOfLikes, setNumberOfLikes] = useState(0);
   const [showComments, setShowComments] = useState(false);
 
   const fillAnimation = useSpring({
@@ -25,8 +21,6 @@ export const LikeAndComments = () => {
     }
     setNumberOfLikes(likes);
     setIsLiked(!isLiked);
-    cookies.set('isLiked', !isLiked, { path: '/' });
-    cookies.set('numberOfLikes', likes, { path: '/' });
   };
 
   const handleCommentToggle = () => {
@@ -37,10 +31,7 @@ export const LikeAndComments = () => {
     <div className="like-and-comments-container">
       <div className="like-and-comments">
         <div className="like-container" onClick={handleLikeClick}>
-          <animated.span
-            className={`heart ${isLiked ? '--liked' : ''}`}
-            style={{ position: 'relative' }}
-          >
+          <animated.span className={`heart ${isLiked ? '--liked' : ''}`}>
             <animated.div
               className={`fill ${isLiked ? '--filled' : ''}`}
               style={fillAnimation}
@@ -50,7 +41,9 @@ export const LikeAndComments = () => {
         </div>
         <div className="comment-toggle-container">
           <span className="comment-icon">{showComments ? '🔽' : '💬'}</span>
-          <span className="comment-text" onClick={handleCommentToggle}>Show Comments</span>
+          <span className="comment-text" onClick={handleCommentToggle}>
+            Show Comments
+          </span>
         </div>
       </div>
       {showComments && (
