@@ -3,8 +3,6 @@ import { IconContext } from 'react-icons';
 import {IoMdPersonAdd} from 'react-icons/io';
 import'src/components/addIcon/addIcon.scss'; 
 
-
-
 export interface IconProps {
     action? : any
 }
