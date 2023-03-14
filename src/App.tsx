@@ -6,7 +6,6 @@ import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
-import SearchBar from './components/searchBar/SearchBar';
 
 const ROUTES = [
   {
