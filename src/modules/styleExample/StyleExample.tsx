@@ -4,7 +4,7 @@ import React from 'react';
 const StyleExample = () => {
   return (
     <div className='styles'>
-      <div className="styles_red-mobile">
+      <div className="styles__red-mobile">
         Este texto es rojo si lo ves desde un móvil porque usé @include for-mobile-only
       </div>
       <div className="styles__wide-mobile">
