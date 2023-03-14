@@ -4,7 +4,7 @@ import { IoIosArrowForward, IoIosArrowDown } from 'react-icons/io';
 
 export interface TeamDropdownProps {
   title: string;
-  data: any[];
+  data: any[]; //Cambiar cuando se sepan los datos que van al componente del perfil
   bgColor?: string;
 }
 
