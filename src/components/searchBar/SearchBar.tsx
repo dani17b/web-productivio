@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './searchBar.scss';
 import { GoSearch } from 'react-icons/go';
 import { MdKeyboardVoice } from 'react-icons/md';
@@ -7,20 +7,28 @@ interface SearchBarProps {
   onSearch: (searchTerm: string) => void;
 }
 
+const DELAY_TIME = 500;
+
 function SearchBar(props: SearchBarProps) {
   const [searchTerm, setSearchTerm] = useState('');
+  const { onSearch } = props;
+  const timerRef = React.useRef<number>();
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+  const handleDelayedSearch = (newSearchTerm: string) => {
+    clearTimeout(timerRef.current);
+    timerRef.current = window.setTimeout(() => {
+      onSearch(newSearchTerm);
+    }, DELAY_TIME);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    props.onSearch(searchTerm);
-  };
+  useEffect(() => {
+    return () => {
+      clearTimeout(timerRef.current);
+    };
+  }, []);
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       <div className="search-bar">
         <div className="search-bar__button-input">
           <button className="search-bar__button" type="submit">
@@ -30,7 +38,10 @@ function SearchBar(props: SearchBarProps) {
             className="search-bar__input"
             type="text"
             value={searchTerm}
-            onChange={handleChange}
+            onChange={(event) => {
+              setSearchTerm(event.target.value);
+            }}
+            onBlur={() => handleDelayedSearch(searchTerm)}
             placeholder="Search"
           ></input>
         </div>
