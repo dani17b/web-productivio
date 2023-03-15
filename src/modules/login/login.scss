@@ -1,55 +1,56 @@
 @import '../../style/vars.scss';
 
 .login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+
+  &__info {
+    width: 300px;
+    height: 200px;
+    margin-top: 130px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex: 1;
 
-    &__info{
-        width: 300px;
-        height: 200px;
-        margin-top: 130px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        &__icon{
-            background-color: $secondary-color;
-            width: 100px;
-            height: 100px;
-            padding: $default-padding;
-        }
-        
-        &__title{
-            background-color: $primary-color;
-            margin-top: 14px;
-            font-size: 22px;
-            color: white;
-            padding: $default-padding;
-        }
-        &__description{
-            background-color: lightgoldenrodyellow;
-            margin-top: 8px;
-            text-align: center;
-            padding: $default-padding;
-        }
+    &__icon {
+      background-color: $secondary-color;
+      width: 100px;
+      height: 100px;
+      padding: $default-padding;
     }
 
-    &__form{
-        width: 300px;
-        margin-top: 40px;
-
-        &__input-block{
-            background-color: turquoise;
-            height: 40px;
-            margin-bottom: 8px;
-            box-shadow: $default-shadow;
-            border-radius: $default-border-radius;
-        }
-
-        &__input-block:last-child{
-            margin-bottom: 0;
-        }
+    &__title {
+      background-color: $primary-color;
+      margin-top: 14px;
+      font-size: 22px;
+      color: white;
+      padding: $default-padding;
     }
+
+    &__description {
+      background-color: lightgoldenrodyellow;
+      margin-top: 8px;
+      text-align: center;
+      padding: $default-padding;
+    }
+  }
+
+  &__form {
+    width: 300px;
+    margin-top: 40px;
+
+    &__input-block {
+      background-color: turquoise;
+      height: 40px;
+      margin-bottom: 8px;
+      box-shadow: $default-shadow;
+      border-radius: $default-border-radius;
+    }
+
+    &__input-block:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
