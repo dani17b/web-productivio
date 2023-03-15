@@ -17,7 +17,7 @@ export const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (userInfo != null) {
+    if(userInfo != null){
       navigate('/home');
     }
   }, [userInfo, navigate]);
