@@ -16,11 +16,9 @@ interface ProgressBarProps {
   completedColor: string;
 }
 
-const ProfileProgressBar: React.FC<ProgressBarProps> = ({
-  completed,
-  bgColor,
-  completedColor,
-}) => {
+function ProfileProgressBar(props: ProgressBarProps) {
+  const { completed, bgColor, completedColor } = props;
+
   return (
     <div className="progress-bar" style={{ backgroundColor: bgColor }}>
       <div
@@ -32,6 +30,6 @@ const ProfileProgressBar: React.FC<ProgressBarProps> = ({
       ></div>
     </div>
   );
-};
+}
 
 export default ProfileProgressBar;
