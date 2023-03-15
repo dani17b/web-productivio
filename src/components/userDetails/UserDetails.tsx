@@ -28,8 +28,6 @@ export const UserDetails = (props: UserDetailsProps) => {
             <p>{user.description}</p>
           </div>
         </div>
-
-        <img className="__user-details-stars" src="" />
       </div>
     </div>
   );

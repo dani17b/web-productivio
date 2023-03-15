@@ -1,5 +1,4 @@
 
-
 .user-details{
     width: 100vw;
     max-width: 100vw;
@@ -7,9 +6,7 @@
     flex-direction: row;
     justify-content: flex-start;
     height: 100px;
-
     color: black;
-
 
     &__pic{
         background-color: rgb(9, 9, 240);
@@ -17,13 +14,12 @@
         height: 80px;
         border-radius: 50%;
         margin: 10px;
-  
     }
+
     &__info{
         width: 273px;
         display: flex;
         flex-direction: column;
-
 
         &__top{
             width: inherit;
@@ -38,9 +34,9 @@
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
-               
             }
         }
+        
         &__bottom{
             height: fit-content;
             font-size: 14px;
