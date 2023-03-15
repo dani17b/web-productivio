@@ -1,22 +1,22 @@
-import { useEffect, useState } from 'react';
+import { IoMdPersonAdd } from 'react-icons/io';
 import { IconContext } from 'react-icons';
-import {IoMdPersonAdd} from 'react-icons/io';
-import'src/components/addIcon/addIcon.scss'; 
+import 'src/components/addIcon/addIcon.scss';
+import { MouseEventHandler } from 'react';
 
 export interface IconProps {
-    action? : any
+  action?: MouseEventHandler;
 }
 
 export const AddIcon = (props: IconProps) => {
-const{action} = props;
+  const { action } = props;
 
   return (
     <IconContext.Provider
-    value={{ color: 'white', size: '20px', className: 'rounded-button' }}
-  >
-    <div>
-       <IoMdPersonAdd />
-    </div>
+      value={{ color: 'white', size: '20px', className: 'rounded-button' }}
+    >
+      <div>
+        <IoMdPersonAdd onClick={action} />
+      </div>
     </IconContext.Provider>
   );
-}
+};

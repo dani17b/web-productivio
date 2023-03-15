@@ -5,7 +5,6 @@ import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
-import { TaskProgressBar } from './components/taskProgressBar/TaskProgressBar';
 
 const ROUTES = [
   {
@@ -24,10 +23,9 @@ const ROUTES = [
   },
 ];
 
-
 function App() {
   return (
-   <Router>
+    <Router>
       <Routes>
         {ROUTES.map((ROUTE, i) => (
           <Route
@@ -41,7 +39,7 @@ function App() {
           />
         ))}
       </Routes>
-    </Router> 
+    </Router>
   );
 }
 
