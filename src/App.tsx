@@ -1,5 +1,5 @@
 // @ts-ignore
-import './App.css';
+import './app.scss';
 import React from 'react';
 import { Login } from './modules/login/Login';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
@@ -27,7 +27,7 @@ const ROUTES = [
 
 function App() {
   return (
-    <Router>
+   <Router>
       <Routes>
         {ROUTES.map((ROUTE, i) => (
           <Route
@@ -42,7 +42,7 @@ function App() {
           />
         ))}
       </Routes>
-    </Router>
+    </Router>  
   );
 }
 
