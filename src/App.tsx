@@ -6,6 +6,7 @@ import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
+import {Badge} from 'lib-productivio';
 
 const ROUTES = [
   {
@@ -35,6 +36,7 @@ function App() {
             element={
               <PrivateRoute roles={ROUTE.restrictedTo} key={i}>
                 {ROUTE.element}
+                <Badge label='Hola soy un badge' showAny={true}/>
               </PrivateRoute>
             }
           />
