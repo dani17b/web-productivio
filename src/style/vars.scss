@@ -1,0 +1,22 @@
+//COLORS:
+$primary-color: #1a3891;
+$secondary-color: #8394c4;
+
+//BREAKPOINTS:
+$mobile-breakpoint: 575.98px;
+
+//FONT:
+@font-face {
+  font-family: 'Inter';
+  src: url('./fonts/Inter-VariableFont_slnt\,wght.ttf');
+  font-weight: 400 700;
+  font-style: normal;
+}
+
+$default-font: 'Inter', sans-serif;
+
+//OTHER:
+$default-padding: 20px;
+$default-shadow: 5px 5px 7px rgba(0, 0, 0, 0.064),
+  2px 2px 3px rgba(0, 0, 0, 0.064);
+$default-border-radius: 6px;
