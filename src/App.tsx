@@ -7,6 +7,7 @@ import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
 import { TaskProgressBar } from './components/taskProgressBar/TaskProgressBar';
+import { NewTask } from './modules/newTask/NewTask';
 
 const ROUTES = [
   {
@@ -22,6 +23,10 @@ const ROUTES = [
     path: '/admin',
     element: <Admin />,
     restrictedTo: ['admin2'],
+  },  {
+    path: '/newTask',
+    element: <NewTask />,
+    
   },
 ];
 

@@ -1,0 +1,25 @@
+.new-task {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    
+    .header {
+      // Estilos para la barra de navegación superior
+      height: 70px;
+      background-color: lightblue;
+    }
+    
+    .form {
+      // Estilos para la zona central
+      flex-grow: 1;
+      background-color: lightgreen;
+      width: 100%;
+    }
+    
+    .navbar {
+      // Estilos para la barra de navegación inferior
+      height: 70px;
+      background-color: lightcoral;
+    }
+  }
