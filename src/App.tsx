@@ -6,7 +6,7 @@ import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
-import { TaskProgressBar } from './components/taskProgressBar/TaskProgressBar';
+import { Circle } from './modules/circle/Circle';
 
 const ROUTES = [
   {
@@ -23,11 +23,15 @@ const ROUTES = [
     element: <Admin />,
     restrictedTo: ['admin2'],
   },
+  {
+    path: '/circle',
+    element: <Circle />,
+  },
 ];
 
 function App() {
   return (
-   <Router>
+    <Router>
       <Routes>
         {ROUTES.map((ROUTE, i) => (
           <Route
@@ -41,7 +45,7 @@ function App() {
           />
         ))}
       </Routes>
-    </Router>  
+    </Router>
   );
 }
 
