@@ -6,6 +6,7 @@ export const Circle = () => {
   return (
     <>
       <Header></Header>
+      <p>Search bar</p>
       <TeamDropdown
         title="EQUIPO A"
         data={[
