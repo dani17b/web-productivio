@@ -1,5 +1,6 @@
 // @ts-ignore
 import './app.scss';
+import 'lib-productivio/dist/cjs/index.css';
 import React from 'react';
 import { Login } from './modules/login/Login';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
