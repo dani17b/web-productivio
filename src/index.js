@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import configureAppStore from './redux/configureStore';
+import 'lib-productivio/dist/cjs/index.css';
 
 const store = configureAppStore({});
 
