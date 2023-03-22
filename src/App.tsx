@@ -1,11 +1,13 @@
 // @ts-ignore
 import './app.scss';
+import 'lib-productivio/dist/cjs/index.css';
 import React from 'react';
 import { Login } from './modules/login/Login';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
+import { Badge, SearchBox } from 'lib-productivio';
 import { TaskProgressBar } from './components/taskProgressBar/TaskProgressBar';
 import { NewTask } from './modules/newTask/NewTask';
 
@@ -32,7 +34,7 @@ const ROUTES = [
 
 function App() {
   return (
-   <Router>
+    <Router>
       <Routes>
         {ROUTES.map((ROUTE, i) => (
           <Route
@@ -41,12 +43,14 @@ function App() {
             element={
               <PrivateRoute roles={ROUTE.restrictedTo} key={i}>
                 {ROUTE.element}
+                <Badge label="Hola soy un badge" showAny={true} />
+                <SearchBox />
               </PrivateRoute>
             }
           />
         ))}
       </Routes>
-    </Router>  
+    </Router>
   );
 }
 
