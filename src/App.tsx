@@ -6,7 +6,7 @@ import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
-import {Badge} from 'lib-productivio';
+import { Badge, SearchBox } from 'lib-productivio';
 
 const ROUTES = [
   {
@@ -27,7 +27,7 @@ const ROUTES = [
 
 function App() {
   return (
-   <Router>
+    <Router>
       <Routes>
         {ROUTES.map((ROUTE, i) => (
           <Route
@@ -36,13 +36,14 @@ function App() {
             element={
               <PrivateRoute roles={ROUTE.restrictedTo} key={i}>
                 {ROUTE.element}
-                <Badge label='Hola soy un badge' showAny={true}/>
+                <Badge label="Hola soy un badge" showAny={true} />
+                <SearchBox />
               </PrivateRoute>
             }
           />
         ))}
       </Routes>
-    </Router>  
+    </Router>
   );
 }
 
