@@ -1,7 +1,7 @@
 import React from 'react';
-import { FormButton } from './FormButton';
-import { InputWithLabel } from './InputWithLabel';
 import './taskForm.scss';
+import {InputWithLabel} from 'lib-productivio';
+import {FormButton} from 'lib-productivio';
 
 export const TaskForm = () => {
   return (
