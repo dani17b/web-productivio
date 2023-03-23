@@ -7,7 +7,7 @@ import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
-import { Badge, SearchBox } from 'lib-productivio';
+import { NewTask } from './modules/newTask/NewTask';
 
 const ROUTES = [
   {
@@ -24,6 +24,10 @@ const ROUTES = [
     element: <Admin />,
     restrictedTo: ['admin2'],
   },
+  {
+    path: '/form',
+    element: <NewTask />,
+  },
 ];
 
 function App() {
@@ -37,8 +41,6 @@ function App() {
             element={
               <PrivateRoute roles={ROUTE.restrictedTo} key={i}>
                 {ROUTE.element}
-                <Badge label="Hola soy un badge" showAny={true} />
-                <SearchBox />
               </PrivateRoute>
             }
           />
