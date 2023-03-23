@@ -1,6 +1,6 @@
 import React from 'react';
 import { Header } from 'src/components/header/Header';
-import { SearchBar, TeamDropdown } from 'lib-productivio';
+import { NavBar, SearchBar, TeamDropdown } from 'lib-productivio';
 import './circle.scss';
 
 const onSearch = (searchTerm: string) => {};
@@ -109,6 +109,7 @@ export const Circle = () => {
         ]}
         bgColor="#86D18E"
       ></TeamDropdown>
+      <NavBar></NavBar>
     </>
   );
 };
