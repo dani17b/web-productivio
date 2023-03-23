@@ -36,15 +36,15 @@ export const FeedBlock = ({ feedProps }: { feedProps: FeedBlockProps }) => {
 
   return (
     <div>
-      <div className="feedBlock">
-        <div className="feedBlock__user-photo">
+      <div className="feedblock">
+        <div className="feedblock__user-photo">
           <UserPhoto imageSrc={imageSrc} borderColor={borderColor} />
         </div>
-        <div className="feedBlock__content">
-          <div className="feedBlock__content__username">{username}</div>
-          <div className="feedBlock__content__description">{description}</div>
+        <div className="feedblock__content">
+          <div className="feedblock__content__username">{username}</div>
+          <div className="feedblock__content__description">{description}</div>
           {showProgressBar() && (
-            <div className='feedBlock__content__bar'>
+            <div className="feedblock__content__bar">
               <TaskProgressBar
                 percentage={taskProgessBarPercent}
                 childBackgroundColor="yellow"
@@ -53,7 +53,7 @@ export const FeedBlock = ({ feedProps }: { feedProps: FeedBlockProps }) => {
             </div>
           )}
         </div>
-        <div className="feedBlock__time">
+        <div className="feedblock__time">
           <TimeAgo createdAt={date} />
         </div>
       </div>
