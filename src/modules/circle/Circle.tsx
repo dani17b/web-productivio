@@ -3,6 +3,7 @@ import { Header } from 'src/components/header/Header';
 import { NavBar, SearchBar, TeamDropdown } from 'lib-productivio';
 import './circle.scss';
 
+//TODO: add search functionality
 const onSearch = (searchTerm: string) => {};
 
 export const Circle = () => {
