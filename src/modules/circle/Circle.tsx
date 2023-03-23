@@ -1,12 +1,15 @@
 import React from 'react';
 import { Header } from 'src/components/header/Header';
-import { TeamDropdown } from 'lib-productivio';
+import { SearchBar, TeamDropdown } from 'lib-productivio';
+import './circle.scss';
+
+const onSearch = (searchTerm: string) => {};
 
 export const Circle = () => {
   return (
     <>
       <Header></Header>
-      <p>Search bar</p>
+      <SearchBar onSearch={onSearch}></SearchBar>
       <TeamDropdown
         title="EQUIPO A"
         data={[
