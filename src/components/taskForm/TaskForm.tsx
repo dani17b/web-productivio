@@ -8,7 +8,7 @@ export const TaskForm = () => {
       <InputWithLabel
         label="Nombre"
         height={20}
-        width={300}
+        width={346}
         name="name"
         textColor="#1A3891"
         borderColor="#1A3891"
@@ -17,7 +17,7 @@ export const TaskForm = () => {
       <InputWithLabel
         label="Descripción"
         height={100}
-        width={300}
+        width={346}
         name="description"
         textColor="#1A3891"
         borderColor="#1A3891"
@@ -27,7 +27,7 @@ export const TaskForm = () => {
         <InputWithLabel
           label="Dificultad"
           height={20}
-          width={100}
+          width={150}
           name="difficulty"
           textColor="#1A3891"
           borderColor="#1A3891"
@@ -36,7 +36,7 @@ export const TaskForm = () => {
         <InputWithLabel
           label="Fecha límite"
           height={20}
-          width={100}
+          width={150}
           name="deadLine"
           textColor="#1A3891"
           borderColor="#1A3891"
@@ -46,7 +46,7 @@ export const TaskForm = () => {
       <InputWithLabel
         label="Asignar"
         height={20}
-        width={300}
+        width={346}
         name="assign"
         textColor="#1A3891"
         borderColor="#1A3891"
@@ -55,7 +55,7 @@ export const TaskForm = () => {
       <InputWithLabel
         label="Asigna a grupo de trabajo"
         height={20}
-        width={300}
+        width={346}
         name="workgroupAssign"
         textColor="#1A3891"
         borderColor="#1A3891"

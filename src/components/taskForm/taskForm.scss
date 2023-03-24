@@ -3,15 +3,12 @@
   }
   
   .text-fields {
-    width: 312px;
+    width: 350px;
   }
   
   .wrapper {
     display: flex;
-  
-    .parent {
-     //padding-right: 94px;
-    }
+    justify-content: space-between;
   }
   
   .buttons {
