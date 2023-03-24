@@ -1,0 +1,366 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: API Documentation for Productivio
+
+# Define the base path of the API
+basePath: /api/v1
+
+# Define the different entities of your application as Swagger definitions
+definitions:
+  Profile:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 123
+      name:
+        type: string
+        example: John Smith
+      description:
+        type: string
+        example: A software developer with experience in Python and Java
+      profilePoints:
+        type: integer
+        example: 100
+      activeTasks:
+        type: integer
+        example: 3
+      friends:
+        type: integer
+        example: 10
+
+  Task:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 456
+      name:
+        type: string
+        example: Implement the login feature
+      description:
+        type: string
+        example: Create the UI and backend logic for the login page
+      endDate:
+        type: string
+        format: date
+        example: '2023-04-30'
+      progress:
+        type: integer
+        example: 50
+      difficulty:
+        type: string
+        example: Medium
+      workgroup:
+        type: string
+        example: Development
+      assignedProfileId:
+        type: integer
+        example: 123
+
+  Workgroup:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 789
+      name:
+        type: string
+        example: Development
+      description:
+        type: string
+        example: The team responsible for developing new features
+      manager:
+        type: string
+        example: Jane Doe
+      workers:
+        type: array
+        items:
+          type: integer
+        example: [123, 456, 789]
+
+  Post:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 101
+      creatorProfileId:
+        type: integer
+        example: 123
+      description:
+        type: string
+        example: Check out this cool new feature we just released!
+      creationDate:
+        type: string
+        format: date-time
+        example: '2023-03-23T10:30:00Z'
+      likes:
+        type: integer
+        example: 5
+
+  Comment:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 202
+      postId:
+        type: integer
+        example: 101
+      creatorProfileId:
+        type: integer
+        example: 456
+      content:
+        type: string
+        example: Great work! Can't wait to try it out.
+
+  Roadmap:
+    type: object
+    properties:
+      tasks:
+        type: array
+        items:
+          $ref: '#/definitions/Task'
+        example: 
+          - id: 1
+            name: Implement the login feature
+            description: Create the UI and backend logic for the login page
+            endDate: '2023-04-30'
+            progress: 50
+            difficulty: Medium
+            workgroup: Development
+          - id: 2
+            name: Implement the registration feature
+            description: Create the UI and backend logic for the registration page
+            endDate: '2023-05-31'
+            progress: 25
+            difficulty: Easy
+            workgroup: Development
+
+  Ranking:
+    type: object
+    properties:
+      profiles:
+        type: array
+        items:
+          $ref: '#/definitions/Profile'
+        example:
+          - id: 123
+            name: John Smith
+            description: A software developer with experience in Python and Java
+            profilePoints: 100
+            activeTasks: 3
+            friends: 10
+          - id: 456
+            name: Jane Doe
+            description: A software engineer with experience in C# and JavaScript
+            profilePoints: 75
+            activeTasks: 5
+            friends: 8
+paths:
+  /feed/posts:
+    get:
+      summary: Get all posts
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Post'
+        '404':
+          description: Not Found
+    post:
+      summary: Create a new post
+      parameters:
+        - in: body
+          name: post
+          schema:
+            $ref: '#/definitions/Post'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+  /feed/posts/{postId}/comments:
+    get:
+      summary: Get all comments from a post
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Comment'
+        '404':
+          description: Not Found
+    post:
+      summary: Add a comment to a post
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          type: integer
+        - in: body
+          name: comment
+          schema:
+            $ref: '#/definitions/Comment'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+  /feed/posts/{postId}/likes:
+    put:
+      summary: Update the number of likes on a post
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          type: integer
+        - in: body
+          name: likeCount
+          schema:
+            type: object
+            properties:
+              likes:
+                type: integer
+                example: 10
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+  /circle/teams:
+    get:
+      summary: Get all teams
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Workgroup'
+        '404':
+          description: Not Found
+    post:
+      summary: Create a new team
+      parameters:
+        - in: body
+          name: team
+          schema:
+            $ref: '#/definitions/Workgroup'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+  /profile/config:
+    get:
+      summary: Get profile configuration/settings
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+    put:
+      summary: Update profile configuration/settings
+      parameters:
+        - in: body
+          name: config
+          schema:
+            $ref: '#/definitions/Profile'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+  /profile:
+    get:
+      summary: Get profile information (if following)
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Profile'
+        '404':
+          description: Not Found
+  /profile/tasks:
+    get:
+      summary: Get all tasks assigned to current profile
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Task'
+        '404':
+          description: Not Found
+  /profile/roadmap:
+    get:
+      summary: Get profile roadmap (list of completed tasks)
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Roadmap'
+        '404':
+          description: Not Found
+  /task:
+    post:
+      summary: Create a new task
+      parameters:
+        - in: body
+          name: task
+          schema:
+            $ref: '#/definitions/Task'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+    put:
+      summary: Update an existing task
+      parameters:
+        - in: body
+          name: task
+          schema:
+            $ref: '#/definitions/Task'
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+  /ranking:
+    get:
+      summary: Get ranking of top profiles by profile points
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Ranking'
+        '404':
+          description: Not Found
+  /team/profiles/{profileId}:
+    get:
+      summary: Find a specific profile by ID
+      parameters:
+        - in: path
+          required: true
+          name: profileId
+          type: integer
+      responses:
+        '200':
+          description: OK
+          schema: 
+            $ref: '#/definitions/Profile'
+        '404':
+          description: Not Found
