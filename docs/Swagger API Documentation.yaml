@@ -91,6 +91,32 @@ definitions:
       assignedUserId:
         type: integer
         example: 123
+        
+  CreateTask:
+    type: object
+    properties:
+      name:
+        type: string
+        example: Implement the login feature
+      description:
+        type: string
+        example: Create the UI and backend logic for the login page
+      endDate:
+        type: string
+        format: date
+        example: '2023-04-30'
+      progress:
+        type: integer
+        example: 50
+      difficulty:
+        type: string
+        example: Medium
+      workgroup:
+        type: string
+        example: Development
+      assignedUserId:
+        type: integer
+        example: 123
 
   Workgroup:
     type: object
@@ -110,6 +136,24 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/User"
+          
+  CreateWorkgroup:
+    type: object
+    properties:
+      name:
+        type: string
+        example: Development
+      description:
+        type: string
+        example: The team responsible for developing new features
+      managerId:
+        type: integer
+        example: 789
+      workerIds:
+        type: array
+        items:
+          type: integer
+          example: [2, 45, 78]
 
   Post:
     type: object
@@ -156,6 +200,16 @@ definitions:
       postId:
         type: integer
         example: 101
+      creatorUserId:
+        type: integer
+        example: 456
+      content:
+        type: string
+        example: Great work! Can't wait to try it out.
+        
+  CreateComment:
+    type: object
+    properties:
       creatorUserId:
         type: integer
         example: 456
@@ -251,7 +305,7 @@ paths:
         - in: body
           name: comment
           schema:
-            $ref: '#/definitions/Comment'
+            $ref: '#/definitions/CreateComment'
       responses:
         '201':
           description: Created
@@ -302,7 +356,7 @@ paths:
         - in: body
           name: team
           schema:
-            $ref: '#/definitions/Workgroup'
+            $ref: '#/definitions/CreateWorkgroup'
       responses:
         '201':
           description: Created
@@ -366,19 +420,26 @@ paths:
         - in: body
           name: task
           schema:
-            $ref: '#/definitions/Task'
+            $ref: '#/definitions/CreateTask'
       responses:
         '201':
           description: Created
         '400':
           description: Bad Request
+          
+  /task/{taskId}:
     put:
       summary: Update an existing task
       parameters:
+        - in: path
+          name: taskId
+          required: true
+          type: integer
         - in: body
           name: task
           schema:
-            $ref: '#/definitions/Task'
+            $ref: '#/definitions/CreateTask'
+            
       responses:
         '200':
           description: OK
