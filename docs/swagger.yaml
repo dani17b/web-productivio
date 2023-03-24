@@ -99,6 +99,9 @@ definitions:
       likes:
         type: integer
         example: 5
+      likedByMe:
+        type: boolean
+        example: true
 
   Comment:
     type: object
@@ -217,22 +220,28 @@ paths:
           description: Created
         '400':
           description: Bad Request
-  /feed/posts/{postId}/likes:
-    put:
-      summary: Update the number of likes on a post
+  /feed/posts/{postId}/like:
+    post:
+      summary: Like a post
+      description: Add the current user to the list of people who liked the post
       parameters:
         - in: path
           name: postId
           required: true
           type: integer
-        - in: body
-          name: likeCount
-          schema:
-            type: object
-            properties:
-              likes:
-                type: integer
-                example: 10
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+    delete:
+      summary: Remove the like from a post
+      description: Remove the current user from the list of people who liked the post
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          type: integer
       responses:
         '200':
           description: OK
