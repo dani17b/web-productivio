@@ -17,7 +17,6 @@ const ROUTES = [
   {
     path: '/home',
     element: <Home />,
-    restrictedTo: ['any'],
   },
   {
     path: '/admin',
