@@ -16,7 +16,7 @@ export interface FeedBlockProps {
   description: string;
   taskProgessBarPercent?: any;
   totalLikes: number;
-  comments: string[];
+  comments: { user: string; comment: string }[];
 }
 
 export const FeedBlock = ({ feedProps }: { feedProps: FeedBlockProps }) => {
