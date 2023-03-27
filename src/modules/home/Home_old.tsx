@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-export const Home = () => {
+export const Home2 = () => {
   const { userInfo } = useSelector((state: any) => state.login);
 
   const navigate = useNavigate();

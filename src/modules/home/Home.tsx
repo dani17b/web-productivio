@@ -31,79 +31,17 @@ export const Home = () => {
     ],
   };
 
-  const feedProps3: FeedBlockProps = {
-    imageSrc:
-      'https://images.unsplash.com/photo-1505628346881-b72b27e84530?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
-    borderColor: 'blue',
-    username: 'FulanitoGUAUGUAU',
-    description: 'Que hay!!',
-    totalLikes: 10,
-    comments: [
-      { user: 'usuario3', comment: 'comentario 3' },
-      { user: 'usuario4', comment: 'comentario 4' },
-    ],
-  };
-
-
-  const feedProps4: FeedBlockProps = {
-    imageSrc:
-      'https://images.unsplash.com/photo-1505628346881-b72b27e84530?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
-    borderColor: 'blue',
-    username: 'FulanitoGUAUGUAU',
-    description: 'Que hay!!',
-    totalLikes: 10,
-    comments: [
-      { user: 'usuario3', comment: 'comentario 3' },
-      { user: 'usuario4', comment: 'comentario 4' },
-    ],
-  };
-
-
-  const feedProps5: FeedBlockProps = {
-    imageSrc:
-      'https://images.unsplash.com/photo-1505628346881-b72b27e84530?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
-    borderColor: 'blue',
-    username: 'FulanitoGUAUGUAU',
-    description: 'Que hay!!',
-    totalLikes: 10,
-    comments: [
-      { user: 'usuario3', comment: 'comentario 3' },
-      { user: 'usuario4', comment: 'comentario 4' },
-    ],
-  };
-
-
-  const feedProps6: FeedBlockProps = {
-    imageSrc:
-      'https://images.unsplash.com/photo-1505628346881-b72b27e84530?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
-    borderColor: 'blue',
-    username: 'FulanitoGUAUGUAU',
-    description: 'Que hay!!',
-    totalLikes: 10,
-    comments: [
-      { user: 'usuario3', comment: 'comentario 3' },
-      { user: 'usuario4', comment: 'comentario 4' },
-    ],
-  };
-
-
-
-  const feedProps7: FeedBlockProps = {
-    imageSrc:
-      'https://images.unsplash.com/photo-1505628346881-b72b27e84530?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
-    borderColor: 'blue',
-    username: 'FulanitoGUAUGUAU',
-    description: 'Que hay!!',
-    totalLikes: 10,
-    comments: [
-      { user: 'usuario3', comment: 'comentario 3' },
-      { user: 'usuario4', comment: 'comentario 4' },
-    ],
-  };
-
-
-  const feedPropsArray = [feedProps1, feedProps2, feedProps3, feedProps4, feedProps5, feedProps6, 
-    feedProps7];
+  const feedPropsArray = [
+    feedProps1,
+    feedProps2,
+    feedProps1,
+    feedProps2,
+    feedProps2,
+    feedProps2,
+    feedProps1,
+    feedProps2,
+    feedProps2,
+  ];
 
   return (
     <>
@@ -113,9 +51,7 @@ export const Home = () => {
           <FeedBlock key={index} feedProps={feedProps} />
         ))}
       </div>
-      <div className="navbar">
-        <NavBar />
-      </div>
+      <NavBar />
     </>
   );
 };
