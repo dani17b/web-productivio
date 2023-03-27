@@ -1,7 +1,6 @@
 import React from 'react';
 import { Header, NavBar } from 'lib-productivio';
 import { FeedBlock, FeedBlockProps } from 'src/components/feedBlock/FeedBlock';
-import './home.scss';
 
 export const Home = () => {
   const feedProps1: FeedBlockProps = {
