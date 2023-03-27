@@ -85,7 +85,7 @@ definitions:
       difficulty:
         type: string
         example: Medium
-      workgroup:
+      team:
         type: string
         example: Development
       assignedUserId:
@@ -111,14 +111,14 @@ definitions:
       difficulty:
         type: string
         example: Medium
-      workgroup:
+      team:
         type: string
         example: Development
       assignedUserId:
         type: integer
         example: 123
 
-  Workgroup:
+  Team:
     type: object
     properties:
       id:
@@ -137,7 +137,7 @@ definitions:
         items:
           $ref: "#/definitions/User"
           
-  CreateWorkgroup:
+  CreateTeam:
     type: object
     properties:
       name:
@@ -231,14 +231,14 @@ definitions:
             endDate: '2023-04-30'
             progress: 50
             difficulty: Medium
-            workgroup: Development
+            team: Development
           - id: 2
             name: Implement the registration feature
             description: Create the UI and backend logic for the registration page
             endDate: '2023-05-31'
             progress: 25
             difficulty: Easy
-            workgroup: Development
+            team: Development
 
   Ranking:
     type: object
@@ -254,9 +254,13 @@ definitions:
             user:
               $ref: '#/definitions/User'
 paths:
-  /feed/posts:
+  /posts:
     get:
       summary: Get all posts
+      parameters:
+        - in: query
+          name: user
+          type: integer
       responses:
         '200':
           description: OK
@@ -278,7 +282,7 @@ paths:
           description: Created
         '400':
           description: Bad Request
-  /feed/posts/{postId}/comments:
+  /posts/{postId}/comments:
     get:
       summary: Get all comments from a post
       parameters:
@@ -311,7 +315,7 @@ paths:
           description: Created
         '400':
           description: Bad Request
-  /feed/posts/{postId}/like:
+  /posts/{postId}/like:
     post:
       summary: Like a post
       description: Add the current user to the list of people who liked the post
@@ -338,16 +342,20 @@ paths:
           description: OK
         '404':
           description: Not Found
-  /circle/teams:
+  /teams:
     get:
       summary: Get all teams
+      parameters:
+        - in: query
+          name: user
+          type: integer
       responses:
         '200':
           description: OK
           schema:
             type: array
             items:
-              $ref: '#/definitions/Workgroup'
+              $ref: '#/definitions/Team'
         '404':
           description: Not Found
     post:
@@ -356,13 +364,13 @@ paths:
         - in: body
           name: team
           schema:
-            $ref: '#/definitions/CreateWorkgroup'
+            $ref: '#/definitions/CreateTeam'
       responses:
         '201':
           description: Created
         '400':
           description: Bad Request
-  /user/{userId}:
+  /users/{userId}:
     get:
       parameters:
         - in: path
@@ -391,20 +399,13 @@ paths:
             $ref: '#/definitions/UpdateUser'
         '404':
           description: Not Found
-  /user/tasks:
+  /users/{userId}/roadmap:
     get:
-      summary: Get all tasks assigned to current user
-      responses:
-        '200':
-          description: OK
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Task'
-        '404':
-          description: Not Found
-  /user/roadmap:
-    get:
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          type: integer
       summary: Get user roadmap (list of completed tasks)
       responses:
         '200':
@@ -413,7 +414,22 @@ paths:
             $ref: '#/definitions/Roadmap'
         '404':
           description: Not Found
-  /task:
+  /tasks:
+    get:
+      summary: Get tasks
+      parameters:
+        - in: query
+          name: user
+          type: integer
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Task'
+        '404':
+          description: Not Found       
     post:
       summary: Create a new task
       parameters:
@@ -427,7 +443,7 @@ paths:
         '400':
           description: Bad Request
           
-  /task/{taskId}:
+  /tasks/{taskId}:
     put:
       summary: Update an existing task
       parameters:
