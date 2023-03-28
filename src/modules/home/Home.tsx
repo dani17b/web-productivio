@@ -1,42 +1,56 @@
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import { createPost, getPosts } from './actions';
+import React from 'react';
+import { Header, NavBar } from 'lib-productivio';
+import { FeedBlock, FeedBlockProps } from 'src/components/feedBlock/FeedBlock';
 
 export const Home = () => {
-  const { posts } = useSelector((state: any) => state.home);
+  const feedProps1: FeedBlockProps = {
+    imageSrc:
+      'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80',
+    borderColor: 'red',
+    username: 'Juanito33',
+    description: 'Crear FeedPage',
+    taskProgessBarPercent: 70,
+    totalLikes: 10,
+    comments: [
+      { user: 'usuario1', comment: 'comentario 1' },
+      { user: 'usuario2', comment: 'comentario 2' },
+    ],
+  };
 
-  const dispatch = useDispatch();
+  const feedProps2: FeedBlockProps = {
+    imageSrc:
+      'https://images.unsplash.com/photo-1505628346881-b72b27e84530?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
+    borderColor: 'blue',
+    username: 'FulanitoGUAUGUAU',
+    description: 'Que hay!!',
+    totalLikes: 10,
+    comments: [
+      { user: 'usuario3', comment: 'comentario 3' },
+      { user: 'usuario4', comment: 'comentario 4' },
+    ],
+  };
 
-  /* const navigate = useNavigate();
-
-  useEffect(() => {
-    if (userInfo == null) {
-      navigate('/login');
-    }
-
-    if (userInfo != null && userInfo.roles.indexOf('admin') === -1) {
-      navigate('/login');
-    }
-  }, [userInfo, navigate]); */
-
-  useEffect(() => {
-    // Obtener posts
-    dispatch(getPosts());
-  }, [dispatch]);
+  const feedPropsArray = [
+    feedProps1,
+    feedProps2,
+    feedProps1,
+    feedProps2,
+    feedProps2,
+    feedProps2,
+    feedProps1,
+    feedProps2,
+    feedProps2,
+  ];
 
   return (
     <>
-      <NavLink to="/admin">admin</NavLink>
-
-      <div
-        onClick={() => {
-          dispatch(createPost());
-        }}
-      >
-        Crear
+      <Header title="Productivio" count={0} />
+      <div className="content">
+        {feedPropsArray.map((feedProps, index) => (
+          <FeedBlock key={index} feedProps={feedProps} />
+        ))}
       </div>
-      <div>Posts {posts.length} {JSON.stringify(posts)}</div>
+      <NavBar />
     </>
   );
 };

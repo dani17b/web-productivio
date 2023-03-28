@@ -1,0 +1,50 @@
+@import 'lib-productivio/src/components/style/vars.scss';
+
+.feedblock {
+  display: flex;
+  width: 100vw;
+  margin: 10px;
+
+  &__user-photo {
+    display: flex;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    width: 348px;
+
+    &__username {
+      padding: 5px;
+      font-size: 18px;
+    }
+
+    &__description {
+      margin-top: 4px;
+      margin-left: 5px;
+    }
+
+    &__bar {
+      margin: 10px;
+      width: 190px;
+    }
+  }
+
+  &__time {
+    position: absolute;
+    margin-top: 6px;
+    margin-left: 70vw;
+    font-size: 12px;
+    max-width: fit-content;
+  }
+}
+
+.interactions {
+  display: flex;
+  margin: 10px;
+
+  &__likes {
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+}
