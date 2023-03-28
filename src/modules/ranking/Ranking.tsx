@@ -1,43 +1,33 @@
-import { TopOne, Podium, TopFiveUser } from 'lib-productivio';
-import { Header, NavBar } from 'lib-productivio';
+import { Header, NavBar, TopOne } from 'lib-productivio';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getRanking } from './actions';
 
 export const Ranking = () => {
-  let user1 = {
-    userImg: '',
-    userColor: '',
-    username: '',
-    userPoints: '',
-  };
+  const ranking = useSelector((state: any) => state.ranking);
+  const dispatch = useDispatch();
 
-  let user2 = {
-    userImg: '',
-    userColor: '',
-    username: '',
-    userPoints: '',
-  };
-
-  let user3 = {
-    userImg: '',
-    userColor: '',
-    username: '',
-    userPoints: '',
-  };
-  let podiumUsers = [user1, user2, user3];
+  useEffect(() => {
+    dispatch(getRanking());
+  }, [dispatch]);
 
   return (
     <div>
       <Header count={1} title={'Productivio'} />
       Ranking page
       <TopOne userImg="" userColor="" username="" points=""></TopOne>
-      <Podium users={podiumUsers} />
+      {/* <Podium users={podiumUsers} />
       <TopFiveUser
         userImg={user1.userImg}
         userColor={user1.userColor}
         username={user1.username}
         points={user1.userPoints}
         position="1"
-      />
+      /> */}
       <NavBar />
+      <div>
+        Ranking {ranking && ranking.length} {JSON.stringify(ranking)}
+      </div>
     </div>
   );
 };
