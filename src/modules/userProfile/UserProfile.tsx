@@ -1,19 +1,18 @@
 import { Header, ProfileProgressBar, UserInfo, NavBar } from 'lib-productivio';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { getUser } from './actions';
 import './userProfile.scss';
 
 export const UserProfile = () => {
   const [showRoadmap, setShowRoadMap] = useState(false);
-  const user = {
-    username: 'example',
-    userImg:
-      'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80',
-    userColor: 'blue',
-    totalPoints: 240,
-    level: 3,
-    contactsNumber: 38,
-    currentTasks: 7,
-  };
+  debugger;
+  const dispatch = useDispatch();
+
+  dispatch(getUser(2));
+  const { user } = useSelector((state: any) => state.getUser);
+  console.log(user);
   return (
     <div className="user-profile">
       <div className="header">
