@@ -19,6 +19,12 @@ export interface FeedBlockProps {
   comments: { user: string; comment: string }[];
 }
 
+
+export interface FeedBlockProps2 {
+
+
+}
+
 export const FeedBlock = ({ feedProps }: { feedProps: FeedBlockProps }) => {
   const {
     imageSrc,
@@ -35,7 +41,7 @@ export const FeedBlock = ({ feedProps }: { feedProps: FeedBlockProps }) => {
   };
 
   return (
-    <div>
+    <div className="block">
       <div className="feedblock">
         <div className="feedblock__user-photo">
           <UserPhoto imageSrc={imageSrc} borderColor={borderColor} />
@@ -45,11 +51,7 @@ export const FeedBlock = ({ feedProps }: { feedProps: FeedBlockProps }) => {
           <div className="feedblock__content__description">{description}</div>
           {showProgressBar() && (
             <div className="feedblock__content__bar">
-              <TaskProgressBar
-                percentage={taskProgessBarPercent}
-                childBackgroundColor="yellow"
-                parentBackgroundColor="black"
-              />
+              <TaskProgressBar percentage={taskProgessBarPercent} />
             </div>
           )}
         </div>
@@ -57,7 +59,6 @@ export const FeedBlock = ({ feedProps }: { feedProps: FeedBlockProps }) => {
           <TimeAgo createdAt={date} />
         </div>
       </div>
-      <hr />
       <div className="interactions">
         <div className="interactions__likes">
           <Likes totalLikes={totalLikes} />
@@ -66,6 +67,7 @@ export const FeedBlock = ({ feedProps }: { feedProps: FeedBlockProps }) => {
           <Comments comments={comments} />
         </div>
       </div>
+      <hr />
     </div>
   );
 };
