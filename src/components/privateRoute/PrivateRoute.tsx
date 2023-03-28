@@ -11,8 +11,12 @@ const hasRole = (roles: string[] | undefined, userRoles: string[]) => {
     return true;
   }
 
-  if (roles.indexOf('any') !== -1 && userRoles.length) {
+  if (roles.indexOf('any') !== -1 && userRoles && userRoles.length) {
     return true;
+  }
+
+  if(!userRoles){
+    return false;
   }
 
   return _.intersection(roles, userRoles).length;
