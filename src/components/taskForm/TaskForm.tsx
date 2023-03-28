@@ -14,7 +14,7 @@ export const TaskForm = () => {
       <div className="text-fields">
         <InputWithLabel
           label="Nombre"
-          height={20}
+          height={31}
           width={346}
           name="name"
           textColor="#1A3891"
@@ -44,26 +44,26 @@ export const TaskForm = () => {
         </div>
         <InputWithLabel
           label="Asignar"
-          height={20}
+          height={31}
           width={346}
           name="assign"
           textColor="#1A3891"
           borderColor="#1A3891"
           fontSize={16}
         />
-        <InputWithLabel
-          label="Asigna a grupo de trabajo"
-          height={20}
-          width={346}
-          name="workgroupAssign"
-          textColor="#1A3891"
-          borderColor="#1A3891"
-          fontSize={16}
-        />
+        <div className="select-group">
+          <SelectMenu
+            options={[]}
+            onSelect={option}
+            label="Asignar a un grupo de trabajo"
+            fontSize={16}
+            color="#1A3891"
+          />
+        </div>
       </div>
       <div className="buttons">
-        <FormButton buttonText="Cancelar" buttonWidth={350} />
-        <FormButton buttonText="Guardar" buttonWidth={350} />
+        <FormButton buttonText="Cancelar" buttonWidth={350} fontSize={16} />
+        <FormButton buttonText="Guardar" buttonWidth={350} fontSize={16} />
       </div>
     </div>
   );
