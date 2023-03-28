@@ -2,7 +2,7 @@ import { GET_RANKING_REQUEST, GET_RANKING_RESPONSE } from './actions';
 
 const initialState = {
   loading: false,
-  ranking: [],
+  ranking: null,
 };
 
 const ranking = (state = initialState, action: any) => {
@@ -12,7 +12,6 @@ const ranking = (state = initialState, action: any) => {
       return {
         ...state,
         loading: true,
-        ranking: [],
       };
     case GET_RANKING_RESPONSE:
       console.log('GET_RANKING_RESPONSE dispatched');
