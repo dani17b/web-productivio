@@ -1,8 +1,14 @@
 import React from 'react';
 import './taskForm.scss';
-import { InputWithLabel, FormButton } from 'lib-productivio';
+import {
+  InputWithLabel,
+  FormButton,
+  DateSelect,
+  SelectMenu,
+} from 'lib-productivio';
 
 export const TaskForm = () => {
+  const option = (option: string) => void {};
   return (
     <div className="parent">
       <div className="text-fields">
@@ -25,24 +31,16 @@ export const TaskForm = () => {
           fontSize={16}
         />
         <div className="wrapper">
-          <InputWithLabel
-            label="Dificultad"
-            height={20}
-            width={150}
-            name="difficulty"
-            textColor="#1A3891"
-            borderColor="#1A3891"
-            fontSize={16}
-          />
-          <InputWithLabel
-            label="Fecha límite"
-            height={20}
-            width={150}
-            name="deadLine"
-            textColor="#1A3891"
-            borderColor="#1A3891"
-            fontSize={16}
-          />
+          <DateSelect label="Selecciona fecha" color="#1A3891" />
+          <div className="select-menu">
+            <SelectMenu
+              options={['Fácil', 'Medio', 'Difícil']}
+              onSelect={option}
+              label="Dificultad"
+              fontSize={16}
+              color="#1A3891"
+            />
+          </div>
         </div>
         <InputWithLabel
           label="Asignar"
