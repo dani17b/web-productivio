@@ -82,4 +82,21 @@ export const IndexedDB = {
       };
     });
   },
+  findByFilters : (database: IDBDatabase, name: string, filters : object) => {
+    return new Promise((resolve, reject) => {
+      const transaction = database.transaction([name], 'readonly');
+      const objectStore = transaction.objectStore(name);
+
+      const getAllRequest = objectStore.getAll();
+
+      getAllRequest.onsuccess = function (event: any) {
+        let lastId = null;
+        if (event.target && event.target.result) {
+          resolve(event.target.result);
+        }
+
+        resolve(lastId);
+      };
+    });
+  }
 };

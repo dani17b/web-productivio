@@ -21,18 +21,32 @@ const getResponse = async (url: string, method: string, data: object) => {
       IndexedDB.put(db, objectKey, dataToInsert);
 
       return dataToInsert;
+    case 'GET':
+      const responseData = await IndexedDB.findByFilters(db, objectKey, {});
+
+      if(responseData.length == 0){
+        return [data];
+      }
+
+      return responseData;
     default:
       return;
   }
 };
 
-const getRefSchema = (refKey: string) => {
-  const refKeyParts = refKey.split('/');
-  const responseSchema: any =
-    apiDefinitionYml.components.schemas[refKeyParts[refKeyParts.length - 1]]
-      .properties;
+const getRefSchema = (componentDefinition: any, refKeyParts: string[]) => {
+  if (refKeyParts[0] == '#') {
+    return getRefSchema(componentDefinition, refKeyParts.slice(1));
+  }
 
-  return responseSchema;
+  if (refKeyParts.length > 1) {
+    return getRefSchema(
+      componentDefinition[refKeyParts[0]],
+      refKeyParts.slice(1)
+    );
+  }
+
+  return componentDefinition[refKeyParts[0]].properties;
 };
 
 const getResponseObject = (responseSchema: any) => {
@@ -40,7 +54,10 @@ const getResponseObject = (responseSchema: any) => {
     const responseSchemaItem = responseSchema[key];
     // TODO extrapolar informacion enviada
     if (responseSchemaItem.$ref) {
-      const refSchema = getRefSchema(responseSchemaItem.$ref);
+      const refSchema = getRefSchema(
+        apiDefinitionYml,
+        responseSchemaItem.$ref.split('/')
+      );
       acc[key] = getResponseObject(refSchema);
       return acc;
     }
@@ -52,7 +69,10 @@ const getResponseObject = (responseSchema: any) => {
 
     if (responseSchemaItem.type == 'array') {
       if (responseSchemaItem.items.$ref) {
-        const refSchema = getRefSchema(responseSchemaItem.items.$ref);
+        const refSchema = getRefSchema(
+          apiDefinitionYml,
+          responseSchemaItem.items.$ref.split('/')
+        );
         acc[key] = [getResponseObject(refSchema)];
       }
       return acc;
@@ -64,14 +84,42 @@ const getResponseObject = (responseSchema: any) => {
   }, {});
 };
 
+const getResponseCode = (responseCodes: string[], status: string) => {
+  for (let i = 0; i < responseCodes.length; i++) {
+    let responseCode = responseCodes[i];
+    if (responseCode.startsWith('2') && status == 'OK') {
+      return responseCode;
+    }
+
+    if (responseCode.startsWith('4') && status == 'FAIL') {
+      return responseCode;
+    }
+  }
+
+  return 'default';
+};
+
 const getSampleResponse = (url: string, method: string, data: object) => {
   const pathDefinition = apiDefinitionYml.paths[url];
   const methodDefinition: any = pathDefinition[method.toLowerCase()];
 
-  const responseOKContent =
-    methodDefinition.responses[200].content['application/json'].schema['$ref'];
+  const responseCode = getResponseCode(
+    Object.keys(methodDefinition.responses),
+    'OK'
+  );
 
-  const responseSchema: any = getRefSchema(responseOKContent);
+  const responseContentSchema =
+    methodDefinition.responses[responseCode].content['application/json'].schema;
+
+  const responseOKContent =
+    responseContentSchema.type == 'array'
+      ? responseContentSchema.items.$ref
+      : responseContentSchema.$ref;
+
+  const responseSchema: any = getRefSchema(
+    apiDefinitionYml,
+    responseOKContent.split('/')
+  );
 
   const response = getResponseObject(responseSchema);
 
@@ -88,18 +136,23 @@ export default {
       const ignoredToStore = AXIOS_MOCK_CONFIG.ignoreStore;
 
       if (ignoredToStore.indexOf(url) == -1) {
-        // TODO devolver sin mas la respuesta de ejemplo
+        // En caso de que no se ignore el procesado con IndexedDB se gestiona con la BBDD
         getResponse(url, method, interpolatedResponse).then((res) => {
+          console.log('--------------------------------------------------------------------');
+          console.log(`${method} ${url} ${data ? '\n' + JSON.stringify(data, null, 2) : ''}`);
+          console.log(res);
+          console.log('--------------------------------------------------------------------');
+          
           setTimeout(() => {
             resolve({
               data: res,
             });
           }, 2000);
         });
-
-        // TODO en este caso se generara un id
       } else {
+        // En caso se ser ignorado se devuelve la respuesta en plano
         setTimeout(() => {
+          console.log(`${method} ${url} ${data ? '\n' + JSON.stringify(data, null, 2) : ''}`);
           resolve({
             data: interpolatedResponse,
           });

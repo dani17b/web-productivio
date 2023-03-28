@@ -1,11 +1,11 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "version": "1.0.0",
-      "title": "API Documentation for Productivio"
-    },
-    "basePath": "/api/v1",
-    "definitions": {
+  "openapi": "3.0.3",
+  "info": {
+    "version": "1.0.0",
+    "title": "API Documentation for Productivio"
+  },
+  "components": {
+    "schemas": {
       "User": {
         "type": "object",
         "properties": {
@@ -104,7 +104,7 @@
             "type": "string",
             "example": "Medium"
           },
-          "workgroup": {
+          "team": {
             "type": "string",
             "example": "Development"
           },
@@ -138,7 +138,7 @@
             "type": "string",
             "example": "Medium"
           },
-          "workgroup": {
+          "team": {
             "type": "string",
             "example": "Development"
           },
@@ -148,7 +148,7 @@
           }
         }
       },
-      "Workgroup": {
+      "Team": {
         "type": "object",
         "properties": {
           "id": {
@@ -164,17 +164,17 @@
             "example": "The team responsible for developing new features"
           },
           "manager": {
-            "$ref": "#/definitions/User"
+            "$ref": "#/components/schemas/User"
           },
           "workers": {
             "type": "array",
             "items": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/components/schemas/User"
             }
           }
         }
       },
-      "CreateWorkgroup": {
+      "CreateTeam": {
         "type": "object",
         "properties": {
           "name": {
@@ -210,7 +210,7 @@
             "example": 101
           },
           "creatorUser": {
-            "$ref": "#/definitions/User"
+            "$ref": "#/components/schemas/User"
           },
           "description": {
             "type": "string",
@@ -289,7 +289,7 @@
           "tasks": {
             "type": "array",
             "items": {
-              "$ref": "#/definitions/Task"
+              "$ref": "#/components/schemas/Task"
             },
             "example": [
               {
@@ -299,7 +299,7 @@
                 "endDate": "2023-04-30",
                 "progress": 50,
                 "difficulty": "Medium",
-                "workgroup": "Development"
+                "team": "Development"
               },
               {
                 "id": 2,
@@ -308,7 +308,7 @@
                 "endDate": "2023-05-31",
                 "progress": 25,
                 "difficulty": "Easy",
-                "workgroup": "Development"
+                "team": "Development"
               }
             ]
           }
@@ -327,334 +327,429 @@
                   "example": 1
                 },
                 "user": {
-                  "$ref": "#/definitions/User"
+                  "$ref": "#/components/schemas/User"
                 }
               }
-            }
-          }
-        }
-      }
-    },
-    "paths": {
-      "/feed/posts": {
-        "get": {
-          "summary": "Get all posts",
-          "responses": {
-            "200": {
-              "description": "OK",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/Post"
-                }
-              }
-            },
-            "404": {
-              "description": "Not Found"
-            }
-          }
-        },
-        "post": {
-          "summary": "Create a new post",
-          "parameters": [
-            {
-              "in": "body",
-              "name": "post",
-              "schema": {
-                "$ref": "#/definitions/CreatePost"
-              }
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "Created"
-            },
-            "400": {
-              "description": "Bad Request"
-            }
-          }
-        }
-      },
-      "/feed/posts/{postId}/comments": {
-        "get": {
-          "summary": "Get all comments from a post",
-          "parameters": [
-            {
-              "in": "path",
-              "name": "postId",
-              "required": true,
-              "type": "integer"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/Comment"
-                }
-              }
-            },
-            "404": {
-              "description": "Not Found"
-            }
-          }
-        },
-        "post": {
-          "summary": "Add a comment to a post",
-          "parameters": [
-            {
-              "in": "path",
-              "name": "postId",
-              "required": true,
-              "type": "integer"
-            },
-            {
-              "in": "body",
-              "name": "comment",
-              "schema": {
-                "$ref": "#/definitions/CreateComment"
-              }
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "Created"
-            },
-            "400": {
-              "description": "Bad Request"
-            }
-          }
-        }
-      },
-      "/feed/posts/{postId}/like": {
-        "post": {
-          "summary": "Like a post",
-          "description": "Add the current user to the list of people who liked the post",
-          "parameters": [
-            {
-              "in": "path",
-              "name": "postId",
-              "required": true,
-              "type": "integer"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK"
-            },
-            "404": {
-              "description": "Not Found"
-            }
-          }
-        },
-        "delete": {
-          "summary": "Remove the like from a post",
-          "description": "Remove the current user from the list of people who liked the post",
-          "parameters": [
-            {
-              "in": "path",
-              "name": "postId",
-              "required": true,
-              "type": "integer"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK"
-            },
-            "404": {
-              "description": "Not Found"
-            }
-          }
-        }
-      },
-      "/circle/teams": {
-        "get": {
-          "summary": "Get all teams",
-          "responses": {
-            "200": {
-              "description": "OK",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/Workgroup"
-                }
-              }
-            },
-            "404": {
-              "description": "Not Found"
-            }
-          }
-        },
-        "post": {
-          "summary": "Create a new team",
-          "parameters": [
-            {
-              "in": "body",
-              "name": "team",
-              "schema": {
-                "$ref": "#/definitions/CreateWorkgroup"
-              }
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "Created"
-            },
-            "400": {
-              "description": "Bad Request"
-            }
-          }
-        }
-      },
-      "/user/{userId}": {
-        "get": {
-          "parameters": [
-            {
-              "in": "path",
-              "name": "userId",
-              "required": true,
-              "type": "integer"
-            }
-          ],
-          "summary": "Get user information (if following)",
-          "responses": {
-            "200": {
-              "description": "OK",
-              "schema": {
-                "$ref": "#/definitions/User"
-              }
-            },
-            "404": {
-              "description": "Not Found"
-            }
-          }
-        },
-        "patch": {
-          "parameters": [
-            {
-              "in": "path",
-              "name": "userId",
-              "required": true,
-              "type": "integer"
-            }
-          ],
-          "summary": "Get user information (if following)",
-          "responses": {
-            "200": {
-              "description": "OK",
-              "schema": {
-                "$ref": "#/definitions/UpdateUser"
-              }
-            },
-            "404": {
-              "description": "Not Found"
-            }
-          }
-        }
-      },
-      "/user/tasks": {
-        "get": {
-          "summary": "Get all tasks assigned to current user",
-          "responses": {
-            "200": {
-              "description": "OK",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/Task"
-                }
-              }
-            },
-            "404": {
-              "description": "Not Found"
-            }
-          }
-        }
-      },
-      "/user/roadmap": {
-        "get": {
-          "summary": "Get user roadmap (list of completed tasks)",
-          "responses": {
-            "200": {
-              "description": "OK",
-              "schema": {
-                "$ref": "#/definitions/Roadmap"
-              }
-            },
-            "404": {
-              "description": "Not Found"
-            }
-          }
-        }
-      },
-      "/task": {
-        "post": {
-          "summary": "Create a new task",
-          "parameters": [
-            {
-              "in": "body",
-              "name": "task",
-              "schema": {
-                "$ref": "#/definitions/CreateTask"
-              }
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "Created"
-            },
-            "400": {
-              "description": "Bad Request"
-            }
-          }
-        }
-      },
-      "/task/{taskId}": {
-        "put": {
-          "summary": "Update an existing task",
-          "parameters": [
-            {
-              "in": "path",
-              "name": "taskId",
-              "required": true,
-              "type": "integer"
-            },
-            {
-              "in": "body",
-              "name": "task",
-              "schema": {
-                "$ref": "#/definitions/CreateTask"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK"
-            },
-            "404": {
-              "description": "Not Found"
-            }
-          }
-        }
-      },
-      "/ranking": {
-        "get": {
-          "summary": "Get ranking of top users by user points",
-          "responses": {
-            "200": {
-              "description": "OK",
-              "schema": {
-                "$ref": "#/definitions/Ranking"
-              }
-            },
-            "404": {
-              "description": "Not Found"
             }
           }
         }
       }
     }
+  },
+  "paths": {
+    "/posts": {
+      "get": {
+        "summary": "Get all posts",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "user",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Post"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePost"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/comments": {
+      "get": {
+        "summary": "Get all comments from a post",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "postId",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Comment"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a comment to a post",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "postId",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateComment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/posts/{postId}/like": {
+      "post": {
+        "summary": "Like a post",
+        "description": "Add the current user to the list of people who liked the post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "postId",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove the like from a post",
+        "description": "Remove the current user from the list of people who liked the post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "postId",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/teams": {
+      "get": {
+        "summary": "Get all teams",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "user",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Team"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new team",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTeam"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Team"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "summary": "Get user information (if following)",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/users/{userId}/roadmap": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "summary": "Get user roadmap (list of completed tasks)",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Roadmap"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/tasks": {
+      "get": {
+        "summary": "Get tasks",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "user",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Task"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new task",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTask"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/tasks/{taskId}": {
+      "put": {
+        "summary": "Update an existing task",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "taskId",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTask"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/ranking": {
+      "get": {
+        "summary": "Get ranking of top users by user points",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ranking"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
   }
+}
