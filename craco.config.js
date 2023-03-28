@@ -9,6 +9,7 @@ module.exports = {
         unsafeAllowModulesOutsideOfSrc: true,
         aliases: {
           react: path.resolve('./node_modules/react'),
+          axios: path.resolve('./src/lib/axios')
         },
       },
     },

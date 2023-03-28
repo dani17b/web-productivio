@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -6,8 +7,12 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import configureAppStore from './redux/configureStore';
 import 'lib-productivio/dist/cjs/index.css';
+import { IndexedDB } from './lib/axios/indexeddb/IndexedDB';
+import apiDefinitionYml from './config/api.json';
 
 const store = configureAppStore({});
+
+IndexedDB.initialize(apiDefinitionYml);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
