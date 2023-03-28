@@ -1,0 +1,457 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: API Documentation for Productivio
+
+# Define the base path of the API
+basePath: /api/v1
+
+# Define the different entities of your application as Swagger definitions
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 123
+      email:
+        type: string
+        example: lavacacoja@correoincreible.com
+      name:
+        type: string
+        example: John Smith
+      description:
+        type: string
+        example: A software developer with experience in Python and Java
+      userPoints:
+        type: integer
+        example: 100
+      activeTasks:
+        type: integer
+        example: 3
+      friends:
+        type: integer
+        example: 10
+        #TODO: no usar urls? guardar el archivo?
+      userPicUrl:
+        type: string
+        example: 'https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos.jpg'
+      userColor:
+        type: string
+        example: "red"
+        
+  UpdateUser:
+    type: object
+    properties:
+      email:
+        type: string
+        example: lavacaroja@correoincreible.com
+      name:
+        type: string
+        example: John Smith
+      description:
+        type: string
+        example: A software developer with experience in Python and Java
+        #TODO: no usar urls? guardar el archivo?
+      userPicUrl:
+        type: string
+        example: 'https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos.jpg'
+      userColor:
+        type: string
+        example: "red"
+      password:
+        type: string
+        example: jeje
+  
+  Task:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 456
+      name:
+        type: string
+        example: Implement the login feature
+      description:
+        type: string
+        example: Create the UI and backend logic for the login page
+      endDate:
+        type: string
+        format: date
+        example: '2023-04-30'
+      progress:
+        type: integer
+        example: 50
+      difficulty:
+        type: string
+        example: Medium
+      workgroup:
+        type: string
+        example: Development
+      assignedUserId:
+        type: integer
+        example: 123
+        
+  CreateTask:
+    type: object
+    properties:
+      name:
+        type: string
+        example: Implement the login feature
+      description:
+        type: string
+        example: Create the UI and backend logic for the login page
+      endDate:
+        type: string
+        format: date
+        example: '2023-04-30'
+      progress:
+        type: integer
+        example: 50
+      difficulty:
+        type: string
+        example: Medium
+      workgroup:
+        type: string
+        example: Development
+      assignedUserId:
+        type: integer
+        example: 123
+
+  Workgroup:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 789
+      name:
+        type: string
+        example: Development
+      description:
+        type: string
+        example: The team responsible for developing new features
+      manager:
+        $ref: "#/definitions/User"
+      workers:
+        type: array
+        items:
+          $ref: "#/definitions/User"
+          
+  CreateWorkgroup:
+    type: object
+    properties:
+      name:
+        type: string
+        example: Development
+      description:
+        type: string
+        example: The team responsible for developing new features
+      managerId:
+        type: integer
+        example: 789
+      workerIds:
+        type: array
+        items:
+          type: integer
+          example: [2, 45, 78]
+
+  Post:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 101
+      creatorUser:
+        $ref: "#/definitions/User"
+      description:
+        type: string
+        example: Check out this cool new feature we just released!
+      creationDate:
+        type: string
+        format: date-time
+        example: '2023-03-23T10:30:00Z'
+      likes:
+        type: integer
+        example: 5
+      likedByMe:
+        type: boolean
+        example: true
+        
+  CreatePost:
+    type: object
+    properties:
+      creatorUserId:
+        type: integer
+        example: 5
+      description:
+        type: string
+        example: Check out this cool new feature we just released!
+      creationDate:
+        type: string
+        format: date-time
+        example: '2023-03-23T10:30:00Z'
+
+  Comment:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 202
+      postId:
+        type: integer
+        example: 101
+      creatorUserId:
+        type: integer
+        example: 456
+      content:
+        type: string
+        example: Great work! Can't wait to try it out.
+        
+  CreateComment:
+    type: object
+    properties:
+      creatorUserId:
+        type: integer
+        example: 456
+      content:
+        type: string
+        example: Great work! Can't wait to try it out.
+
+  Roadmap:
+    type: object
+    properties:
+      tasks:
+        type: array
+        items:
+          $ref: '#/definitions/Task'
+        example: 
+          - id: 1
+            name: Implement the login feature
+            description: Create the UI and backend logic for the login page
+            endDate: '2023-04-30'
+            progress: 50
+            difficulty: Medium
+            workgroup: Development
+          - id: 2
+            name: Implement the registration feature
+            description: Create the UI and backend logic for the registration page
+            endDate: '2023-05-31'
+            progress: 25
+            difficulty: Easy
+            workgroup: Development
+
+  Ranking:
+    type: object
+    properties:
+      users:
+        type: array
+        items:
+          type: object
+          properties:
+            rankingPosition:
+              type: integer
+              example: 1
+            user:
+              $ref: '#/definitions/User'
+paths:
+  /feed/posts:
+    get:
+      summary: Get all posts
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Post'
+        '404':
+          description: Not Found
+    post:
+      summary: Create a new post
+      parameters:
+        - in: body
+          name: post
+          schema:
+            $ref: '#/definitions/CreatePost'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+  /feed/posts/{postId}/comments:
+    get:
+      summary: Get all comments from a post
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Comment'
+        '404':
+          description: Not Found
+    post:
+      summary: Add a comment to a post
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          type: integer
+        - in: body
+          name: comment
+          schema:
+            $ref: '#/definitions/CreateComment'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+  /feed/posts/{postId}/like:
+    post:
+      summary: Like a post
+      description: Add the current user to the list of people who liked the post
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+    delete:
+      summary: Remove the like from a post
+      description: Remove the current user from the list of people who liked the post
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+  /circle/teams:
+    get:
+      summary: Get all teams
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Workgroup'
+        '404':
+          description: Not Found
+    post:
+      summary: Create a new team
+      parameters:
+        - in: body
+          name: team
+          schema:
+            $ref: '#/definitions/CreateWorkgroup'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+  /user/{userId}:
+    get:
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          type: integer
+      summary: Get user information (if following)
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        '404':
+          description: Not Found
+    patch:
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          type: integer
+      summary: Get user information (if following)
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/UpdateUser'
+        '404':
+          description: Not Found
+  /user/tasks:
+    get:
+      summary: Get all tasks assigned to current user
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Task'
+        '404':
+          description: Not Found
+  /user/roadmap:
+    get:
+      summary: Get user roadmap (list of completed tasks)
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Roadmap'
+        '404':
+          description: Not Found
+  /task:
+    post:
+      summary: Create a new task
+      parameters:
+        - in: body
+          name: task
+          schema:
+            $ref: '#/definitions/CreateTask'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          
+  /task/{taskId}:
+    put:
+      summary: Update an existing task
+      parameters:
+        - in: path
+          name: taskId
+          required: true
+          type: integer
+        - in: body
+          name: task
+          schema:
+            $ref: '#/definitions/CreateTask'
+            
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+  /ranking:
+    get:
+      summary: Get ranking of top users by user points
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Ranking'
+        '404':
+          description: Not Found
