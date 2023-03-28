@@ -1,0 +1,27 @@
+  
+  .text-fields {
+    width: 350px;
+  }
+  
+  .input__container{
+    margin-top: 50px;
+  }
+  
+  .wrapper {
+    display: flex;   
+    justify-content: space-between;
+  }
+  
+  .buttons {
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+   
+    .formButton {
+    //  margin-right: 110px;
+      background-color: #1A3891;
+      color: #ffffff;
+      margin-top: 14px;
+    }
+  }
+  

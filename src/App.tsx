@@ -7,6 +7,7 @@ import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
+import { NewTask } from './modules/newTask/NewTask';
 import { Circle } from './modules/circle/Circle';
 
 const ROUTES = [
@@ -17,16 +18,17 @@ const ROUTES = [
   {
     path: '/home',
     element: <Home />,
-    restrictedTo: ['any'],
+    //restrictedTo: ['any'],
   },
   {
     path: '/admin',
     element: <Admin />,
     restrictedTo: ['admin2'],
   },
+  { path: '/circle', element: <Circle /> },
   {
-    path: '/circle',
-    element: <Circle />,
+    path: '/form',
+    element: <NewTask />,
   },
 ];
 
