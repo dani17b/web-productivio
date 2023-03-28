@@ -1,5 +1,5 @@
 import { Header, ProfileProgressBar, UserInfo, NavBar } from 'lib-productivio';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { getUser } from './actions';

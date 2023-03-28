@@ -25,4 +25,5 @@ const getUser = (state = initialState, action: any) => {
       return state;
   }
 };
+
 export default getUser;

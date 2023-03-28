@@ -19,10 +19,9 @@ export const getUser = (id: number): any => {
 
     axios
       .request({
-        url: '/user',
+        url: `/user/${id}`,
         method: 'GET',
         baseURL: SERVER_BASE_URL,
-        data: id,
       })
       .then((response) => {
         const user = response.data;
