@@ -1,13 +1,13 @@
 // @ts-ignore
 import './app.scss';
-import 'lib-productivio/dist/cjs/index.css';
 import React from 'react';
+
 import { Login } from './modules/login/Login';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
-import { NewTask } from './modules/newTask/NewTask';
+import { UserProfile } from './modules/userProfile/UserProfile';
 
 const ROUTES = [
   {
@@ -17,7 +17,7 @@ const ROUTES = [
   {
     path: '/home',
     element: <Home />,
-    //restrictedTo: ['any'],
+    restrictedTo: ['any'],
   },
   {
     path: '/admin',
@@ -25,8 +25,8 @@ const ROUTES = [
     restrictedTo: ['admin2'],
   },
   {
-    path: '/form',
-    element: <NewTask />,
+    path: '/user',
+    element: <UserProfile />,
   },
 ];
 
