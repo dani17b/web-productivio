@@ -1,45 +1,59 @@
-
 import axios from 'axios';
 import { SERVER_BASE_URL } from 'src/config/Config';
 
-export const CREATE_USER_REQUEST = 'CREATE_USER_REQUEST';
-export const CREATE_USER_RESPONSE = 'CREATE_USER_RESPONSE';
+export const CREATE_POST_REQUEST = 'CREATE_POST_REQUEST';
+export const CREATE_POST_RESPONSE = 'CREATE_POST_RESPONSE';
+export const GET_POSTS_REQUEST = 'GET_POSTS_REQUEST';
+export const GET_POSTS_RESPONSE = 'GET_POSTS_RESPONSE';
 
-export const createUser = (): any => {
+export const createPost = (): any => {
   return (dispatch: (arg0: any) => void) => {
     dispatch({
-      type: CREATE_USER_REQUEST,
+      type: CREATE_POST_REQUEST,
     });
 
     axios
       .request({
-        url: '/pet',
+        url: '/posts',
         method: 'POST',
         baseURL: SERVER_BASE_URL,
         data: {
-          id: 10,
-          name: 'doggie',
-          category: {
-            id: 1,
-            name: 'Dogs',
-          },
-          photoUrls: ['string'],
-          tags: [
-            {
-              id: 0,
-              name: 'string',
-            },
-          ],
-          status: 'available',
+          creatorUserId: 5,
+          description: 'Check out this cool new feature we just released!',
+          creationDate: '2023-03-23T10:30:00Z',
         },
       })
       .then((response) => {
-        const userInfo = response.data;
+        const postInfo = response.data;
 
         debugger;
         dispatch({
-          type: CREATE_USER_RESPONSE,
-          userInfo,
+          type: CREATE_POST_RESPONSE,
+          postInfo,
+        });
+      });
+  };
+};
+
+export const getPosts = (): any => {
+  return (dispatch: (arg0: any) => void) => {
+    dispatch({
+      type: GET_POSTS_REQUEST,
+    });
+
+    axios
+      .request({
+        url: '/posts',
+        method: 'GET',
+        baseURL: SERVER_BASE_URL,
+      })
+      .then((response) => {
+        const posts = response.data;
+
+        debugger;
+        dispatch({
+          type: GET_POSTS_RESPONSE,
+          posts,
         });
       });
   };
