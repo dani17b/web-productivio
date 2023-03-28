@@ -17,11 +17,11 @@ export const getRanking = (): any => {
         baseURL: SERVER_BASE_URL,
       })
       .then((response) => {
-        const posts = response.data;
+        const ranking = response.data;
 
         dispatch({
           type: GET_RANKING_RESPONSE,
-          posts,
+          ranking,
         });
       });
   };

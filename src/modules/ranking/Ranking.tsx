@@ -5,10 +5,12 @@ import { getRanking } from './actions';
 
 export const Ranking = () => {
   const ranking = useSelector((state: any) => state.ranking);
+  console.log('Ranking state', ranking);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getRanking());
+    console.log('Ranking state:', ranking);
   }, [dispatch]);
 
   return (
@@ -26,7 +28,8 @@ export const Ranking = () => {
       /> */}
       <NavBar />
       <div>
-        Ranking {ranking && ranking.length} {JSON.stringify(ranking)}
+        {ranking.length}
+        {JSON.stringify(ranking)}
       </div>
     </div>
   );
