@@ -1,12 +1,13 @@
 // @ts-ignore
 import './app.scss';
+import 'lib-productivio/dist/cjs/index.css';
 import React from 'react';
 import { Login } from './modules/login/Login';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
-import { TaskProgressBar } from './components/taskProgressBar/TaskProgressBar';
+import { NewTask } from './modules/newTask/NewTask';
 
 const ROUTES = [
   {
@@ -16,18 +17,22 @@ const ROUTES = [
   {
     path: '/home',
     element: <Home />,
-    restrictedTo: ['any'],
+    //restrictedTo: ['any'],
   },
   {
     path: '/admin',
     element: <Admin />,
     restrictedTo: ['admin2'],
   },
+  {
+    path: '/form',
+    element: <NewTask />,
+  },
 ];
 
 function App() {
   return (
-   <Router>
+    <Router>
       <Routes>
         {ROUTES.map((ROUTE, i) => (
           <Route
@@ -41,7 +46,7 @@ function App() {
           />
         ))}
       </Routes>
-    </Router>  
+    </Router>
   );
 }
 
