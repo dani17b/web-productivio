@@ -19,7 +19,7 @@ export const login = (credentials: LoginProps): any => {
 
     axios
       .request({
-        url: '/login',
+        url: '/tasks',
         method: 'POST',
         baseURL: SERVER_BASE_URL,
         data: credentials,

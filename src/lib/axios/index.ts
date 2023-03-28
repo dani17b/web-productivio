@@ -4,6 +4,9 @@ import { AXIOS_MOCK_CONFIG } from 'src/config/Config';
 import apiDefinitionYml from '../../config/api.json';
 import { IndexedDB } from './indexeddb/IndexedDB';
 
+const GET_RESPONSE_OK = 200;
+const POST_RESPONSE_OK = 201;
+
 const getResponse = async (url: string, method: string, data: object) => {
   const db = await IndexedDB.getDB(window.DB_INFO.name, window.DB_INFO.version);
 
@@ -22,7 +25,7 @@ const getResponse = async (url: string, method: string, data: object) => {
 
       return dataToInsert;
     default:
-      return;
+      return data;
   }
 };
 
@@ -68,8 +71,20 @@ const getSampleResponse = (url: string, method: string, data: object) => {
   const pathDefinition = apiDefinitionYml.paths[url];
   const methodDefinition: any = pathDefinition[method.toLowerCase()];
 
+  let responseCode;
+  switch (method.toLowerCase()){
+    case 'get':
+      responseCode = GET_RESPONSE_OK;
+      break;
+    case 'post':
+      responseCode = POST_RESPONSE_OK;
+      break;
+    default:
+      responseCode = 400;
+  }
+
   const responseOKContent =
-    methodDefinition.responses[200].content['application/json'].schema['$ref'];
+    methodDefinition.responses[responseCode].content['application/json'].schema['$ref'];
 
   const responseSchema: any = getRefSchema(responseOKContent);
 
