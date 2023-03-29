@@ -27,6 +27,7 @@ export const login = (credentials: LoginProps): any => {
       .then((response) => {
         const userInfo = response.data;
 
+        debugger;
         dispatch({
           type: LOGIN_RESPONSE,
           userInfo,
