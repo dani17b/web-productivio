@@ -10,7 +10,9 @@ export const Circle = () => {
   const onSearch = (searchTerm: string) => {
     setData((prevData) => ({
       ...prevData,
-      data: test.data.filter((item) => item.username.includes(searchTerm)),
+      data: test.data.filter((item) =>
+        item.username.toUpperCase().includes(searchTerm.toUpperCase())
+      ),
     }));
   };
 
