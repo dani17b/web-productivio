@@ -31,11 +31,21 @@ export const Circle = () => {
   const [propsData, setPropsData] = useState(test);
 
   return (
-    <>
+    <div style={{width: '100vw'}}>
       <Header></Header>
       <SearchBar onSearch={onSearch}></SearchBar>
-      <TeamDropdown {...propsData}></TeamDropdown>
+      {loading && (
+        <>
+          <p style={{textAlign: 'center'}}>Loading...</p>
+        </>
+      )}
+      {!loading && (
+        <>
+          <TeamDropdown {...propsData}></TeamDropdown>
+        </>
+      )}
+
       <NavBar></NavBar>
-    </>
+    </div>
   );
 };
