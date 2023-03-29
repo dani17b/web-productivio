@@ -1,11 +1,10 @@
-import { test, responseToTeamDropdownProps } from './TeamDataExample';
+import { responseToTeamDropdownProps } from './TeamDataMapper';
 import React, { useEffect, useState } from 'react';
 import { Header } from 'src/components/header/Header';
 import { NavBar, SearchBar, TeamDropdown } from 'lib-productivio';
 import './circle.scss';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { circleFetchAndPost, CircleFetchGetProps } from './actions';
-import { useSelector } from 'react-redux';
 
 export const Circle = () => {
   const dispatch = useDispatch();
@@ -31,29 +30,11 @@ export const Circle = () => {
 
   useEffect(() => {
     dispatch(circleFetchAndPost(DEFAULT_PROPS));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // const onSearch2 = (searchTerm: string) => {
-  //   setPropsData((prevData) => ({
-  //     ...prevData,
-  //     data: test.data.filter((item) =>
-  //       item.username.toUpperCase().includes(searchTerm.toUpperCase())
-  //     ),
-  //   }));
-  // };
-
-  // const [propsData, setPropsData] = useState(test);
 
   const onSearch = (searchTerm: string) => {
     if (teamsData != null) {
-      // console.log('teamsData', teamsData);
-      // setFilteredTeamsData(() => ({
-      //   ...teamsData,
-      //   data: teamsData.workers.map((worker: any) =>
-      //     worker.name.toUpperCase().includes(searchTerm.toUpperCase())
-      //   ),
-      // }));
-
       setFilteredTeamsData(
         teamsData.filter((team: any) => {
           return (
