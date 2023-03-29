@@ -1,10 +1,11 @@
+/* eslint-disable no-unused-vars */
 import { test } from './TeamDataExample';
 import React, { useEffect, useState } from 'react';
 import { Header } from 'src/components/header/Header';
 import { NavBar, SearchBar, TeamDropdown } from 'lib-productivio';
 import './circle.scss';
 import { useDispatch } from 'react-redux';
-import { circleFetch, CircleFetchProps } from './actions';
+import { circleFetch, CircleFetchGetProps, circlePost } from './actions';
 import { useSelector } from 'react-redux';
 
 //TODO: add search functionality
@@ -12,12 +13,13 @@ import { useSelector } from 'react-redux';
 export const Circle = () => {
   const dispatch = useDispatch();
   const { teamsData, loading } = useSelector((state: any) => state.circleFetch);
-  const [userId, setUserId] = useState<CircleFetchProps>({
+  const [userId, setUserId] = useState<CircleFetchGetProps>({
     userId: 1,
   });
   useEffect(() => {
+    dispatch(circlePost());
     dispatch(circleFetch(userId));
-  });
+  }, []);
   const onSearch = (searchTerm: string) => {
     setPropsData((prevData) => ({
       ...prevData,

@@ -1,12 +1,19 @@
-import { CIRCLE_FETCH_REQUEST, CIRCLE_FETCH_RESPONSE } from './actions';
+import { CIRCLE_FETCH_REQUEST, CIRCLE_FETCH_RESPONSE, CIRCLE_POST_REQUEST, CIRCLE_POST_RESPONSE } from './actions';
 
-const initialState = {
+const initialStateGet = {
   loading: false,
   teamsData: null,
   error: null,
 };
 
-const circleFetch = (state = initialState, action: any) => {
+const initialStatePost = {
+  loading: false,
+  error: null,
+};
+
+
+
+export const circleFetch = (state = initialStateGet, action: any) => {
   switch (action.type) {
     case CIRCLE_FETCH_REQUEST:
       return {
@@ -26,4 +33,21 @@ const circleFetch = (state = initialState, action: any) => {
   }
 };
 
-export default circleFetch;
+export const circlePost = (state = initialStatePost, action: any) => {
+  switch (action.type) {
+    case CIRCLE_POST_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case CIRCLE_POST_RESPONSE:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+      };
+    default:
+      return state;
+  }
+};
