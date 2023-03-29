@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { test } from './TeamDataExample';
+import { test, responseToTeamDropdownProps } from './TeamDataExample';
 import React, { useEffect, useState } from 'react';
 import { Header } from 'src/components/header/Header';
 import { NavBar, SearchBar, TeamDropdown } from 'lib-productivio';
@@ -31,21 +31,20 @@ export const Circle = () => {
   const [propsData, setPropsData] = useState(test);
 
   return (
-    <div style={{width: '100vw'}}>
-      <Header></Header>
-      <SearchBar onSearch={onSearch}></SearchBar>
+    <div style={{ width: '100vw' }}>
+      <Header />
+      <SearchBar onSearch={onSearch} />
       {loading && (
         <>
-          <p style={{textAlign: 'center'}}>Loading...</p>
+          <p style={{ textAlign: 'center' }}>Loading...</p>
         </>
       )}
-      {!loading && (
-        <>
-          <TeamDropdown {...propsData}></TeamDropdown>
-        </>
-      )}
-
-      <NavBar></NavBar>
+      {!loading &&
+        teamsData &&
+        teamsData.map((team: any) => {
+          return <TeamDropdown {...responseToTeamDropdownProps(team)} />;
+        })}
+      <NavBar />
     </div>
   );
 };
