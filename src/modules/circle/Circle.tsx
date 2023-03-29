@@ -5,7 +5,7 @@ import { Header } from 'src/components/header/Header';
 import { NavBar, SearchBar, TeamDropdown } from 'lib-productivio';
 import './circle.scss';
 import { useDispatch } from 'react-redux';
-import { circleFetch, CircleFetchGetProps, circlePost } from './actions';
+import { circleFetchAndPost, CircleFetchGetProps } from './actions';
 import { useSelector } from 'react-redux';
 
 //TODO: add search functionality
@@ -17,8 +17,7 @@ export const Circle = () => {
     userId: 1,
   });
   useEffect(() => {
-    dispatch(circlePost());
-    dispatch(circleFetch(userId));
+    dispatch(circleFetchAndPost(userId));
   }, []);
   const onSearch = (searchTerm: string) => {
     setPropsData((prevData) => ({
