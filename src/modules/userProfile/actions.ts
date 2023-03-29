@@ -4,7 +4,7 @@ import { SERVER_BASE_URL } from 'src/config/Config';
 export const USER_REQUEST = 'USER_REQUEST';
 export const USER_RESPONSE = 'USER_RESPONSE';
 
-export const getUser = (id: number): any => {
+export const getUser = (): any => {
   return (
     dispatch: (arg0: { type: string; user?: {}; error?: string }) => void
   ) => {
