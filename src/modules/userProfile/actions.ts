@@ -1,11 +1,6 @@
 import axios from 'axios';
 import { SERVER_BASE_URL } from 'src/config/Config';
 
-export interface LoginProps {
-  login: string;
-  password: string;
-}
-
 export const USER_REQUEST = 'USER_REQUEST';
 export const USER_RESPONSE = 'USER_RESPONSE';
 
@@ -19,7 +14,7 @@ export const getUser = (id: number): any => {
 
     axios
       .request({
-        url: `/user/${id}`,
+        url: '/users/{userId}',
         method: 'GET',
         baseURL: SERVER_BASE_URL,
       })
@@ -32,6 +27,7 @@ export const getUser = (id: number): any => {
         });
       })
       .catch((e) => {
+        console.log(e);
         debugger;
         dispatch({
           type: USER_RESPONSE,
