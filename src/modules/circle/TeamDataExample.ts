@@ -1,14 +1,4 @@
-//TODO: quiar esto
-function getRandomColor(): string {
-  const letters = '0123456789ABCDEF';
-  let color = '#';
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
-
-export const responseToTeamDropdownProps = (response: any) => {
+export const responseToTeamDropdownProps = (response: any, bgColor: string) => {
   return {
     title: response.name,
     data: response.workers.map((worker: any) => {
@@ -19,7 +9,7 @@ export const responseToTeamDropdownProps = (response: any) => {
         userImg: worker.userPicUrl,
       };
     }),
-    bgColor: getRandomColor(),
+    bgColor: bgColor,
   };
 };
 
