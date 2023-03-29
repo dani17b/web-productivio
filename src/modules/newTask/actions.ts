@@ -12,7 +12,39 @@ export interface FormProps {
 
 export const FORM_REQUEST = 'FORM_REQUEST';
 export const FORM_RESPONSE = 'FORM_RESPONSE';
-export const FORM_GETDATA = 'FORM_GETDATA';
+export const TEAM_GETDATA = 'TEAM_GETDATA';
+export const TEAM_RESPONSE = 'TEAM_RESPONSE';
+
+export const fetchGroups = (): any => {
+  return (
+    dispatch: (arg0: { type: string; teamsInfo?: any; error?: string }) => void
+  ) => {
+    dispatch({
+      type: TEAM_GETDATA,
+    });
+
+    axios
+      .request({
+        url: '/teams',
+        method: 'GET',
+        baseURL: SERVER_BASE_URL,
+      })
+      .then((response) => {
+        const teamsInfo = response.data;
+
+        dispatch({
+          type: TEAM_RESPONSE,
+          teamsInfo,
+        });
+      })
+      .catch((e) => {
+        dispatch({
+          type: TEAM_RESPONSE,
+          error: e.code,
+        });
+      });
+  };
+};
 
 export const form = (formData: FormProps): any => {
   return (
@@ -24,7 +56,7 @@ export const form = (formData: FormProps): any => {
 
     axios
       .request({
-        url: '/task',
+        url: '/tasks',
         method: 'POST',
         baseURL: SERVER_BASE_URL,
         data: formData,

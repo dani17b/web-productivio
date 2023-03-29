@@ -1,17 +1,32 @@
 import React from 'react';
 import './taskForm.scss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { form, FormProps } from 'src/modules/newTask/actions';
+import { form, FormProps, fetchGroups } from 'src/modules/newTask/actions';
+import { useNavigate } from 'react-router-dom';
 import {
   InputWithLabel,
   FormButton,
   DateSelect,
   SelectMenu,
 } from 'lib-productivio';
+import { useSelector } from 'react-redux';
 
 export const TaskForm = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { teamsInfo } = useSelector((state: any) => state.form);
+
+  useEffect(() => {
+    dispatch(fetchGroups());
+  }, [dispatch]);
+
+  const getTeamName = (): string[] => {
+    return teamsInfo.map((team: any) => {
+      return team.name;
+    });
+  };
 
   const [data, setData] = useState<FormProps>({
     name: '',
@@ -89,7 +104,7 @@ export const TaskForm = () => {
         />
         <div className="select-group">
           <SelectMenu
-            options={[]}
+            options={getTeamName()}
             onSelect={(option) => {
               setData({
                 ...data,
@@ -103,14 +118,21 @@ export const TaskForm = () => {
         </div>
       </div>
       <div className="buttons">
-        <FormButton buttonText="Cancelar" buttonWidth={350} fontSize={16} />
+        <FormButton
+          buttonText="Cancelar"
+          buttonWidth={350}
+          fontSize={16}
+          onClick={() => {
+            navigate('/home');
+          }}
+        />
         <FormButton
           buttonText="Guardar"
           buttonWidth={350}
           fontSize={16}
           onClick={() => {
-            console.log('datos enviados', data);
             dispatch(form(data));
+            navigate('/login');
           }}
         />
       </div>
