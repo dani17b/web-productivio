@@ -1,12 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Header } from 'src/components/header/Header';
 import { NavBar, SearchBar, TeamDropdown } from 'lib-productivio';
 import './circle.scss';
+import { TeamDropdownProps } from 'src/components/teamDropdown/TeamDropdown';
+import { useDispatch } from 'react-redux';
+import { circleFetch, CircleFetchProps } from './actions';
+import { useSelector } from 'react-redux';
 
 //TODO: add search functionality
 const onSearch = (searchTerm: string) => {};
 
 export const Circle = () => {
+  const [userId, setUserId] = useState<CircleFetchProps>({
+    userId = 0,
+  });
+  const dispatch = useDispatch();
+  const [data, loading] = useSelector((state:any) => state.circleFetch);
+  const [data, setData] = useState<TeamDropdownProps[]>();
+
+  useEffect(() => {
+    dispatch(circleFetch(userId));
+  });
+
   return (
     <>
       <Header></Header>
