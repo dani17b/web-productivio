@@ -7,8 +7,6 @@ import {
 } from 'lib-productivio';
 import './feedBlock.scss';
 
-const date = new Date();
-
 export interface FeedBlockProps {
   imageSrc: string;
   borderColor: string;
@@ -16,16 +14,11 @@ export interface FeedBlockProps {
   description: string;
   taskProgessBarPercent?: any;
   totalLikes: number;
+  //createdAt : string TODO: add this in a different issue
   comments: { user: string; comment: string }[];
 }
 
-
-export interface FeedBlockProps2 {
-
-
-}
-
-export const FeedBlock = ({ feedProps }: { feedProps: FeedBlockProps }) => {
+export const FeedBlock = (feedProps: FeedBlockProps) => {
   const {
     imageSrc,
     borderColor,
@@ -35,6 +28,8 @@ export const FeedBlock = ({ feedProps }: { feedProps: FeedBlockProps }) => {
     totalLikes,
     comments,
   } = feedProps;
+
+  const date = new Date();
 
   const showProgressBar = () => {
     return taskProgessBarPercent > 0;
