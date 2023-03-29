@@ -82,7 +82,7 @@ export const IndexedDB = {
       };
     });
   },
-  findByFilters : (database: IDBDatabase, name: string, filters : object) => {
+  findByFilters: (database: IDBDatabase, name: string, filters : object) => {
     return new Promise((resolve, reject) => {
       const transaction = database.transaction([name], 'readonly');
       const objectStore = transaction.objectStore(name);
