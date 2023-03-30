@@ -34,7 +34,7 @@ const getResponse = async (url: string, method: string, data: object) => {
       );
 
       if (responseData.length == 0) {
-        return [data];
+        return [data.data];
       }
 
       return responseData;
@@ -99,7 +99,7 @@ const getResponseObject = (responseSchema: any, data: any) => {
     acc[key] =
       data && typeof data[key] != 'undefined'
         ? data[key]
-        : responseSchema.example;
+        : responseSchema[key].example;
 
     return acc;
   }, {});
@@ -151,7 +151,7 @@ const getSampleResponse = (url: string, method: string, data: object) => {
     responseOKContent.split('/')
   );
 
-  getResponseObject(responseSchema, data);
+  response.data = getResponseObject(responseSchema, data);
 
   return response;
 };
