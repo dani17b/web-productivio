@@ -85,24 +85,25 @@ const getResponseObject = (responseSchema: any) => {
 };
 
 const getResponseCode = (responseCodes: string[], status: string) => {
+  
   for (let i = 0; i < responseCodes.length; i++) {
     let responseCode = responseCodes[i];
     if (responseCode.startsWith('2') && status == 'OK') {
       return responseCode;
     }
-
+    
     if (responseCode.startsWith('4') && status == 'FAIL') {
       return responseCode;
     }
   }
-
+  
   return 'default';
 };
 
 const getSampleResponse = (url: string, method: string, data: object) => {
   const pathDefinition = apiDefinitionYml.paths[url];
   const methodDefinition: any = pathDefinition[method.toLowerCase()];
-
+  
   const responseCode = getResponseCode(
     Object.keys(methodDefinition.responses),
     'OK'
@@ -130,11 +131,11 @@ export default {
   request: (requestConfig: AxiosRequestConfig) => {
     // TODO buscar el path por url
     const { url, method, data } = requestConfig;
-
+    
     return new Promise((resolve, reject) => {
       let interpolatedResponse = getSampleResponse(url, method, data);
       const ignoredToStore = AXIOS_MOCK_CONFIG.ignoreStore;
-
+        
       if (ignoredToStore.indexOf(url) == -1) {
         // En caso de que no se ignore el procesado con IndexedDB se gestiona con la BBDD
         getResponse(url, method, interpolatedResponse).then((res) => {
@@ -144,12 +145,15 @@ export default {
           console.log('--------------------------------------------------------------------');
           
           setTimeout(() => {
+            
             resolve({
               data: res,
             });
           }, 2000);
         });
+        
       } else {
+        
         // En caso se ser ignorado se devuelve la respuesta en plano
         setTimeout(() => {
           console.log(`${method} ${url} ${data ? '\n' + JSON.stringify(data, null, 2) : ''}`);
@@ -157,8 +161,11 @@ export default {
             data: interpolatedResponse,
           });
         }, 2000);
+        
       }
+      
     });
+    
 
     // Pasar parametros y crear una promise de respuesta, ver de procesar la url
     // y generar una estructura mock con la respuesta que sea customizable
