@@ -15,6 +15,16 @@ export const postRanking = (): any => {
         url: '/ranking',
         method: 'POST',
         baseURL: SERVER_BASE_URL,
+        data: {
+          email: 'Juan@gmail.com',
+          name: 'Juan',
+          description: 'asdasdasd',
+          userPoints: 500,
+          activeTasks: null,
+          friends: null,
+          userPicUrl: 'https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos.jpg',
+          userColor: 'blue'
+        }
       })
       .then((response) => {
         console.log('API response', response.data);

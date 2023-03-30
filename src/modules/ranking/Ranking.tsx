@@ -31,7 +31,7 @@ export const Ranking = () => {
           {JSON.stringify(ranking)}
         </div>
       )}
-      {<div><button onClick={postRanking()}></button></div>}
+      {<div><button onClick={() => dispatch(postRanking())}></button></div>}
     </div>
   );
   
