@@ -1,7 +1,7 @@
 import { Header, NavBar, TopOne } from 'lib-productivio';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getRanking, postRanking } from './actions';
+import { getRanking, postRanking, RankingProps } from './actions';
 import './ranking.scss';
 
 export const Ranking = () => {
@@ -16,6 +16,16 @@ export const Ranking = () => {
     console.log('Ranking state:', ranking);
   }, [ranking]);
 
+  const [data] = useState<RankingProps>({
+    email: '',
+    name: '',
+    description: '',
+    userPoints: 0,
+    activeTasks: 0,
+    friends: 0,
+    userPicUrl: '',
+    userColor: '',
+  });
   return (
     <div>
       <Header count={1} title={'Productivio'} />
@@ -31,7 +41,12 @@ export const Ranking = () => {
       )}
       {
         <div>
-          <button onClick={() => dispatch(postRanking())}></button>
+          <button
+            onClick={() => {
+              dispatch(postRanking(data));
+            }}
+            
+          > dasdasdasd </button>
         </div>
       }
     </div>
