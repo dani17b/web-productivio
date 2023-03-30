@@ -11,7 +11,6 @@ export const getUser = (): any => {
     dispatch({
       type: USER_REQUEST,
     });
-
     axios
       .request({
         url: '/users/{userId}',
@@ -19,16 +18,13 @@ export const getUser = (): any => {
         baseURL: SERVER_BASE_URL,
       })
       .then((response) => {
-        const user = response.data;
-
+        const user = response.data[0];
         dispatch({
           type: USER_RESPONSE,
           user,
         });
       })
       .catch((e) => {
-        console.log(e);
-        debugger;
         dispatch({
           type: USER_RESPONSE,
           error: e.code,

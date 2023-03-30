@@ -13,6 +13,7 @@ const getUser = (state = initialState, action: any) => {
         ...state,
         loading: true,
         error: null,
+        user: null,
       };
     case USER_RESPONSE:
       return {

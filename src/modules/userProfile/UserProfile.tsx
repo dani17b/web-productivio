@@ -7,21 +7,23 @@ import './userProfile.scss';
 
 export const UserProfile = () => {
   const [showRoadmap, setShowRoadMap] = useState(false);
-  debugger;
   const dispatch = useDispatch();
-  dispatch(getUser());
-  const { user, loading } = useSelector((state: any) => state.getUser);
 
-  console.log('userc de db', user, loading);
+  const { user } = useSelector((state: any) => state.getUser);
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, []);
+  console.log('userc de db', user);
   return (
     <>
-      {!loading && (
+      {user && (
         <div className="user-profile">
           <div className="header">
             <Header title="Productivio" count={0} />
           </div>
           <div>
-            <UserInfo user={user.user[0]} />
+            <UserInfo user={user} />
           </div>
 
           <div>
