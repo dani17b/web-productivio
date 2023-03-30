@@ -1,27 +1,37 @@
-  
-  .text-fields {
-    width: 350px;
+.text-fields {
+  width: 352px;
+}
+
+.input__container {
+  margin-top: 50px;
+}
+
+.wrapper {
+  margin-top: 50px;
+
+  label {
+    margin-bottom: 5px;
   }
-  
-  .input__container{
+
+  .select-menu {
     margin-top: 50px;
   }
-  
-  .wrapper {
-    display: flex;   
-    justify-content: space-between;
-  }
-  
-  .buttons {
-    padding-top: 50px;
-    display: flex;
-    flex-direction: column;
-   
-    .formButton {
+}
+
+.buttons {
+  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+
+  .formButton {
     //  margin-right: 110px;
-      background-color: #1A3891;
-      color: #ffffff;
-      margin-top: 14px;
-    }
+    background-color: #1a3891;
+    color: #ffffff;
+    margin-top: 14px;
+    margin-bottom: 5px;
   }
-  
+}
+
+.select-group {
+  padding-top: 50px;
+}

@@ -5,7 +5,9 @@ import { Header, NavBar } from 'lib-productivio';
 export const NewTask = () => {
   return (
     <>
-      <Header count={1} title={'Productivio'} />
+      <div className="header">
+        <Header count={1} title={'Productivio'} />
+      </div>
       <div className="new-task">
         <div className="form">
           <TaskForm />

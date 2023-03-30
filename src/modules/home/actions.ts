@@ -26,7 +26,6 @@ export const createPost = (): any => {
       .then((response) => {
         const postInfo = response.data;
 
-        debugger;
         dispatch({
           type: CREATE_POST_RESPONSE,
           postInfo,
@@ -50,7 +49,6 @@ export const getPosts = (): any => {
       .then((response) => {
         const posts = response.data;
 
-        debugger;
         dispatch({
           type: GET_POSTS_RESPONSE,
           posts,
