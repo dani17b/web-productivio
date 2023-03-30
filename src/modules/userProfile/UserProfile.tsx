@@ -1,19 +1,24 @@
-import { Header, ProfileProgressBar, UserInfo, NavBar } from 'lib-productivio';
+import { Header, ProfileProgressBar, UserInfo, NavBar, MissionBlock } from 'lib-productivio';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { getUser } from './actions';
+import { getUser, getTasks } from './actions';
 import './userProfile.scss';
 
 export const UserProfile = () => {
+
+
   const [showRoadmap, setShowRoadMap] = useState(false);
   const dispatch = useDispatch();
 
   const { user } = useSelector((state: any) => state.getUser);
+  const { tasks } = useSelector((state: any) => state.getTasks);
 
   useEffect(() => {
     dispatch(getUser());
+    dispatch(getTasks())
   }, []);
+
   console.log('userc de db', user);
   return (
     <>
@@ -53,7 +58,15 @@ export const UserProfile = () => {
             </div>
           </div>
 
-          {!showRoadmap && <div>MISIONES</div>}
+          {!showRoadmap && tasks &&
+            <div>
+            {tasks.map((task: any) =>(
+               <MissionBlock key={task.id} task={task} />)
+            )}
+             </div>}
+            
+            
+            
           {showRoadmap && <div>ROADMAP</div>}
           <div className="navbar">
             <NavBar />
