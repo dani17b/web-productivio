@@ -1,0 +1,31 @@
+.user-item{
+    background-color: red;
+    display: flex;
+    flex-direction: column;
+
+    .edit {
+        background-color: yellow;
+        cursor: pointer;
+    }
+
+    &__photo{
+        background-color: orange;
+        width: 45px;
+        height: 45px;
+    }
+
+    &__info{
+        background-color: green;
+        flex-direction: row;
+        display: flex;
+    }
+
+    &__data{
+        background-color: pink;
+        flex: 1;
+    }
+
+    &__actions{
+        background-color: blue;
+    }
+}

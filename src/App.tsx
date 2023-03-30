@@ -22,7 +22,7 @@ const ROUTES = [
   {
     path: '/admin',
     element: <Admin />,
-    restrictedTo: ['admin2'],
+    //restrictedTo: ['admin2'],
   },
   {
     path: '/user',

@@ -7,8 +7,6 @@ import {
 } from 'lib-productivio';
 import './feedBlock.scss';
 
-const date = new Date();
-
 export interface FeedBlockProps {
   imageSrc: string;
   borderColor: string;
@@ -16,10 +14,11 @@ export interface FeedBlockProps {
   description: string;
   taskProgessBarPercent?: any;
   totalLikes: number;
+  createdAt : string;
   comments: { user: string; comment: string }[];
 }
 
-export const FeedBlock = ({ feedProps }: { feedProps: FeedBlockProps }) => {
+export const FeedBlock = (feedProps: FeedBlockProps) => {
   const {
     imageSrc,
     borderColor,
@@ -28,14 +27,17 @@ export const FeedBlock = ({ feedProps }: { feedProps: FeedBlockProps }) => {
     taskProgessBarPercent,
     totalLikes,
     comments,
+    createdAt
   } = feedProps;
+
+  const date = new Date(createdAt);
 
   const showProgressBar = () => {
     return taskProgessBarPercent > 0;
   };
 
   return (
-    <div>
+    <div className="block">
       <div className="feedblock">
         <div className="feedblock__user-photo">
           <UserPhoto imageSrc={imageSrc} borderColor={borderColor} />
@@ -45,11 +47,7 @@ export const FeedBlock = ({ feedProps }: { feedProps: FeedBlockProps }) => {
           <div className="feedblock__content__description">{description}</div>
           {showProgressBar() && (
             <div className="feedblock__content__bar">
-              <TaskProgressBar
-                percentage={taskProgessBarPercent}
-                childBackgroundColor="yellow"
-                parentBackgroundColor="black"
-              />
+              <TaskProgressBar percentage={taskProgessBarPercent} />
             </div>
           )}
         </div>
@@ -57,7 +55,6 @@ export const FeedBlock = ({ feedProps }: { feedProps: FeedBlockProps }) => {
           <TimeAgo createdAt={date} />
         </div>
       </div>
-      <hr />
       <div className="interactions">
         <div className="interactions__likes">
           <Likes totalLikes={totalLikes} />
@@ -66,6 +63,7 @@ export const FeedBlock = ({ feedProps }: { feedProps: FeedBlockProps }) => {
           <Comments comments={comments} />
         </div>
       </div>
+      <hr />
     </div>
   );
 };
