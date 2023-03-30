@@ -2,16 +2,16 @@ import { Header, NavBar, TopOne } from 'lib-productivio';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getRanking, postRanking } from './actions';
+import './ranking.scss';
 
 export const Ranking = () => {
   const ranking = useSelector((state: any) => state.ranking);
   const dispatch = useDispatch();
 
   useEffect(() => {
-
     dispatch(getRanking());
   }, [dispatch]);
-  
+
   useEffect(() => {
     console.log('Ranking state:', ranking);
   }, [ranking]);
@@ -22,17 +22,18 @@ export const Ranking = () => {
       Ranking page
       <TopOne userImg="" userColor="" username="" points=""></TopOne>
       <NavBar />
-      
       {ranking.loading && <div>Cargando...</div>}
-      
       {!ranking.loading && ranking !== null && (
         <div>
           {ranking.length}
           {JSON.stringify(ranking)}
         </div>
       )}
-      {<div><button onClick={() => dispatch(postRanking())}></button></div>}
+      {
+        <div>
+          <button onClick={() => dispatch(postRanking())}></button>
+        </div>
+      }
     </div>
   );
-  
 };
