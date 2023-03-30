@@ -24,7 +24,7 @@ export const UserProfile = () => {
     <>
       {user && (
         <div className="user-profile">
-          <div className="header">
+          <div className="user-profile__header">
             <Header title="Productivio" count={0} />
           </div>
           <div>

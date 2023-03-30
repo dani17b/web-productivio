@@ -20,10 +20,12 @@
       width: 50%;
     }
   }
+
+  &__header {
+    width: 100vw;
+  }
 }
-.header {
-  width: 100vw;
-}
+
 .navbar {
   position: fixed;
   bottom: 0;
