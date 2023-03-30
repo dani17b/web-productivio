@@ -132,7 +132,7 @@ export const TaskForm = () => {
           fontSize={16}
           onClick={() => {
             dispatch(form(data));
-            navigate('/login');
+            navigate('/user');
           }}
         />
       </div>
