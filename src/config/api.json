@@ -228,6 +228,18 @@
           "likedByMe": {
             "type": "boolean",
             "example": true
+          },
+          "taskBarProgress": {
+            "type": "integer",
+            "example": 50
+          },
+          "taskBarPrimaryColor": {
+            "type": "string",
+            "example": "#45F2F0"
+          },
+          "taskBarSecondaryColor": {
+            "type": "string",
+            "example": "#f8020F"
           }
         }
       },
