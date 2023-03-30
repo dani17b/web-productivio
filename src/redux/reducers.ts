@@ -8,7 +8,7 @@ export const reducers = {
   login,
   home,
   admin,
-  form
-  getTasks
+  form,
+  getTasks,
   getUser,
 };

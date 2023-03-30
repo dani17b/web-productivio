@@ -21,7 +21,7 @@ export const getUser = (): any => {
         baseURL: SERVER_BASE_URL,
       })
       .then((response) => {
-        const user = response.data[0];
+        const user = response.data;
         dispatch({
           type: USER_RESPONSE,
           user,
