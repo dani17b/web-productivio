@@ -8,6 +8,6 @@ export const reducers = {
   login,
   home,
   admin,
-  form
+  form,
   ranking,
 };
