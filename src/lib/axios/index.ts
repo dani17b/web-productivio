@@ -159,7 +159,7 @@ const getSampleResponse = (url: string, method: string, data: object) => {
 export default {
   request: (requestConfig: AxiosRequestConfig) => {
     const { url, method, data } = requestConfig;
-
+    
     return new Promise((resolve, reject) => {
       let interpolatedResponse = getSampleResponse(url, method, data);
       const ignoredToStore = AXIOS_MOCK_CONFIG.ignoreStore;
@@ -181,12 +181,15 @@ export default {
           );
 
           setTimeout(() => {
+            
             resolve({
               data: res,
             });
           }, 200);
         });
+        
       } else {
+        
         // En caso se ser ignorado se devuelve la respuesta en plano
         setTimeout(() => {
           console.log(
@@ -199,7 +202,9 @@ export default {
           });
         }, 200);
       }
+      
     });
+    
 
     // Pasar parametros y crear una promise de respuesta, ver de procesar la url
     // y generar una estructura mock con la respuesta que sea customizable
