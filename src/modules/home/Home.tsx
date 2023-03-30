@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Header, NavBar } from 'lib-productivio';
-import { createPost, getPosts } from './actions';
+import { getPosts } from './actions';
 import { useDispatch } from 'react-redux';
 import { FeedBlock } from 'src/components/feedBlock/FeedBlock';
 
@@ -15,10 +15,9 @@ export const Home = () => {
 
   return (
     <>
-      <Header title="Productivio" count={0} />
-
       {!loading && (
         <div>
+          <Header count={0} title='Productivio'/>
           {posts.map((post: any) => (
             <FeedBlock
               borderColor={post.creatorUser.userColor}
@@ -29,13 +28,14 @@ export const Home = () => {
               key={post.id}
               taskProgessBarPercent={post.taskBarProgress}
               comments={[]}
+              createdAt={post.creationDate}
             />
           ))}
+          <NavBar />
         </div>
+        
       )}
-      {loading && <div>cargando</div>}
-      <NavBar />
-      <button onClick={() => dispatch(createPost())}></button>
+      {loading && <div>{/*TODO: cambiar esto por la animación global*/ }cargando</div>}
     </>
   );
 };

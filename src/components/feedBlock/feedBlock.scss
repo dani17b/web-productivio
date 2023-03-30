@@ -5,19 +5,19 @@
 
   .feedblock {
     display: flex;
-    width: 100vw;
+    width: 95%;
     margin: 7px;
     position: relative;
 
     &__user-photo {
       display: flex;
-      margin-left: 5px;
+      margin-right: 9px;
     }
 
     &__content {
       display: flex;
       flex-direction: column;
-      width: 348px;
+      width: 300px;
 
       &__username {
         padding: 5px;

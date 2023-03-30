@@ -14,7 +14,7 @@ export interface FeedBlockProps {
   description: string;
   taskProgessBarPercent?: any;
   totalLikes: number;
-  //createdAt : string TODO: add this in a different issue
+  createdAt : string;
   comments: { user: string; comment: string }[];
 }
 
@@ -27,9 +27,10 @@ export const FeedBlock = (feedProps: FeedBlockProps) => {
     taskProgessBarPercent,
     totalLikes,
     comments,
+    createdAt
   } = feedProps;
 
-  const date = new Date();
+  const date = new Date(createdAt);
 
   const showProgressBar = () => {
     return taskProgessBarPercent > 0;
