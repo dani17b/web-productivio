@@ -58,12 +58,22 @@ export const IndexedDB = {
       };
     });
   },
-  put: (database: IDBDatabase, name: string, data: object) => {
-    /*const objectStore = database.createObjectStore(name);
-    return objectStore; */
+  add: (database: IDBDatabase, name: string, data: object) => {
     const transaction = database.transaction([name], 'readwrite');
     const objectStore = transaction.objectStore(name);
     objectStore.add(data);
+  },
+  update: (database: IDBDatabase, name: string, data: object) => {
+    const transaction = database.transaction([name], 'readwrite');
+    const objectStore = transaction.objectStore(name);
+    objectStore.put(data);
+  },
+  delete : (database: IDBDatabase, name: string, id : number) => {
+    const transaction = database.transaction([name], 'readwrite');
+    const objectStore = transaction.objectStore(name);
+
+    // @ts-ignore
+    objectStore.delete(parseInt(id));
   },
   getLastKey: (database: IDBDatabase, name: string) => {
     return new Promise((resolve, reject) => {
@@ -89,10 +99,25 @@ export const IndexedDB = {
 
       const getAllRequest = objectStore.getAll();
 
+      const checkFilters = (item : any, filters : any) => {
+        let filterKeys = Object.keys(filters);
+        for(let i = 0; i < filterKeys.length; i++){
+          const filterKey = filterKeys[i];
+
+          if(item[filterKey].toLowerCase().indexOf(filters[filterKey].toLowerCase()) == -1){
+            return false;
+          }
+        }
+        
+        return true;
+      } 
+
       getAllRequest.onsuccess = function (event: any) {
         let lastId = null;
         if (event.target && event.target.result) {
-          resolve(event.target.result);
+          resolve(event.target.result.filter((resultItem : any) => {
+            return checkFilters(resultItem, filters);
+          }));
         }
 
         resolve(lastId);
