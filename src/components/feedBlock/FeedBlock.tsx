@@ -1,5 +1,4 @@
 import {
-  Comments,
   Likes,
   TaskProgressBar,
   TimeAgo,
@@ -26,7 +25,6 @@ export const FeedBlock = (feedProps: FeedBlockProps) => {
     description,
     taskProgessBarPercent,
     totalLikes,
-    comments,
     createdAt
   } = feedProps;
 
@@ -60,7 +58,6 @@ export const FeedBlock = (feedProps: FeedBlockProps) => {
           <Likes totalLikes={totalLikes} />
         </div>
         <div className="interactions__comments">
-          <Comments comments={comments} />
         </div>
       </div>
       <hr />
