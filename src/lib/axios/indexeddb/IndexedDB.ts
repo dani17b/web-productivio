@@ -68,6 +68,13 @@ export const IndexedDB = {
     const objectStore = transaction.objectStore(name);
     objectStore.put(data);
   },
+  delete : (database: IDBDatabase, name: string, id : number) => {
+    const transaction = database.transaction([name], 'readwrite');
+    const objectStore = transaction.objectStore(name);
+
+    // @ts-ignore
+    objectStore.delete(parseInt(id));
+  },
   getLastKey: (database: IDBDatabase, name: string) => {
     return new Promise((resolve, reject) => {
       const transaction = database.transaction([name], 'readonly');

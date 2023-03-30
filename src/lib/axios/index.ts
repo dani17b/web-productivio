@@ -3,25 +3,11 @@ import { AxiosRequestConfig } from 'axios';
 import { AXIOS_MOCK_CONFIG } from 'src/config/Config';
 import apiDefinitionYml from '../../config/api.json';
 import { IndexedDB } from './indexeddb/IndexedDB';
-
-const getQueryParams = (url: string) => {
-  const urlParts = url.split('?');
-  if (urlParts.length > 1) {
-    const queryPath = urlParts[1];
-    const queryPathParams = queryPath.split('&');
-
-    const params = {};
-    for (let i = 0; i < queryPathParams.length; i++) {
-      const queryPathParam = queryPathParams[i].split('=');
-
-      params[queryPathParam[0]] = queryPathParam[1];
-    }
-
-    return params;
-  }
-
-  return {};
-};
+import {
+  getPathDefinition,
+  getQueryParams,
+  getResponseCode,
+} from './indexeddb/utils/RequestUtils';
 
 const getResponse = async (url: string, method: string, data: object) => {
   const db = await IndexedDB.getDB(window.DB_INFO.name, window.DB_INFO.version);
@@ -33,7 +19,7 @@ const getResponse = async (url: string, method: string, data: object) => {
       let lastKey = await IndexedDB.getLastKey(db, objectKey);
 
       const dataToInsert = {
-        ...data,
+        ...data.data,
         id: lastKey ? lastKey + 1 : 1,
       };
 
@@ -53,9 +39,12 @@ const getResponse = async (url: string, method: string, data: object) => {
 
       return responseData;
     case 'PUT':
-      IndexedDB.update(db, objectKey, data);
+      IndexedDB.update(db, objectKey, data.data);
 
       return data;
+    case 'DELETE':
+      IndexedDB.delete(db, objectKey, data.request.params.id);
+      return null;
     default:
       throw `Method ${method} not supported`;
   }
@@ -116,30 +105,25 @@ const getResponseObject = (responseSchema: any, data: any) => {
   }, {});
 };
 
-const getResponseCode = (responseCodes: string[], status: string) => {
-  for (let i = 0; i < responseCodes.length; i++) {
-    let responseCode = responseCodes[i];
-    if (responseCode.startsWith('2') && status == 'OK') {
-      return responseCode;
-    }
-
-    if (responseCode.startsWith('4') && status == 'FAIL') {
-      return responseCode;
-    }
-  }
-
-  return 'default';
-};
-
 const getSampleResponse = (url: string, method: string, data: object) => {
-  const urlWithoutQuery = url.split('?')[0];
-  const pathDefinition = apiDefinitionYml.paths[urlWithoutQuery];
+  const response = {
+    data,
+    status: 200,
+    request: null,
+  };
 
-  if (typeof pathDefinition === 'undefined') {
+  const urlWithoutQuery = url.split('?')[0];
+  const pathDefinition = getPathDefinition(
+    urlWithoutQuery,
+    apiDefinitionYml.paths
+  );
+  response.request = pathDefinition;
+
+  if (pathDefinition == null) {
     throw `Path ${urlWithoutQuery} is not defined on api.json`;
   }
 
-  const methodDefinition: any = pathDefinition[method.toLowerCase()];
+  const methodDefinition: any = pathDefinition.definition[method.toLowerCase()];
 
   if (typeof methodDefinition === 'undefined') {
     throw `Method ${method} is not defined for ${urlWithoutQuery} on api.json`;
@@ -149,6 +133,10 @@ const getSampleResponse = (url: string, method: string, data: object) => {
     Object.keys(methodDefinition.responses),
     'OK'
   );
+
+  if (!methodDefinition.responses[responseCode].content) {
+    return response;
+  }
 
   const responseContentSchema =
     methodDefinition.responses[responseCode].content['application/json'].schema;
@@ -163,14 +151,13 @@ const getSampleResponse = (url: string, method: string, data: object) => {
     responseOKContent.split('/')
   );
 
-  const response = getResponseObject(responseSchema, data);
+  getResponseObject(responseSchema, data);
 
   return response;
 };
 
 export default {
   request: (requestConfig: AxiosRequestConfig) => {
-    // TODO buscar el path por url
     const { url, method, data } = requestConfig;
 
     return new Promise((resolve, reject) => {
