@@ -41,7 +41,7 @@ export const UserProfile = () => {
 
           <div className="user-profile__options">
             <div
-              className="user-profile__options__misions"
+              className={`user-profile__options__missions ${showRoadmap? "" : "user-profile__options__selected"} `}
               onClick={() => {
                 setShowRoadMap(false);
               }}
@@ -49,7 +49,7 @@ export const UserProfile = () => {
               MISIONES
             </div>
             <div
-              className="user-profile__options__roadmap"
+              className={`user-profile__options__roadmap ${!showRoadmap? "" : "user-profile__options__selected"} `}
               onClick={() => {
                 setShowRoadMap(true);
               }}
