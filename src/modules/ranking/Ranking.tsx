@@ -65,7 +65,7 @@ export const Ranking = () => {
             key={user.id}
           />
         ))}
-
+      <div><br /><br /><br /></div>
       {ranking.loading && <div>Cargando...</div>}
 
       {
