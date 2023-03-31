@@ -1,0 +1,62 @@
+.container{
+    position: relative;
+    top: 50px;
+    height: 796px;
+    width: 100vw;
+    background-color: red;
+
+    .photo_button{
+        position: relative;
+        top: 0;
+        height: 220px;
+        box-sizing: border-box;
+        background-color: yellow;
+    
+        .photo{
+            position: absolute;
+            left: 41px;
+            top: 63px;
+            width: 90px;
+            height: 90px;
+    
+            .user-photo__circle {
+                width: 90px;
+                height: 90px;
+            }
+        }
+    
+        .button{
+            position: absolute;
+            top: 98px;
+            left: 180px;
+            background-color: green;
+            width: 200px;
+        }
+        
+    }
+
+    .data{
+        background-color: aqua;
+        height: 425px;
+        
+        .data__name{
+            position: absolute;
+            left: 30px;
+        }
+
+        .input__container {
+            margin-top: 0;
+        }
+
+        .data__password{
+            
+        }
+
+        .data__repeat__password{
+
+        }
+        
+    }
+
+}
+

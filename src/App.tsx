@@ -8,6 +8,7 @@ import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
 import { NewTask } from './modules/newTask/NewTask';
+import { UserConfig } from './modules/userConfig/UserConfig';
 
 const ROUTES = [
   {
@@ -27,6 +28,10 @@ const ROUTES = [
   {
     path: '/form',
     element: <NewTask />,
+  },
+  {
+    path: '/config',
+    element: <UserConfig/>,
   },
 ];
 
