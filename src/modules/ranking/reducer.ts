@@ -8,13 +8,11 @@ const initialState = {
 const ranking = (state = initialState, action: any) => {
   switch (action.type) {
     case GET_RANKING_REQUEST:
-      console.log('GET_RANKING_REQUEST dispatched');
       return {
         ...state,
         loading: true,
       };
     case GET_RANKING_RESPONSE:
-      console.log('GET_RANKING_RESPONSE dispatched');
       return {
         ...state,
         loading: false,

@@ -4,6 +4,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getRanking, postRanking, RankingProps } from './actions';
 import './ranking.scss';
 
+const maxPodium = 3;
+const minList = 4;
+const maxList = 10;
+const startList = 5;
+
 export const Ranking = () => {
   const ranking = useSelector((state: any) => state.ranking);
   const dispatch = useDispatch();
@@ -18,19 +23,18 @@ export const Ranking = () => {
     sortedUsers = [...ranking.ranking].sort(
       (a: any, b: any) => b.userPoints - a.userPoints
     );
-    usersSlice = sortedUsers.slice(4, 10);
-    console.log(sortedUsers);
+    usersSlice = sortedUsers.slice(minList, maxList);
   }
 
   const [data] = useState<RankingProps>({
     email: 'fdsfs',
     name: 'dsfsf',
     description: 'fsdfsfs',
-    userPoints: 120,
+    userPoints: 130,
     activeTasks: 3,
     friends: 0,
-    userPicUrl: '',
-    userColor: '',
+    userPicUrl: 'asdad',
+    userColor: 'asasd',
   });
 
   return (
@@ -46,7 +50,7 @@ export const Ranking = () => {
         />
       )}
 
-      {sortedUsers.length > 3 && (
+      {sortedUsers.length > maxPodium && (
         <Podium users={[sortedUsers[1], sortedUsers[2], sortedUsers[3]]} />
       )}
 
@@ -57,7 +61,7 @@ export const Ranking = () => {
             username={user.name}
             userColor={user.userColor}
             points={user.userPoints}
-            position={index + 5}
+            position={index + startList}
             key={user.id}
           />
         ))}
@@ -65,14 +69,15 @@ export const Ranking = () => {
       {ranking.loading && <div>Cargando...</div>}
 
       {
+        /*BOTON PARA AÑADIR USUARIO. ESCONDIDO CON DISPLAY NONE*/
         <div>
           <button
             onClick={() => {
               dispatch(postRanking(data));
             }}
+            style={{ display: 'none' }}
           >
-            {' '}
-            dasdasdasd{' '}
+            dasdasdasd
           </button>
         </div>
       }
@@ -81,23 +86,3 @@ export const Ranking = () => {
     </div>
   );
 };
-
-/*
-
-
-
-
-
-
- {
-        <div>
-          <button
-            onClick={() => {
-              dispatch(postRanking(data));
-            }}
-            
-          > dasdasdasd </button>
-        </div>
-      }
-      
-      */
