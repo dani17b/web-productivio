@@ -11,13 +11,17 @@ interface Task {
 interface RoadmapParentProps {
   tasks: Task[];
 }
-export const RoadmapParent = (taskList: RoadmapParentProps) => {
-  const PTS_PER_LEVEL = 200;
 
-  /*Esta línea es para evitar el fallo que da al recibir la task vacía de la API*/
-  let tasks = taskList.tasks.slice(1);
+const PTS_PER_LEVEL = 200;
+const PTS_EASY = 50;
+const PTS_MEDIUM = 100;
+const PTS_HARD = 200;
+
+export const RoadmapParent = (taskList: RoadmapParentProps) => {
+  let { tasks } = taskList;
   tasks = tasks.sort(
-    (a: Task, b: Task) => a.endDate.getTime() - b.endDate.getTime()
+    (a: Task, b: Task) =>
+      new Date(a.endDate).getTime() - new Date(b.endDate).getTime()
   );
 
   let fullRoadMap: JSX.Element[] = [];
@@ -25,19 +29,27 @@ export const RoadmapParent = (taskList: RoadmapParentProps) => {
   let level = 1;
 
   for (let i = 0; i < tasks.length; i++) {
-    totalPoints += getPoints(tasks[i].difficulty);
-    if (totalPoints % PTS_PER_LEVEL == 0 || level == 1) {
+    if (totalPoints >= (level - 1) * PTS_PER_LEVEL || level == 1) {
       fullRoadMap.push(
-        <Roadmap key={`Level${level}`} name={`Level${level}`} bigStyle={true} />
+        <Roadmap
+          key={`Level${level}`}
+          name={`Nivel ${level}`}
+          bigStyle={true}
+          date={tasks[i].endDate}
+        />
       );
       level++;
     }
+
+    totalPoints += getPoints(tasks[i].difficulty);
+
     fullRoadMap.push(
       <Roadmap
         key={tasks[i].id}
         name={tasks[i].name}
         difficulty={getPoints(tasks[i].difficulty)}
         bigStyle={false}
+        date={tasks[i].endDate}
       />
     );
   }
@@ -46,14 +58,14 @@ export const RoadmapParent = (taskList: RoadmapParentProps) => {
 };
 
 function getPoints(difficulty: string) {
-  let points = 0;
+  
   switch (difficulty) {
     case 'Fácil':
-      return 50;
+      return PTS_EASY;
     case 'Medio':
-      return 100;
+      return PTS_MEDIUM;
     case 'Difícil':
-      return 200;
+      return PTS_HARD;
     default:
       return 0;
   }
