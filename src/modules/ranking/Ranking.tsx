@@ -43,9 +43,9 @@ export const Ranking = () => {
 
       {sortedUsers.length > 0 && (
         <TopOne
-          userImg={sortedUsers[0].userPicUrl}
+          userPicUrl={sortedUsers[0].userPicUrl}
           userColor={sortedUsers[0].userColor}
-          username={sortedUsers[0].name}
+          name={sortedUsers[0].name}
           points={sortedUsers[0].userPoints}
         />
       )}
@@ -57,8 +57,8 @@ export const Ranking = () => {
       {usersSlice.length > 0 &&
         usersSlice.map((user: any, index: any) => (
           <TopFiveUser
-            userImg={user.userPicUrl}
-            username={user.name}
+            userPicUrl={user.userPicUrl}
+            name={user.name}
             userColor={user.userColor}
             points={user.userPoints}
             position={index + startList}
