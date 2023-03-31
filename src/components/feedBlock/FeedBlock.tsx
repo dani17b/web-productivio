@@ -13,8 +13,10 @@ export interface FeedBlockProps {
   description: string;
   taskProgessBarPercent?: any;
   totalLikes: number;
-  createdAt : string;
+  createdAt: string;
   comments: { user: string; comment: string }[];
+  onClick: () => void;
+  likedByMe: boolean;
 }
 
 export const FeedBlock = (feedProps: FeedBlockProps) => {
@@ -25,7 +27,10 @@ export const FeedBlock = (feedProps: FeedBlockProps) => {
     description,
     taskProgessBarPercent,
     totalLikes,
-    createdAt
+    comments,
+    createdAt,
+    onClick,
+    likedByMe
   } = feedProps;
 
   const date = new Date(createdAt);
@@ -55,9 +60,23 @@ export const FeedBlock = (feedProps: FeedBlockProps) => {
       </div>
       <div className="interactions">
         <div className="interactions__likes">
-          <Likes totalLikes={totalLikes} />
+          <Likes totalLikes={totalLikes} likedByMe={likedByMe}/>
         </div>
         <div className="interactions__comments">
+          <Comments
+            commentProps={{
+              name: username,
+              imageSrc,
+              inputText: '',
+            }}
+            visualCommentsProps={comments.map((comment) => ({
+              imageSrc,
+              photoBorderColor: borderColor,
+              username: comment.user,
+              comment: comment.comment,
+            }))}
+            onPostClick={() => onClick()}
+          />
         </div>
       </div>
       <hr />
