@@ -18,12 +18,12 @@ const ROUTES = [
   {
     path: '/home',
     element: <Home />,
-    //restrictedTo: ['any'],
+    restrictedTo: ['any'],
   },
   {
     path: '/admin',
     element: <Admin />,
-    restrictedTo: ['admin2'],
+    //restrictedTo: ['admin2'],
   },
   { path: '/circle', element: <Circle /> },
   {

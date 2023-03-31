@@ -3,34 +3,50 @@ import { AxiosRequestConfig } from 'axios';
 import { AXIOS_MOCK_CONFIG } from 'src/config/Config';
 import apiDefinitionYml from '../../config/api.json';
 import { IndexedDB } from './indexeddb/IndexedDB';
+import {
+  getPathDefinition,
+  getQueryParams,
+  getResponseCode,
+} from './indexeddb/utils/RequestUtils';
 
 const getResponse = async (url: string, method: string, data: object) => {
   const db = await IndexedDB.getDB(window.DB_INFO.name, window.DB_INFO.version);
 
-  const objectKey = url.split('/')[1];
+  const objectKey = url.split('?')[0].split('/')[1];
 
   switch (method) {
     case 'POST':
       let lastKey = await IndexedDB.getLastKey(db, objectKey);
 
       const dataToInsert = {
-        ...data,
+        ...data.data,
         id: lastKey ? lastKey + 1 : 1,
       };
 
-      IndexedDB.put(db, objectKey, dataToInsert);
+      IndexedDB.add(db, objectKey, dataToInsert);
 
       return dataToInsert;
     case 'GET':
-      const responseData = await IndexedDB.findByFilters(db, objectKey, {});
+      const responseData = await IndexedDB.findByFilters(
+        db,
+        objectKey,
+        getQueryParams(url)
+      );
 
-      if(responseData.length == 0){
-        return [data];
+      if (responseData.length == 0) {
+        return [data.data];
       }
 
       return responseData;
+    case 'PUT':
+      IndexedDB.update(db, objectKey, data.data);
+
+      return data;
+    case 'DELETE':
+      IndexedDB.delete(db, objectKey, data.request.params.id);
+      return null;
     default:
-      return;
+      throw `Method ${method} not supported`;
   }
 };
 
@@ -49,7 +65,7 @@ const getRefSchema = (componentDefinition: any, refKeyParts: string[]) => {
   return componentDefinition[refKeyParts[0]].properties;
 };
 
-const getResponseObject = (responseSchema: any) => {
+const getResponseObject = (responseSchema: any, data: any) => {
   return Object.keys(responseSchema).reduce((acc: any, key: string) => {
     const responseSchemaItem = responseSchema[key];
     // TODO extrapolar informacion enviada
@@ -58,7 +74,8 @@ const getResponseObject = (responseSchema: any) => {
         apiDefinitionYml,
         responseSchemaItem.$ref.split('/')
       );
-      acc[key] = getResponseObject(refSchema);
+
+      acc[key] = getResponseObject(refSchema, data);
       return acc;
     }
 
@@ -73,40 +90,53 @@ const getResponseObject = (responseSchema: any) => {
           apiDefinitionYml,
           responseSchemaItem.items.$ref.split('/')
         );
-        acc[key] = [getResponseObject(refSchema)];
+
+        acc[key] = [getResponseObject(refSchema, data)];
       }
       return acc;
     }
 
-    acc[key] = responseSchemaItem.example;
+    acc[key] =
+      data && typeof data[key] != 'undefined'
+        ? data[key]
+        : responseSchema[key].example;
 
     return acc;
   }, {});
 };
 
-const getResponseCode = (responseCodes: string[], status: string) => {
-  for (let i = 0; i < responseCodes.length; i++) {
-    let responseCode = responseCodes[i];
-    if (responseCode.startsWith('2') && status == 'OK') {
-      return responseCode;
-    }
+const getSampleResponse = (url: string, method: string, data: object) => {
+  const response = {
+    data,
+    status: 200,
+    request: null,
+  };
 
-    if (responseCode.startsWith('4') && status == 'FAIL') {
-      return responseCode;
-    }
+  const urlWithoutQuery = url.split('?')[0];
+  const pathDefinition = getPathDefinition(
+    urlWithoutQuery,
+    apiDefinitionYml.paths
+  );
+  response.request = pathDefinition;
+
+  if (pathDefinition == null) {
+    throw `Path ${urlWithoutQuery} is not defined on api.json`;
   }
 
-  return 'default';
-};
+  const methodDefinition: any = pathDefinition.definition[method.toLowerCase()];
 
-const getSampleResponse = (url: string, method: string, data: object) => {
-  const pathDefinition = apiDefinitionYml.paths[url];
-  const methodDefinition: any = pathDefinition[method.toLowerCase()];
+  if (typeof methodDefinition === 'undefined') {
+    throw `Method ${method} is not defined for ${urlWithoutQuery} on api.json`;
+  }
 
   const responseCode = getResponseCode(
     Object.keys(methodDefinition.responses),
     'OK'
   );
+
+  if (!methodDefinition.responses[responseCode].content) {
+    return response;
+  }
 
   const responseContentSchema =
     methodDefinition.responses[responseCode].content['application/json'].schema;
@@ -121,44 +151,60 @@ const getSampleResponse = (url: string, method: string, data: object) => {
     responseOKContent.split('/')
   );
 
-  const response = getResponseObject(responseSchema);
+  response.data = getResponseObject(responseSchema, data);
 
   return response;
 };
 
 export default {
   request: (requestConfig: AxiosRequestConfig) => {
-    // TODO buscar el path por url
     const { url, method, data } = requestConfig;
-
+    
     return new Promise((resolve, reject) => {
       let interpolatedResponse = getSampleResponse(url, method, data);
       const ignoredToStore = AXIOS_MOCK_CONFIG.ignoreStore;
 
-      if (ignoredToStore.indexOf(url) == -1) {
+      if (ignoredToStore.indexOf(url.split('?')[0]) == -1) {
         // En caso de que no se ignore el procesado con IndexedDB se gestiona con la BBDD
         getResponse(url, method, interpolatedResponse).then((res) => {
-          console.log('--------------------------------------------------------------------');
-          console.log(`${method} ${url} ${data ? '\n' + JSON.stringify(data, null, 2) : ''}`);
+          console.log(
+            '--------------------------------------------------------------------'
+          );
+          console.log(
+            `${method} ${url} ${
+              data ? '\n' + JSON.stringify(data, null, 2) : ''
+            }`
+          );
           console.log(res);
-          console.log('--------------------------------------------------------------------');
-          
+          console.log(
+            '--------------------------------------------------------------------'
+          );
+
           setTimeout(() => {
+            
             resolve({
               data: res,
             });
-          }, 2000);
+          }, 200);
         });
+        
       } else {
+        
         // En caso se ser ignorado se devuelve la respuesta en plano
         setTimeout(() => {
-          console.log(`${method} ${url} ${data ? '\n' + JSON.stringify(data, null, 2) : ''}`);
+          console.log(
+            `${method} ${url} ${
+              data ? '\n' + JSON.stringify(data, null, 2) : ''
+            }`
+          );
           resolve({
             data: interpolatedResponse,
           });
-        }, 2000);
+        }, 200);
       }
+      
     });
+    
 
     // Pasar parametros y crear una promise de respuesta, ver de procesar la url
     // y generar una estructura mock con la respuesta que sea customizable
