@@ -2,6 +2,7 @@
 
 .block {
   margin-bottom: 10px;
+  position: relative;
 
   .feedblock {
     display: flex;
@@ -48,8 +49,8 @@
     margin: 10px;
 
     &__likes {
-      margin-right: 10px;
-      margin-left: 10px;
+      position: absolute;
+      margin-left: 185px;
     }
   }
 }

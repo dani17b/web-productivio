@@ -7,12 +7,17 @@ import { FeedBlock } from 'src/components/feedBlock/FeedBlock';
 import './home.scss';
 
 export const Home = () => {
+
   const dispatch = useDispatch();
   const { posts, loading } = useSelector((state: any) => state.home);
 
   useEffect(() => {
     dispatch(getPosts());
   }, [dispatch]);
+
+  const handlePostClick = () => {
+    console.log('Post clicked');
+  };
 
   return (
     <>
@@ -33,6 +38,7 @@ export const Home = () => {
                 taskProgessBarPercent={post.taskBarProgress}
                 comments={[]}
                 createdAt={post.creationDate}
+                onPostClick={handlePostClick}
               />
             ))}
           </div>
