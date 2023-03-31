@@ -1,7 +1,7 @@
 import { Header, NavBar, Podium, TopFiveUser, TopOne } from 'lib-productivio';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getRanking } from './actions';
+import { getRanking, postRanking, RankingProps } from './actions';
 import './ranking.scss';
 
 export const Ranking = () => {
@@ -21,6 +21,18 @@ export const Ranking = () => {
     usersSlice = sortedUsers.slice(4, 10);
     console.log(sortedUsers);
   }
+
+
+  const [data] = useState <RankingProps>({
+    email: '',
+    name: '',
+    description: '',
+    userPoints: 0,
+    activeTasks: 0,
+    friends: 0,
+    userPicUrl: '',
+    userColor: '',
+  });
 
   return (
     <div>
@@ -53,7 +65,42 @@ export const Ranking = () => {
 
       {ranking.loading && <div>Cargando...</div>}
 
+
+      {
+        <div>
+          <button
+            onClick={() => {
+              dispatch(postRanking(data));
+            }}
+            
+          > dasdasdasd </button>
+        </div>
+      }
+
       <NavBar />
     </div>
   );
 };
+
+
+
+
+/*
+
+
+
+
+
+
+ {
+        <div>
+          <button
+            onClick={() => {
+              dispatch(postRanking(data));
+            }}
+            
+          > dasdasdasd </button>
+        </div>
+      }
+      
+      */
