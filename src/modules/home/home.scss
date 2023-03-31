@@ -1,14 +1,16 @@
-.home-content{
-    position: absolute;
-    z-index: 2;
-    padding-bottom: 45px;
-    max-width: 100vw;
-    left: 15px;
-    top: 80px;
-    
-}
+.home{
+  &__content{
+  margin-top: 50px;
+  z-index: 2;
+  padding-bottom: 45px;
+  max-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  }
 
-.navbar {
+  &__navbar {
     position: fixed;
     bottom: 0;
     width: 100vw;
@@ -16,10 +18,14 @@
     left: 0;
   }
 
-.header {
+&__header {
   position: fixed;
   top: 0;
   width: 100vw;
   z-index: 3;
   left: 0;
 }
+  
+    
+}
+
