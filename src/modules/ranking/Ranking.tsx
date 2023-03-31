@@ -38,32 +38,38 @@ export const Ranking = () => {
   });
 
   return (
-    <div>
+    <div className="ranking">
       <Header count={1} title={'Productivio'} />
-
+      <div className="ranking__title">Ranking semanal</div>
       {sortedUsers.length > 0 && (
-        <TopOne
-          userPicUrl={sortedUsers[0].userPicUrl}
-          userColor={sortedUsers[0].userColor}
-          name={sortedUsers[0].name}
-          points={sortedUsers[0].userPoints}
-        />
+        <div className="ranking__top-one">
+          <TopOne
+            userPicUrl={sortedUsers[0].userPicUrl}
+            userColor={sortedUsers[0].userColor}
+            name={sortedUsers[0].name}
+            points={sortedUsers[0].userPoints}
+          />
+        </div>
       )}
 
       {sortedUsers.length > maxPodium && (
-        <Podium users={[sortedUsers[1], sortedUsers[2], sortedUsers[3]]} />
+        <div className="ranking__podium">
+          <Podium users={[sortedUsers[1], sortedUsers[2], sortedUsers[3]]} />
+        </div>
       )}
 
       {usersSlice.length > 0 &&
         usersSlice.map((user: any, index: any) => (
-          <TopFiveUser
-            userPicUrl={user.userPicUrl}
-            name={user.name}
-            userColor={user.userColor}
-            points={user.userPoints}
-            position={index + startList}
-            key={user.id}
-          />
+          <div className="ranking__list">
+            <TopFiveUser
+              userPicUrl={user.userPicUrl}
+              name={user.name}
+              userColor={user.userColor}
+              points={user.userPoints}
+              position={index + startList}
+              key={user.id}
+            />
+          </div>
         ))}
 
       {ranking.loading && <div>Cargando...</div>}
