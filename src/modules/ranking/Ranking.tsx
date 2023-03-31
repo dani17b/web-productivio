@@ -15,20 +15,19 @@ export const Ranking = () => {
   let sortedUsers = [];
   let usersSlice = [];
   if (ranking && ranking.ranking) {
-    sortedUsers = ranking.ranking.sort(
-      (a: any, b: any) => b.user.userPoints - a.user.userPoints
+    sortedUsers = [...ranking.ranking].sort(
+      (a: any, b: any) => b.userPoints - a.userPoints
     );
     usersSlice = sortedUsers.slice(4, 10);
     console.log(sortedUsers);
   }
 
-
-  const [data] = useState <RankingProps>({
-    email: '',
-    name: '',
-    description: '',
-    userPoints: 0,
-    activeTasks: 0,
+  const [data] = useState<RankingProps>({
+    email: 'fdsfs',
+    name: 'dsfsf',
+    description: 'fsdfsfs',
+    userPoints: 120,
+    activeTasks: 3,
     friends: 0,
     userPicUrl: '',
     userColor: '',
@@ -59,12 +58,11 @@ export const Ranking = () => {
             userColor={user.userColor}
             points={user.userPoints}
             position={index + 5}
-            key={user.id} // Asegúrate de añadir una key única para cada elemento en la lista
+            key={user.id}
           />
         ))}
 
       {ranking.loading && <div>Cargando...</div>}
-
 
       {
         <div>
@@ -72,8 +70,10 @@ export const Ranking = () => {
             onClick={() => {
               dispatch(postRanking(data));
             }}
-            
-          > dasdasdasd </button>
+          >
+            {' '}
+            dasdasdasd{' '}
+          </button>
         </div>
       }
 
@@ -81,9 +81,6 @@ export const Ranking = () => {
     </div>
   );
 };
-
-
-
 
 /*
 
