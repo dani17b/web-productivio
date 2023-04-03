@@ -4,6 +4,7 @@ import {circleFetch, circlePost} from 'src/modules/circle/reducer';
 import admin from '../modules/admin/reducer';
 import form from '../modules/newTask/reducer';
 import ranking from 'src/modules/ranking/reducer';
+import usersFetch from 'src/modules/newTeam/reducer';
 
 export const reducers = {
   login,
@@ -13,4 +14,5 @@ export const reducers = {
   ranking,
   circleFetch,
   circlePost,
+  usersFetch
 };

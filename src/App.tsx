@@ -10,6 +10,7 @@ import { PrivateRoute } from './components/privateRoute/PrivateRoute';
 import { NewTask } from './modules/newTask/NewTask';
 import { Ranking } from './modules/ranking/Ranking';
 import { Circle } from './modules/circle/Circle';
+import { NewTeam } from './modules/newTeam/NewTeam';
 
 const ROUTES = [
   {
@@ -35,6 +36,10 @@ const ROUTES = [
     path: '/ranking',
     element: <Ranking />,
   },
+  {
+    path: '/team',
+    element: <NewTeam />
+  }
 ];
 
 function App() {
