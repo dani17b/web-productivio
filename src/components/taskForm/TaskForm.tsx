@@ -1,3 +1,4 @@
+import { InputWithLabel, FormButton } from 'lib-productivio';
 import React from 'react';
 import './taskForm.scss';
 import { useState, useEffect } from 'react';
@@ -5,8 +6,6 @@ import { useDispatch } from 'react-redux';
 import { form, FormProps, fetchGroups } from 'src/modules/newTask/actions';
 import { useNavigate } from 'react-router-dom';
 import {
-  InputWithLabel,
-  FormButton,
   DateSelect,
   SelectMenu,
 } from 'lib-productivio';
