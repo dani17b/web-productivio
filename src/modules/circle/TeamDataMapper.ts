@@ -24,6 +24,7 @@ function brightenHex(hexColor: string) {
   const COLOR_BYTES = 16;
 
   // parse the hex color to RGB values
+  //TODO: fix eslint warnings
   /* eslint-disable */
   let red = parseInt(hexColor.substring(1, 3), COLOR_BYTES);
   let green = parseInt(hexColor.substring(3, 5), COLOR_BYTES);
