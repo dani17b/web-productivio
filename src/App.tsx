@@ -15,14 +15,14 @@ const ROUTES = [
     element: <Login />,
   },
   {
-    path: '/home',
+    path: '/',
     element: <Home />,
-    restrictedTo: ['any'],
+    // restrictedTo: ['any'],
   },
   {
     path: '/admin',
     element: <Admin />,
-    //restrictedTo: ['admin2'],
+    restrictedTo: ['admin'],
   },
   {
     path: '/form',
