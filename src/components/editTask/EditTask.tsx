@@ -1,6 +1,6 @@
 import { InputWithLabel, FormButton } from 'lib-productivio';
 import React from 'react';
-import './taskForm.scss';
+import './editTask.scss';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { form, FormProps, fetchGroups } from 'src/modules/newTask/actions';
@@ -10,9 +10,10 @@ import {
   SelectMenu,
 } from 'lib-productivio';
 import { useSelector } from 'react-redux';
-import { TaskProgressInput } from 'src/modules/editTask/PercentageTask';
+import { PercentageTask } from './PercentageTask';
 
-export const TaskForm = () => {
+
+export const EditTask = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [percentage, setPercentage] = useState(50);
@@ -124,7 +125,7 @@ export const TaskForm = () => {
           />
         </div>
         <div className='input-taskbar'>
-        <TaskProgressInput percentage={percentage} onPercentageChange={handlePercentageChange} parentBackgroundColor='blue' childBackgroundColor='grey'/>
+        <PercentageTask percentage={percentage} onPercentageChange={handlePercentageChange} />
         </div>
       </div>
       <div className="buttons">

@@ -1,9 +1,9 @@
 
-import { TaskForm } from 'src/components/taskForm copy/TaskForm';
-import './editTask.scss';
+import { EditTask } from 'src/components/editTask/EditTask';
+import './editTaskPage.scss';
 import { Header, NavBar } from 'lib-productivio';
 
-export const EditTask = () => {
+export const EditTaskPage = () => {
   return (
     <>
       <div className="header">
@@ -11,7 +11,7 @@ export const EditTask = () => {
       </div>
       <div className="new-task">
         <div className="form">
-          <TaskForm />
+          <EditTask />
         </div>
         <div className="navbar">
           <NavBar
