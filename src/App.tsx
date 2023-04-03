@@ -9,6 +9,7 @@ import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
 import { NewTask } from './modules/newTask/NewTask';
 import { Ranking } from './modules/ranking/Ranking';
+import { Circle } from './modules/circle/Circle';
 import { NotFound } from './modules/notFound/NotFound';
 import { EditTaskPage } from './modules/editTaskPage/EditTaskPage';
 
@@ -27,6 +28,7 @@ const ROUTES = [
     element: <Admin />,
     restrictedTo: ['admin'],
   },
+  { path: '/circle', element: <Circle /> },
   {
     path: '/form',
     element: <NewTask />,
