@@ -7,7 +7,6 @@ import { FeedBlock } from 'src/components/feedBlock/FeedBlock';
 import './home.scss';
 
 export const Home = () => {
-
   const dispatch = useDispatch();
   const { posts, loading } = useSelector((state: any) => state.home);
 
@@ -26,22 +25,27 @@ export const Home = () => {
           <div className="header">
             <Header count={0} title="Productivio" />
           </div>
-          <div className="home-content">
-            {posts.map((post: any) => (
-              <FeedBlock
-                borderColor={post.creatorUser.userColor}
-                description={post.description}
-                imageSrc={post.creatorUser.userPicUrl}
-                username={post.creatorUser.name}
-                totalLikes={post.likes}
-                key={post.id}
-                taskProgessBarPercent={post.taskBarProgress}
-                comments={[]}
-                createdAt={post.creationDate}
-                onPostClick={handlePostClick}
-              />
-            ))}
-          </div>
+          {Array.isArray(posts) && posts.length > 0 ? (
+            <div className="home-content">
+              {posts.map((post: any) => (
+                <FeedBlock
+                  borderColor={post.creatorUser.userColor}
+                  description={post.description}
+                  imageSrc={post.creatorUser.userPicUrl}
+                  username={post.creatorUser.name}
+                  totalLikes={post.likes}
+                  key={post.id}
+                  taskProgessBarPercent={post.taskBarProgress}
+                  postId={post.id}
+                  createdAt={post.creationDate}
+                  onPostClick={handlePostClick}
+                />
+              ))}
+            </div>
+          ) : (
+            <div>No posts found!</div>
+          )}
+
           <div className="navbar">
             <NavBar />
           </div>

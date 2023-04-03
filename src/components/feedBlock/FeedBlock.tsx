@@ -6,6 +6,7 @@ import {
   UserPhoto,
 } from 'lib-productivio';
 import './feedBlock.scss';
+import { getComments } from './utils';
 
 export interface FeedBlockProps {
   imageSrc: string;
@@ -15,7 +16,7 @@ export interface FeedBlockProps {
   taskProgessBarPercent?: any;
   totalLikes: number;
   createdAt: string;
-  comments: { user: string; comment: string }[];
+  postId: number;
   onPostClick: () => void;
 }
 
@@ -27,16 +28,19 @@ export const FeedBlock = (feedProps: FeedBlockProps) => {
     description,
     taskProgessBarPercent,
     totalLikes,
-    comments,
+    postId,
     createdAt,
     onPostClick,
   } = feedProps;
+
+  const comments = getComments(postId);
 
   const date = new Date(createdAt);
 
   const showProgressBar = () => {
     return taskProgessBarPercent > 0;
   };
+
 
   return (
     <div className="block">
@@ -62,12 +66,12 @@ export const FeedBlock = (feedProps: FeedBlockProps) => {
           <Comments
             commentProps={{
               name: username,
-              imageSrc,
+              imageSrc: imageSrc,
               inputText: '',
             }}
-            visualCommentsProps={comments.map((comment) => ({
-              imageSrc,
-              photoBorderColor: borderColor,
+            visualCommentsProps={comments && comments.map((comment: any) => ({
+              imageSrc: comment.userPicUrl,
+              photoBorderColor: comment.userColor,
               username: comment.user,
               comment: comment.comment,
             }))}
