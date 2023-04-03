@@ -10,6 +10,7 @@ import { PrivateRoute } from './components/privateRoute/PrivateRoute';
 import { NewTask } from './modules/newTask/NewTask';
 import { Ranking } from './modules/ranking/Ranking';
 import { NotFound } from './modules/notFound/NotFound';
+import { EditTaskPage } from './modules/editTaskPage/EditTaskPage';
 
 const ROUTES = [
   {
@@ -37,6 +38,10 @@ const ROUTES = [
   {
     path: '/*',
     element: <NotFound />,
+  },
+  {
+    path: '/edit',
+    element: <EditTaskPage />,
   },
 ];
 
