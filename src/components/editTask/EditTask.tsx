@@ -5,13 +5,9 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { form, FormProps, fetchGroups } from 'src/modules/newTask/actions';
 import { useNavigate } from 'react-router-dom';
-import {
-  DateSelect,
-  SelectMenu,
-} from 'lib-productivio';
+import { DateSelect, SelectMenu } from 'lib-productivio';
 import { useSelector } from 'react-redux';
-import { PercentageTask } from './PercentageTask';
-
+import { PercentageTask } from './components/PercentageTask';
 
 export const EditTask = () => {
   const navigate = useNavigate();
@@ -46,7 +42,7 @@ export const EditTask = () => {
 
   return (
     <div>
-      <div className='title'>Editar Tarea</div>
+      <div className="title">Editar Tarea</div>
       <div className="text-fields">
         <InputWithLabel
           label="Nombre"
@@ -124,8 +120,11 @@ export const EditTask = () => {
             color="#1A3891"
           />
         </div>
-        <div className='input-taskbar'>
-        <PercentageTask percentage={percentage} onPercentageChange={handlePercentageChange} />
+        <div className="input-taskbar">
+          <PercentageTask
+            percentage={percentage}
+            onPercentageChange={handlePercentageChange}
+          />
         </div>
       </div>
       <div className="buttons">

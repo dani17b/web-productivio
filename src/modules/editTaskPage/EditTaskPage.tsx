@@ -1,4 +1,3 @@
-
 import { EditTask } from 'src/components/editTask/EditTask';
 import './editTaskPage.scss';
 import { Header, NavBar } from 'lib-productivio';
