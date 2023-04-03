@@ -1,6 +1,7 @@
 import { TaskForm } from 'src/components/taskForm/TaskForm';
 import './newTask.scss';
-import { Header, NavBar } from 'lib-productivio';
+import { Header } from 'lib-productivio';
+import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
 
 export const NewTask = () => {
   return (
@@ -13,10 +14,7 @@ export const NewTask = () => {
           <TaskForm />
         </div>
         <div className="navbar">
-          <NavBar
-            parentBackgroundColor="#1a3891"
-            childBackgroundColor="white"
-          />{' '}
+          <WebNavBar />
         </div>
       </div>
     </>
