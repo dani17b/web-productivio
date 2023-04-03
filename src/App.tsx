@@ -10,6 +10,7 @@ import { PrivateRoute } from './components/privateRoute/PrivateRoute';
 import { NewTask } from './modules/newTask/NewTask';
 import { Ranking } from './modules/ranking/Ranking';
 import { Circle } from './modules/circle/Circle';
+import { EditTaskPage } from './modules/editTaskPage/EditTaskPage';
 
 const ROUTES = [
   {
@@ -34,6 +35,10 @@ const ROUTES = [
   {
     path: '/ranking',
     element: <Ranking />,
+  },
+  {
+    path: '/edit',
+    element: <EditTaskPage/>,
   },
 ];
 
