@@ -3,14 +3,14 @@
     top: 50px;
     height: 796px;
     width: 100vw;
-    background-color: red;
+    
 
     .photo_button{
         position: relative;
         top: 0;
         height: 220px;
         box-sizing: border-box;
-        background-color: yellow;
+        
     
         .photo{
             position: absolute;
@@ -29,14 +29,12 @@
             position: absolute;
             top: 98px;
             left: 180px;
-            background-color: green;
             width: 200px;
         }
         
     }
 
     .data{
-        background-color: aqua;
         height: 425px;
         
         .data__name{
@@ -49,12 +47,24 @@
         }
 
         .data__password{
-            
+            height: 64px;
+            position: absolute;
+            top: 320px;
+            left: 30px;
         }
 
         .data__repeat__password{
-
+            height: 64px;
+            position: absolute;
+            top: 420px;
+            left: 30px;
         }
+        
+    }
+
+    .round__button{
+        position: absolute;
+        right: 33px;
         
     }
 
