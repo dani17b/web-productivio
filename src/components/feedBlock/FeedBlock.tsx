@@ -31,7 +31,7 @@ export const FeedBlock = (feedProps: FeedBlockProps) => {
     comments,
     createdAt,
     onClick,
-    likedByMe
+    // likedByMe
   } = feedProps;
 
   const date = new Date(createdAt);
@@ -61,7 +61,7 @@ export const FeedBlock = (feedProps: FeedBlockProps) => {
       </div>
       <div className="interactions">
         <div className="interactions__likes">
-          <Likes totalLikes={totalLikes} likedByMe={likedByMe}/>
+          <Likes totalLikes={totalLikes} />
         </div>
         <div className="interactions__comments">
           <Comments

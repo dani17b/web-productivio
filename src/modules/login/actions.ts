@@ -19,15 +19,16 @@ export const login = (credentials: LoginProps): any => {
 
     axios
       .request({
-        url: '/login',
-        method: 'POST',
+        //url: '/login',
+        //method: 'POST',
+        url: '/users',
+        method: 'GET',
         baseURL: SERVER_BASE_URL,
         data: credentials,
       })
       .then((response) => {
-        const userInfo = response.data;
+        const userInfo = response.data[0];
 
-        debugger;
         dispatch({
           type: LOGIN_RESPONSE,
           userInfo,
