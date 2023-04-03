@@ -1,4 +1,4 @@
-import { Header, NavBar, Podium, TopFiveUser, TopOne } from 'lib-productivio';
+import { Header, Podium, TopFiveUser, TopOne } from 'lib-productivio';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getRanking, postRanking, RankingProps } from './actions';

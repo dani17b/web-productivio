@@ -9,6 +9,7 @@ import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
 import { NewTask } from './modules/newTask/NewTask';
 import { Ranking } from './modules/ranking/Ranking';
+import { NotFound } from './modules/notFound/NotFound';
 
 const ROUTES = [
   {
@@ -32,6 +33,10 @@ const ROUTES = [
   {
     path: '/ranking',
     element: <Ranking />,
+  },
+  {
+    path: '/*',
+    element: <NotFound />,
   },
 ];
 
