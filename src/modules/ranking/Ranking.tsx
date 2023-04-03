@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getRanking, postRanking, RankingProps } from './actions';
 import './ranking.scss';
+import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
 
 const maxPodium = 3;
 const minList = 4;
@@ -71,7 +72,11 @@ export const Ranking = () => {
             />
           </div>
         ))}
-      <div><br /><br /><br /></div>
+      <div>
+        <br />
+        <br />
+        <br />
+      </div>
       {ranking.loading && <div>Cargando...</div>}
 
       {
@@ -87,8 +92,7 @@ export const Ranking = () => {
           </button>
         </div>
       }
-
-      <NavBar />
+      <WebNavBar />
     </div>
   );
 };
