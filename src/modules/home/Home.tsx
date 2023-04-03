@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Header, NavBar, Loading } from 'lib-productivio';
+import { Header, NavBar } from 'lib-productivio';
 import { getPosts } from './actions';
 import { useDispatch } from 'react-redux';
 import { FeedBlock } from 'src/components/feedBlock/FeedBlock';
@@ -50,7 +50,7 @@ export const Home = () => {
       )}
       {loading && (
         <div className='home__loading'>
-          <Loading autoplay={true} loop={true}/>
+          {/* <Loading autoplay={true} loop={true}/> */}
         </div>
       )}
     </div>
