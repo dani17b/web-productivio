@@ -1,0 +1,53 @@
+.new-team{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: darkblue;
+    font-size: 20px;
+    &__header{
+        width: 100vw;
+    }
+
+    &__form{
+
+        padding-bottom: 85px;
+        margin-top: 50px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &__title{
+         
+            width: 70%;
+            box-sizing: border-box;
+            margin-top: 25px;
+            font-size: 28px;
+            text-align: center;
+            text-decoration: underline;
+        }
+
+        &__fields{
+        
+        }
+
+        &__input{
+            margin-top: 25px;
+        }
+
+        &__select{
+            margin-top: 25px;
+        }
+
+        &__button{
+            margin-top: 15px;
+        }
+    }
+}
+
+.users-assigned-list{
+    margin-top: 5px;
+    width: 350px;
+    border: 1px solid darkblue;
+}

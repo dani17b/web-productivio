@@ -15,6 +15,7 @@ import { Circle } from './modules/circle/Circle';
 import { NotFound } from './modules/notFound/NotFound';
 import { EditTaskPage } from './modules/editTaskPage/EditTaskPage';
 
+import { NewTeam } from './modules/newTeam/NewTeam';
 
 const ROUTES = [
   {
@@ -52,6 +53,10 @@ const ROUTES = [
     path: '/edit',
     element: <EditTaskPage />,
   },
+  {
+    path: '/team',
+    element: <NewTeam />
+  }
 ];
 
 function App() {
