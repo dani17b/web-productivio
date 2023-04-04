@@ -15,7 +15,7 @@ import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
 export const NewTeam = () => {
   const dispatch = useDispatch();
   const [assignedUsers, setAssignedUsers] = useState<any[]>([]);
-  const { usersData, loading } = useSelector((state: any) => state.usersFetch);
+  const { usersData} = useSelector((state: any) => state.usersFetch);
   const [team, setTeam] = useState<TeamProps>({
     name: '',
     description: '',
@@ -114,8 +114,6 @@ export const NewTeam = () => {
                       e.target.parentElement.children[1].textContent
                   )
                 );
-                console.log(e.target.parentElement.children[1].textContent);
-                console.log(assignedUsers);
               }}
             />
           </div>
@@ -139,4 +137,3 @@ export const NewTeam = () => {
     </div>
   );
 };
-
