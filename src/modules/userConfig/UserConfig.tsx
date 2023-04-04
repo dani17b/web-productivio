@@ -4,7 +4,6 @@ import {
   FormButton,
   Header,
   InputWithLabel,
-  NavBar,
   RoundButton,
   UserPhoto,
 } from 'lib-productivio';
@@ -12,6 +11,7 @@ import React from 'react';
 import { editConf, EditProps } from './actions';
 import './userConfig.scss';
 import { useDispatch } from 'react-redux';
+import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
 
 export const UserConfig = () => {
   const dispatch = useDispatch();
@@ -110,7 +110,7 @@ export const UserConfig = () => {
         </div>
       </div>
       <div className="navbar">
-        <NavBar parentBackgroundColor="#1a3891" childBackgroundColor="white" />
+        <WebNavBar/>
       </div>
     </>
   );
