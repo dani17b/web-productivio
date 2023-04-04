@@ -1,10 +1,12 @@
 import { responseToTeamDropdownProps } from './TeamDataMapper';
 import React, { useEffect, useState } from 'react';
 import { Header } from 'src/components/header/Header';
-import { NavBar, SearchBar, TeamDropdown } from 'lib-productivio';
+import { SearchBar, TeamDropdown } from 'lib-productivio';
 import './circle.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { circleFetchAndPost, CircleFetchGetProps } from './actions';
+import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
+
 
 export const Circle = () => {
   const dispatch = useDispatch();
@@ -34,7 +36,7 @@ export const Circle = () => {
   }, []);
 
   const onSearch = (searchTerm: string) => {
-    if (teamsData != null) {
+    if (teamsData) {
       setFilteredTeamsData(
         teamsData.filter((team: any) => {
           return (
@@ -56,7 +58,7 @@ export const Circle = () => {
   }, [teamsData]);
 
   return (
-    <div style={{ width: '100vw' }}>
+    <div className="circle-page" style={{ width: '100vw' }}>
       <Header />
       <SearchBar onSearch={onSearch} />
       {loading && (
@@ -77,7 +79,7 @@ export const Circle = () => {
             />
           );
         })}
-      <NavBar />
+      <WebNavBar />
     </div>
   );
 };

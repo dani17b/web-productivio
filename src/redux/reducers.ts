@@ -3,6 +3,7 @@ import home from '../modules/home/reducer';
 import {circleFetch, circlePost} from 'src/modules/circle/reducer';
 import admin from '../modules/admin/reducer';
 import form from '../modules/newTask/reducer';
+import editConf from '../modules/userConfig/reducer';
 import ranking from 'src/modules/ranking/reducer';
 import {usersFetch, teamPost} from 'src/modules/newTeam/reducer';
 
@@ -11,6 +12,7 @@ export const reducers = {
   home,
   admin,
   form,
+  editConf,
   ranking,
   circleFetch,
   circlePost,
