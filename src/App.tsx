@@ -38,6 +38,8 @@ const ROUTES = [
   {
     path: '/config',
     element: <UserConfig/>,
+  },
+  {
     path: '/ranking',
     element: <Ranking />,
   },
