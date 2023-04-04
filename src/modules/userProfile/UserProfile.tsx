@@ -38,9 +38,9 @@ export const UserProfile = () => {
 
           <div>
             <ProfileProgressBar
-              completed={60}
+              progress={60}
               bgColor="white"
-              completedColor="rgb(105, 228, 222)"
+              progressColor="rgb(105, 228, 222)"
             />
           </div>
 
