@@ -1,3 +1,4 @@
+@import './../../style/vars.scss';
 .user-profile {
   margin-top: 50px;
   width: 100vw;
@@ -11,17 +12,17 @@
 
     &__missions {
       padding: 5px;
-      background-color: darkblue;
+      background-color: $primary-color;
       width: 50%;
     }
 
     &__roadmap {
       padding: 5px;
-      background-color: darkblue;
+      background-color: $primary-color;
       width: 50%;
     }
 
-    &__selected{
+    &__selected {
       background-color: dodgerblue;
     }
   }

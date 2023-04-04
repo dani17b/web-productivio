@@ -2,7 +2,6 @@ import {
   Header,
   ProfileProgressBar,
   UserInfo,
-  NavBar,
   MissionBlock,
 } from 'lib-productivio';
 import { useEffect, useState } from 'react';
@@ -10,6 +9,11 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { getUser, getTasks } from './actions';
 import './userProfile.scss';
+import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
+
+const styles = getComputedStyle(document.documentElement);
+const myColor = { color: styles.getPropertyValue('--userColor') };
+console.log('color', myColor);
 
 export const UserProfile = () => {
   const [showRoadmap, setShowRoadMap] = useState(false);
@@ -23,7 +27,6 @@ export const UserProfile = () => {
     dispatch(getTasks());
   }, []);
 
-  console.log('userc de db', user);
   return (
     <>
       {user && (
@@ -78,7 +81,7 @@ export const UserProfile = () => {
 
           {showRoadmap && <div>ROADMAP</div>}
           <div className="navbar">
-            <NavBar />
+            <WebNavBar />
           </div>
         </div>
       )}
