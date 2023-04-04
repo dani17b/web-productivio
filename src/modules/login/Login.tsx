@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { login, LoginProps } from './actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
 
 export const Login = () => {
   const [form, setForm] = useState<LoginProps>({
@@ -72,6 +73,7 @@ export const Login = () => {
           </div>
         )}
       </div>
+      <WebNavBar />
     </div>
   );
 };
