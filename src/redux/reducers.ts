@@ -1,4 +1,5 @@
 import login from '../modules/login/reducer';
+import {getUser, getTasks} from 'src/modules/userProfile/reducer';
 import home from '../modules/home/reducer';
 import {circleFetch, circlePost} from 'src/modules/circle/reducer';
 import admin from '../modules/admin/reducer';
@@ -11,8 +12,10 @@ export const reducers = {
   home,
   admin,
   form,
+  getTasks,
+  getUser,
   editConf,
   ranking,
   circleFetch,
-  circlePost,
+  circlePost
 };
