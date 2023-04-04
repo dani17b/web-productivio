@@ -1,12 +1,11 @@
 import { responseToTeamDropdownProps } from './TeamDataMapper';
 import React, { useEffect, useState } from 'react';
 import { Header } from 'src/components/header/Header';
-import { SearchBar, TeamDropdown } from 'lib-productivio';
+import { Loading, SearchBar, TeamDropdown } from 'lib-productivio';
 import './circle.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { circleFetchAndPost, CircleFetchGetProps } from './actions';
+import { circleFetch, CircleFetchGetProps } from './actions';
 import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
-
 
 export const Circle = () => {
   const dispatch = useDispatch();
@@ -31,7 +30,7 @@ export const Circle = () => {
   };
 
   useEffect(() => {
-    dispatch(circleFetchAndPost(DEFAULT_PROPS));
+    dispatch(circleFetch(DEFAULT_PROPS));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -63,7 +62,7 @@ export const Circle = () => {
       <SearchBar onSearch={onSearch} />
       {loading && (
         <>
-          <p style={{ textAlign: 'center' }}>Loading...</p>
+          <Loading />
         </>
       )}
       {!loading &&
@@ -71,12 +70,11 @@ export const Circle = () => {
         filteredTeamsData.map((team: any, i: number) => {
           return (
             <TeamDropdown
-              key={`team_${i}`}
+             key={`team_${i}`}
               {...responseToTeamDropdownProps(
                 team,
                 BG_COLOURS[i % BG_COLOURS.length]
-              )}
-            />
+              )}            />
           );
         })}
       <WebNavBar />

@@ -1,12 +1,13 @@
 // @ts-ignore
 import './app.scss';
-import 'lib-productivio/dist/cjs/index.css';
 import React from 'react';
+
 import { Login } from './modules/login/Login';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
+import { UserProfile } from './modules/userProfile/UserProfile';
 import { NewTask } from './modules/newTask/NewTask';
 import { UserConfig } from './modules/userConfig/UserConfig';
 import { Ranking } from './modules/ranking/Ranking';
@@ -33,8 +34,8 @@ const ROUTES = [
   },
   { path: '/circle', element: <Circle /> },
   {
-    path: '/form',
-    element: <NewTask />,
+    path: '/user',
+    element: <UserProfile />,
   },
   {
     path: '/config',

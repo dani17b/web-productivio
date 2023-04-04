@@ -32,7 +32,7 @@ export const Login = () => {
           descripcion :Count : {JSON.stringify(userInfo)}
         </div>
       </div>
-      <div className="login__form">
+      <div className="login__form" data-testid="login-form">
         <div className="login__form__input-block">
           <Input
             type={'text'}
@@ -57,6 +57,7 @@ export const Login = () => {
         </div>
         {!loading && (
           <div
+            data-testid="login-submit"
             className="login__form__input-block"
             onClick={() => {
               // Validar los datos
