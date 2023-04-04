@@ -8,7 +8,10 @@ import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
 import { NewTask } from './modules/newTask/NewTask';
+import { Ranking } from './modules/ranking/Ranking';
 import { Circle } from './modules/circle/Circle';
+import { NotFound } from './modules/notFound/NotFound';
+import { EditTaskPage } from './modules/editTaskPage/EditTaskPage';
 
 const ROUTES = [
   {
@@ -16,19 +19,31 @@ const ROUTES = [
     element: <Login />,
   },
   {
-    path: '/home',
+    path: '/',
     element: <Home />,
-    restrictedTo: ['any'],
+    // restrictedTo: ['any'],
   },
   {
     path: '/admin',
     element: <Admin />,
-    //restrictedTo: ['admin2'],
+    restrictedTo: ['admin'],
   },
   { path: '/circle', element: <Circle /> },
   {
     path: '/form',
     element: <NewTask />,
+  },
+  {
+    path: '/ranking',
+    element: <Ranking />,
+  },
+  {
+    path: '/*',
+    element: <NotFound />,
+  },
+  {
+    path: '/edit',
+    element: <EditTaskPage />,
   },
 ];
 

@@ -34,7 +34,7 @@ export const Circle = () => {
   }, []);
 
   const onSearch = (searchTerm: string) => {
-    if (teamsData != null) {
+    if (teamsData) {
       setFilteredTeamsData(
         teamsData.filter((team: any) => {
           return (
@@ -56,7 +56,7 @@ export const Circle = () => {
   }, [teamsData]);
 
   return (
-    <div style={{ width: '100vw' }}>
+    <div className="circle-page" style={{ width: '100vw' }}>
       <Header />
       <SearchBar onSearch={onSearch} />
       {loading && (
