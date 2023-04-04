@@ -7,6 +7,13 @@ import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
+import { NewTask } from './modules/newTask/NewTask';
+import { UserConfig } from './modules/userConfig/UserConfig';
+import { Ranking } from './modules/ranking/Ranking';
+import { Circle } from './modules/circle/Circle';
+import { NotFound } from './modules/notFound/NotFound';
+import { EditTaskPage } from './modules/editTaskPage/EditTaskPage';
+
 import { UserProfile } from './modules/userProfile/UserProfile';
 
 const ROUTES = [
@@ -15,18 +22,35 @@ const ROUTES = [
     element: <Login />,
   },
   {
-    path: '/home',
+    path: '/',
     element: <Home />,
-    restrictedTo: ['any'],
+    // restrictedTo: ['any'],
   },
   {
     path: '/admin',
     element: <Admin />,
-    //restrictedTo: ['admin2'],
+    restrictedTo: ['admin'],
   },
+  { path: '/circle', element: <Circle /> },
   {
     path: '/user',
     element: <UserProfile />,
+  },
+  {
+    path: '/config',
+    element: <UserConfig/>,
+  },
+  {
+    path: '/ranking',
+    element: <Ranking />,
+  },
+  {
+    path: '/*',
+    element: <NotFound />,
+  },
+  {
+    path: '/edit',
+    element: <EditTaskPage />,
   },
 ];
 

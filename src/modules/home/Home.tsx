@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Header, NavBar } from 'lib-productivio';
+import { Header } from 'lib-productivio';
 import { getPosts } from './actions';
 import { useDispatch } from 'react-redux';
 import { FeedBlock } from 'src/components/feedBlock/FeedBlock';
+import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
 import './home.scss';
 
 export const Home = () => {
@@ -14,16 +15,21 @@ export const Home = () => {
     dispatch(getPosts());
   }, [dispatch]);
 
+  const onClick = () => {
+    console.log('dsdfsdf');
+  };
+
   return (
-    <>
+    <div>
       {!loading && (
-        <div>
-          <div className="header">
+        <div className="home">
+          <div className="home__header">
             <Header count={0} title="Productivio" />
           </div>
-          <div className="home-content">
+          <div className="home__content">
             {posts.map((post: any) => (
               <FeedBlock
+                likedByMe={post.likedByMe}
                 borderColor={post.creatorUser.userColor}
                 description={post.description}
                 imageSrc={post.creatorUser.userPicUrl}
@@ -33,17 +39,20 @@ export const Home = () => {
                 taskProgessBarPercent={post.taskBarProgress}
                 comments={[]}
                 createdAt={post.creationDate}
+                onClick={onClick}
               />
             ))}
           </div>
-          <div className="navbar">
-            <NavBar />
+          <div className="home__navbar">
+            <WebNavBar />
           </div>
         </div>
       )}
       {loading && (
-        <div>{/*TODO: cambiar esto por la animación global*/}cargando</div>
+        <div className="home__loading">
+          {/* <Loading autoplay={true} loop={true}/> */}
+        </div>
       )}
-    </>
+    </div>
   );
 };
