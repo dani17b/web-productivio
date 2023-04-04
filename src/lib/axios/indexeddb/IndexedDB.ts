@@ -68,7 +68,7 @@ export const IndexedDB = {
     const objectStore = transaction.objectStore(name);
     objectStore.put(data);
   },
-  delete : (database: IDBDatabase, name: string, id : number) => {
+  delete: (database: IDBDatabase, name: string, id: number) => {
     const transaction = database.transaction([name], 'readwrite');
     const objectStore = transaction.objectStore(name);
 
@@ -92,36 +92,42 @@ export const IndexedDB = {
       };
     });
   },
-  findByFilters : (database: IDBDatabase, name: string, filters : object) => {
+  findByFilters: (database: IDBDatabase, name: string, filters: object) => {
     return new Promise((resolve, reject) => {
       const transaction = database.transaction([name], 'readonly');
       const objectStore = transaction.objectStore(name);
 
       const getAllRequest = objectStore.getAll();
 
-      const checkFilters = (item : any, filters : any) => {
+      const checkFilters = (item: any, filters: any) => {
         let filterKeys = Object.keys(filters);
-        for(let i = 0; i < filterKeys.length; i++){
+        for (let i = 0; i < filterKeys.length; i++) {
           const filterKey = filterKeys[i];
 
-          if(item[filterKey].toLowerCase().indexOf(filters[filterKey].toLowerCase()) == -1){
+          if (
+            item[filterKey]
+              .toLowerCase()
+              .indexOf(filters[filterKey].toLowerCase()) == -1
+          ) {
             return false;
           }
         }
-        
+
         return true;
-      } 
+      };
 
       getAllRequest.onsuccess = function (event: any) {
         let lastId = null;
         if (event.target && event.target.result) {
-          resolve(event.target.result.filter((resultItem : any) => {
-            return checkFilters(resultItem, filters);
-          }));
+          resolve(
+            event.target.result.filter((resultItem: any) => {
+              return checkFilters(resultItem, filters);
+            })
+          );
         }
 
         resolve(lastId);
       };
     });
-  }
+  },
 };

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { login, LoginProps } from './actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
 
 export const Login = () => {
   const [form, setForm] = useState<LoginProps>({
@@ -18,7 +19,7 @@ export const Login = () => {
 
   useEffect(() => {
     if (userInfo != null) {
-      navigate('/home');
+      navigate('/');
     }
   }, [userInfo, navigate]);
 
@@ -31,7 +32,7 @@ export const Login = () => {
           descripcion :Count : {JSON.stringify(userInfo)}
         </div>
       </div>
-      <div className="login__form">
+      <div className="login__form" data-testid="login-form">
         <div className="login__form__input-block">
           <Input
             type={'text'}
@@ -56,6 +57,7 @@ export const Login = () => {
         </div>
         {!loading && (
           <div
+            data-testid="login-submit"
             className="login__form__input-block"
             onClick={() => {
               // Validar los datos
@@ -71,6 +73,7 @@ export const Login = () => {
           </div>
         )}
       </div>
+      <WebNavBar />
     </div>
   );
 };
