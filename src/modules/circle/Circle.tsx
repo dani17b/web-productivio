@@ -1,10 +1,11 @@
 import { responseToTeamDropdownProps } from './TeamDataMapper';
 import React, { useEffect, useState } from 'react';
 import { Header } from 'src/components/header/Header';
-import { Loading, NavBar, SearchBar, TeamDropdown } from 'lib-productivio';
+import { Loading, SearchBar, TeamDropdown } from 'lib-productivio';
 import './circle.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { circleFetch, CircleFetchGetProps } from './actions';
+import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
 
 export const Circle = () => {
   const dispatch = useDispatch();
@@ -76,7 +77,7 @@ export const Circle = () => {
               )}            />
           );
         })}
-      <NavBar />
+      <WebNavBar />
     </div>
   );
 };

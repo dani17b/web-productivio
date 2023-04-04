@@ -8,10 +8,12 @@ import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
 import { NewTask } from './modules/newTask/NewTask';
+import { UserConfig } from './modules/userConfig/UserConfig';
 import { Ranking } from './modules/ranking/Ranking';
 import { Circle } from './modules/circle/Circle';
 import { NotFound } from './modules/notFound/NotFound';
 import { EditTaskPage } from './modules/editTaskPage/EditTaskPage';
+
 
 const ROUTES = [
   {
@@ -32,6 +34,10 @@ const ROUTES = [
   {
     path: '/form',
     element: <NewTask />,
+  },
+  {
+    path: '/config',
+    element: <UserConfig/>,
   },
   {
     path: '/ranking',
