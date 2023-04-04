@@ -279,6 +279,27 @@
           "content": {
             "type": "string",
             "example": "Great work! Can't wait to try it out."
+          },
+          "likes": {
+            "type": "integer",
+            "example": 4
+          },
+          "userPicUrl": {
+            "type": "string",
+            "example": "https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos.jpg"
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-03-23T10:30:00Z"
+          },
+          "username": {
+            "type": "string",
+            "example": "Fulano33"
+          },
+          "userColor": {
+            "type": "string",
+            "example": "red"
           }
         }
       },
@@ -291,7 +312,7 @@
           },
           "content": {
             "type": "string",
-            "example": "Great work! Can't wait to try it out."
+            "example": "Great work! Cant wait to try it out."
           }
         }
       },

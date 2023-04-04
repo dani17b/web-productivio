@@ -5,18 +5,22 @@ import { getPosts } from './actions';
 import { useDispatch } from 'react-redux';
 import { FeedBlock } from 'src/components/feedBlock/FeedBlock';
 import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
+import { useNavigate } from 'react-router';
+
 import './home.scss';
 
 export const Home = () => {
   const dispatch = useDispatch();
   const { posts, loading } = useSelector((state: any) => state.home);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     dispatch(getPosts());
   }, [dispatch]);
 
-  const onClick = () => {
-    console.log('dsdfsdf');
+  const onShowCommentsClick = () => {
+    navigate('/homeComments');
   };
 
   return (
@@ -37,9 +41,8 @@ export const Home = () => {
                 totalLikes={post.likes}
                 key={post.id}
                 taskProgessBarPercent={post.taskBarProgress}
-                comments={[]}
                 createdAt={post.creationDate}
-                onClick={onClick}
+                onShowCommentsClick={onShowCommentsClick}
               />
             ))}
           </div>

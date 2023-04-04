@@ -1,8 +1,15 @@
-import { GET_POSTS_REQUEST, GET_POSTS_RESPONSE } from './actions';
+import { 
+  GET_POSTS_REQUEST, 
+  GET_POSTS_RESPONSE, 
+  GET_COMMENTS_REQUEST, 
+  GET_COMMENTS_RESPONSE 
+} from './actions';
 
 const initialState = {
   loading: false,
   posts: [],
+  comments: [],
+  users: [],
 };
 
 const home = (state = initialState, action: any) => {
@@ -18,6 +25,18 @@ const home = (state = initialState, action: any) => {
         ...state,
         loading: false,
         posts: action.posts,
+      };
+    case GET_COMMENTS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        comments: [],
+      };
+    case GET_COMMENTS_RESPONSE:
+      return {
+        ...state,
+        loading: false,
+        comments: action.comments,
       };
     default:
       return state;

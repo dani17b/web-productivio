@@ -5,6 +5,7 @@ import React from 'react';
 import { Login } from './modules/login/Login';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { Home } from './modules/home/Home';
+import { HomeComments } from './modules/homeComments/HomeComments';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
 import { NewTask } from './modules/newTask/NewTask';
@@ -23,6 +24,11 @@ const ROUTES = [
   {
     path: '/',
     element: <Home />,
+    // restrictedTo: ['any'],
+  },
+  {
+    path: '/homeComments',
+    element: <HomeComments />,
     // restrictedTo: ['any'],
   },
   {
