@@ -7,6 +7,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { RoadmapParent } from 'src/components/roadmapParent/RoadmapParent';
 import { getUser, getTasks } from './actions';
 import './userProfile.scss';
 import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
@@ -79,7 +80,7 @@ export const UserProfile = () => {
             </div>
           )}
 
-          {showRoadmap && <div>ROADMAP</div>}
+          {showRoadmap && <div>{<RoadmapParent tasks={tasks}></RoadmapParent>}</div>}
           <div className="navbar">
             <WebNavBar />
           </div>

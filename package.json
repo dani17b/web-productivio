@@ -28,7 +28,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "test": "react-scripts test",
+    "test": "craco test --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

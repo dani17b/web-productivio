@@ -6,16 +6,19 @@ import admin from '../modules/admin/reducer';
 import form from '../modules/newTask/reducer';
 import editConf from '../modules/userConfig/reducer';
 import ranking from 'src/modules/ranking/reducer';
+import {usersFetch, teamPost} from 'src/modules/newTeam/reducer';
 
 export const reducers = {
   login,
   home,
   admin,
   form,
+  getTasks,
+  getUser,
   editConf,
   ranking,
   circleFetch,
   circlePost,
-  getTasks,
-  getUser,
+  usersFetch,
+  teamPost
 };
