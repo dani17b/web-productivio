@@ -1,12 +1,11 @@
 @import 'lib-productivio/src/components/style/vars.scss';
 
 .block {
-  margin-bottom: 10px;
 
   .feedblock {
     display: flex;
-    width: 95%;
-    margin: 7px;
+    width: 100%;
+    margin: 6px;
     position: relative;
 
     &__user-photo {
@@ -31,7 +30,7 @@
 
       &__bar {
         margin: 10px;
-        width: 190px;
+        width: 80%;
       }
     }
 
@@ -40,16 +39,16 @@
       margin-left: 80%;
       font-size: 12px;
       max-width: fit-content;
+      top: 8px;
     }
   }
 
   .interactions {
     display: flex;
-    margin: 10px;
 
     &__likes {
       margin-right: 10px;
-      margin-left: 10px;
+      margin-left: 0px;
     }
   }
 }
