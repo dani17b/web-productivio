@@ -2,7 +2,6 @@ import {
   FormButton,
   Header,
   InputWithLabel,
-  NavBar,
   SelectMenu,
   UserListChild,
 } from 'lib-productivio';
@@ -11,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { TeamProps, teamPost, usersFetch } from './actions';
+import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
 
 export const NewTeam = () => {
   const dispatch = useDispatch();
@@ -123,7 +123,9 @@ export const NewTeam = () => {
 
         <div className="new-team__form__button">
           <FormButton
-            onClick={() => {dispatch(teamPost(team))}}
+            onClick={() => {
+              dispatch(teamPost(team));
+            }}
             buttonText="Guardar"
             buttonWidth={300}
           />
@@ -133,24 +135,8 @@ export const NewTeam = () => {
         </div>
       </div>
 
-      <NavBar />
+      <WebNavBar />
     </div>
   );
 };
 
-// function handleSelect(e: any){
-//   let user = usersData.find(
-//     (user: { name: string }) => user.name == e
-//   );
-//   if (user !== undefined) {
-//     let newUser = {
-//       username: user.name,
-//       userImg: user.userPicUrl,
-//       userColor: user.userColor,
-//     };
-//     setAssignedUsers((assignedUsers) => [
-//       ...assignedUsers,
-//       newUser,
-//     ]);
-//   }
-// }
