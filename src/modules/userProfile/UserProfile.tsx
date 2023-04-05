@@ -80,7 +80,11 @@ export const UserProfile = () => {
             </div>
           )}
 
-          {showRoadmap && <div>{<RoadmapParent tasks={tasks}></RoadmapParent>}</div>}
+          {showRoadmap && (
+            <div className="">
+              {<RoadmapParent tasks={tasks}></RoadmapParent>}
+            </div>
+          )}
           <div className="navbar">
             <WebNavBar />
           </div>

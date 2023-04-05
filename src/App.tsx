@@ -7,15 +7,13 @@ import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { Home } from './modules/home/Home';
 import { Admin } from './modules/admin/Admin';
 import { PrivateRoute } from './components/privateRoute/PrivateRoute';
-import { UserProfile } from './modules/userProfile/UserProfile';
 import { NewTask } from './modules/newTask/NewTask';
 import { UserConfig } from './modules/userConfig/UserConfig';
 import { Ranking } from './modules/ranking/Ranking';
 import { Circle } from './modules/circle/Circle';
 import { NotFound } from './modules/notFound/NotFound';
 import { EditTaskPage } from './modules/editTaskPage/EditTaskPage';
-
-import { NewTeam } from './modules/newTeam/NewTeam';
+import { UserProfile } from './modules/userProfile/UserProfile';
 
 const ROUTES = [
   {
@@ -39,7 +37,7 @@ const ROUTES = [
   },
   {
     path: '/config',
-    element: <UserConfig/>,
+    element: <UserConfig />,
   },
   {
     path: '/ranking',
@@ -53,10 +51,6 @@ const ROUTES = [
     path: '/edit',
     element: <EditTaskPage />,
   },
-  {
-    path: '/team',
-    element: <NewTeam />
-  }
 ];
 
 function App() {
