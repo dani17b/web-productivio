@@ -8,15 +8,14 @@ import {
 } from './actions';
 
 const initialState = {
-  posts: [],
   comments: [],
   loadingPosts: false,
   loadingComments: false,
-  postId: 0,
+  postId: null,
 };
 
 
-export const reducer = (state = initialState, action: any) => {
+const homeComments = (state = initialState, action: any) => {
   switch (action.type) {
     case GET_POSTS_REQUEST:
       return {
@@ -55,3 +54,4 @@ export const reducer = (state = initialState, action: any) => {
       return state;
   }
 };
+export default homeComments;

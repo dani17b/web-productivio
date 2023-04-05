@@ -1,29 +1,30 @@
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { getComments } from './actions';
 import { Header } from 'lib-productivio';
 import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
 import { FeedCommentsBlock } from 'src/components/feedCommentsBlock/FeedCommentsBlock';
 import './homeComments.scss';
+import { FeedBlock } from 'src/components/feedBlock/FeedBlock';
 
 export const HomeComments = () => {
   const commentProps = {
     name: 'John Doe',
-    imageSrc: 'https://album.mediaset.es/eimg/2023/03/05/lluvia-de-memes-tras-el-podio-conseguido-por-fernando-alonso-en-barein_ef74.jpg?w=1200&h=900',
+    imageSrc:
+      'https://album.mediaset.es/eimg/2023/03/05/lluvia-de-memes-tras-el-podio-conseguido-por-fernando-alonso-en-barein_ef74.jpg?w=1200&h=900',
     inputText: '',
   };
 
-  const visualCommentsProps = [
-    {
-      imageSrc: 'https://album.mediaset.es/eimg/2023/03/05/lluvia-de-memes-tras-el-podio-conseguido-por-fernando-alonso-en-barein_ef74.jpg?w=1200&h=900',
-      photoBorderColor: 'red',
-      username: 'Jane Smith',
-      comment: 'Lorem ipsum dolor sit amet.',
-    },
-    {
-      imageSrc: 'https://album.mediaset.es/eimg/2023/03/05/lluvia-de-memes-tras-el-podio-conseguido-por-fernando-alonso-en-barein_ef74.jpg?w=1200&h=900',
-      photoBorderColor: 'blue',
-      username: 'Bob Johnson',
-      comment: 'Consectetur adipiscing elit.',
-    },
-  ];
+  const postNumber = 0;
+  const number = 1;
+  const dispatch = useDispatch();
+  const { comments, posts } = useSelector((state: any) => state.homeComments) || {};
+  
+
+  useEffect(() => {
+    dispatch(getComments(number));
+  }, [dispatch]);
 
   const handlePostClick = () => {
     console.log('Post clicked!');
@@ -33,13 +34,29 @@ export const HomeComments = () => {
     <div>
       <div className="home">
         <div className="home__header">
-          <Header count={0} title="Productivio" />
+          <Header count={5} title="Productivio" />
+        </div>
+
+        <div className="home__content">
+          {posts.length > 0 && (
+            <FeedBlock
+              likedByMe={posts[postNumber].likedByMe}
+              borderColor={posts[postNumber].creatorUser.userColor}
+              description={posts[postNumber].description}
+              imageSrc={posts[postNumber].creatorUser.userPicUrl}
+              username={posts[postNumber].creatorUser.name}
+              totalLikes={posts[postNumber].likes}
+              key={posts[postNumber].id}
+              taskProgessBarPercent={posts[postNumber].taskBarProgress}
+              createdAt={posts[postNumber].creationDate}
+            />
+          )}
         </div>
 
         <div className="home__comments">
           <FeedCommentsBlock
             commentProps={commentProps}
-            visualCommentsProps={visualCommentsProps}
+            visualCommentsProps={comments}
             onPostClick={handlePostClick}
           />
         </div>

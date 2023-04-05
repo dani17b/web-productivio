@@ -8,32 +8,32 @@ interface CommentProps {
   inputText: string;
 }
 
-interface VisualCommentsProps {
-  imageSrc: string;
-  photoBorderColor: string;
-  username: string;
-  comment: string;
-}
-
 export const FeedCommentsBlock = ({
   commentProps,
   visualCommentsProps,
   onPostClick,
 }: {
   commentProps: CommentProps;
-  visualCommentsProps: VisualCommentsProps[];
+  visualCommentsProps: any[];
   onPostClick: () => void;
 }) => {
+  
   return (
     <div className="comments-container">
       <div className="postComment">
         <PostComment commentProps={commentProps} onClick={onPostClick} />
       </div>
-      {visualCommentsProps && visualCommentsProps.map((visualCommentProps, index) => (
-        <div className="visualComment" key={index}>
-          <VisualComments commentProps={visualCommentProps} />
-        </div>
-      ))}
+      {visualCommentsProps &&
+        visualCommentsProps.map((comments, index) => (
+          <div className="visualComment" key={index}>
+            <VisualComments
+              comment={comments.content}
+              imageSrc={comments.userPicUrl}
+              username={comments.username}
+              photoBorderColor={comments.userColor}
+            />
+          </div>
+        ))}
     </div>
   );
 };

@@ -78,7 +78,6 @@ export const getComments = (postId: number): any => {
         method: 'GET',
         baseURL: SERVER_BASE_URL,
       })
-
       .then((response) => {
         const comments = response.data;
         

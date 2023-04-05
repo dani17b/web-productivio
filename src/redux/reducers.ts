@@ -5,6 +5,7 @@ import admin from '../modules/admin/reducer';
 import form from '../modules/newTask/reducer';
 import editConf from '../modules/userConfig/reducer';
 import ranking from 'src/modules/ranking/reducer';
+import homeComments from 'src/modules/homeComments/reducer';
 
 export const reducers = {
   login,
@@ -15,4 +16,5 @@ export const reducers = {
   ranking,
   circleFetch,
   circlePost,
+  homeComments
 };

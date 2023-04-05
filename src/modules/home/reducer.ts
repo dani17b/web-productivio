@@ -1,8 +1,6 @@
 import { 
   GET_POSTS_REQUEST, 
   GET_POSTS_RESPONSE, 
-  GET_COMMENTS_REQUEST, 
-  GET_COMMENTS_RESPONSE 
 } from './actions';
 
 const initialState = {
@@ -25,18 +23,6 @@ const home = (state = initialState, action: any) => {
         ...state,
         loading: false,
         posts: action.posts,
-      };
-    case GET_COMMENTS_REQUEST:
-      return {
-        ...state,
-        loading: true,
-        comments: [],
-      };
-    case GET_COMMENTS_RESPONSE:
-      return {
-        ...state,
-        loading: false,
-        comments: action.comments,
       };
     default:
       return state;
