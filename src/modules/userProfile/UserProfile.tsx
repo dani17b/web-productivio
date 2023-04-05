@@ -9,8 +9,8 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RoadmapParent } from 'src/components/roadmapParent/RoadmapParent';
 import { getUser, getTasks } from './actions';
-import './userProfile.scss';
 import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
+import './userProfile.scss';
 
 const styles = getComputedStyle(document.documentElement);
 const myColor = { color: styles.getPropertyValue('--userColor') };
