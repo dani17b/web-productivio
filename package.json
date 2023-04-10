@@ -31,12 +31,8 @@
     "build": "craco build",
     "test": "craco test",
     "test-ci": "craco test --coverage --silent --watchAll=false",
-    "eject": "react-scripts eject"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn test-ci"
-    }
+    "eject": "react-scripts eject",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
