@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const WebNavBar = () => {
-  const links = ['/', '/circle', '/form', '/ranking', '/user'];
+  const links = ['/', '/circle', '/newtask', '/ranking', '/user'];
   const navigate = useNavigate();
 
   const onClickFunctions = links.map((link) => {

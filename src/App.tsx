@@ -51,6 +51,14 @@ const ROUTES = [
     path: '/edit',
     element: <EditTaskPage />,
   },
+  {
+    path: '/team',
+    element: <NewTeam />
+  },
+  {
+    path: '/newtask',
+    element: <NewTask />
+  }
 ];
 
 function App() {
