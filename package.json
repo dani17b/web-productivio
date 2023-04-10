@@ -54,6 +54,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0",
-    "craco-alias": "^3.0.1"
+    "craco-alias": "^3.0.1",
+    "jest-canvas-mock": "^2.5.0"
   }
 }

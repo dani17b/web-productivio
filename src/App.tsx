@@ -56,6 +56,10 @@ const ROUTES = [
   {
     path: '/team',
     element: <NewTeam />
+  },
+  {
+    path: '/newtask',
+    element: <NewTask />
   }
 ];
 
