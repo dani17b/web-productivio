@@ -1,4 +1,4 @@
-import { NavBar } from 'lib-productivio';
+//import { NavBar } from 'lib-productivio';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,5 +13,5 @@ export const WebNavBar = () => {
     };
   });
 
-  return <NavBar onClickFunctions={onClickFunctions} />;
+  return <div>Nav</div>;
 };
