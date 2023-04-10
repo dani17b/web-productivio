@@ -70,11 +70,12 @@ export const Circle = () => {
         filteredTeamsData.map((team: any, i: number) => {
           return (
             <TeamDropdown
-             key={`team_${i}`}
+              key={`team_${i}`}
               {...responseToTeamDropdownProps(
                 team,
                 BG_COLOURS[i % BG_COLOURS.length]
-              )}            />
+              )}
+            />
           );
         })}
       <WebNavBar />
