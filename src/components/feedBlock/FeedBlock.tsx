@@ -50,7 +50,7 @@ export const FeedBlock = (feedProps: FeedBlockProps) => {
           <div className="feedblock__content__username" data-testid="username">{username}</div>
           <div className="feedblock__content__description" data-testid="user-description">{description}</div>
           {showProgressBar() && (
-            <div className="feedblock__content__bar">
+            <div className="feedblock__content__bar" data-testid="progress-bar">
               <TaskProgressBar percentage={taskProgessBarPercent} />
             </div>
           )}
