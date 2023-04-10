@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { getComments } from './actions';
-import { Header } from 'lib-productivio';
+import { Header, Loading } from 'lib-productivio';
 import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
 import { FeedCommentsBlock } from 'src/components/feedCommentsBlock/FeedCommentsBlock';
 import './homeComments.scss';
@@ -19,8 +19,8 @@ export const HomeComments = () => {
   const postNumber = 0;
   const number = 1;
   const dispatch = useDispatch();
-  const { comments, posts } = useSelector((state: any) => state.homeComments) || {};
-  
+  const { comments, posts, loadingComments } =
+    useSelector((state: any) => state.homeComments) || {};
 
   useEffect(() => {
     dispatch(getComments(number));
@@ -32,12 +32,12 @@ export const HomeComments = () => {
 
   return (
     <div>
-      <div className="home">
-        <div className="home__header">
+      <div className="home-comments">
+        <div className="home-comments__header">
           <Header count={5} title="Productivio" />
         </div>
 
-        <div className="home__content">
+        <div className="home-comments__content">
           {posts.length > 0 && (
             <FeedBlock
               likedByMe={posts[postNumber].likedByMe}
@@ -53,21 +53,23 @@ export const HomeComments = () => {
           )}
         </div>
 
-        <div className="home__comments">
-          <FeedCommentsBlock
-            commentProps={commentProps}
-            visualCommentsProps={comments}
-            onPostClick={handlePostClick}
-          />
-        </div>
+        {!loadingComments && (
+          <div className="home-comments__comments">
+            <FeedCommentsBlock
+              commentProps={commentProps}
+              visualCommentsProps={comments}
+              onPostClick={handlePostClick}
+            />
+          </div>
+        )}
 
-        <div className="home__navbar">
+        <div className="home-comments__navbar">
           <WebNavBar />
         </div>
       </div>
 
-      <div className="home__loading">
-        {/* <Loading autoplay={true} loop={true}/> */}
+      <div className="home-comments__loading">
+        {loadingComments && <Loading autoplay={true} loop={true} />}
       </div>
     </div>
   );

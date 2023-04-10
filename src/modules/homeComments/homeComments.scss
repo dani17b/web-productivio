@@ -1,4 +1,32 @@
-.home {
+.home-comments {
+  display: flex;
+  flex-direction: column;
+  
+  &comments {
+
+  }
+
+  &__content {
+
+  }
+  
+  &__header {
+
+  }
+
+  &__loading{
+
+  }
+
+  &__navbar {
+
+  }
+
+
+
+}
+
+/*.home {
     display: flex;
     flex-direction: column;
 
@@ -59,4 +87,4 @@
     &__comment {
       flex: 1;
     }
-  } 
+  } */
