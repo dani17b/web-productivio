@@ -9,16 +9,16 @@ export const TASK_RESPONSE = 'TASK_RESPONSE';
 
 //TODO hacer un mapper para user
 
-export const UserMapper = (response: any) => {
-  let data = response.data;
+export const UserMapper = (data: any) => {
   return {
-    usernanme: data.name,
+    username: data.name,
     userImg: data.userPicUrl,
     description: data.description,
     contactsNumber: data.friends,
     //TODO cambiar esto por el calculado
     level: 6,
-    currentTask: data.activeTasks,
+    mision: 3,
+    currentTasks: 4,
     userColor: data.userColor,
     totalPoints: data.userPoints,
   };
@@ -38,7 +38,8 @@ export const getUser = (): any => {
         baseURL: SERVER_BASE_URL,
       })
       .then((response) => {
-        const user = UserMapper(response);
+        console.log('data', response.data);
+        const user = UserMapper(response.data[0].creatorUser);
         dispatch({
           type: USER_RESPONSE,
           user,

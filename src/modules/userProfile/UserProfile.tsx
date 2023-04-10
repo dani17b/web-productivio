@@ -2,7 +2,6 @@ import {
   Header,
   ProfileProgressBar,
   UserInfo,
-  NavBar,
   MissionBlock,
 } from 'lib-productivio';
 import { useEffect, useState } from 'react';
@@ -10,7 +9,12 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RoadmapParent } from 'src/components/roadmapParent/RoadmapParent';
 import { getUser, getTasks } from './actions';
+import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
 import './userProfile.scss';
+
+const styles = getComputedStyle(document.documentElement);
+const myColor = { color: styles.getPropertyValue('--userColor') };
+console.log('color', myColor);
 
 export const UserProfile = () => {
   const [showRoadmap, setShowRoadMap] = useState(false);
@@ -24,7 +28,6 @@ export const UserProfile = () => {
     dispatch(getTasks());
   }, []);
 
-  console.log('userc de db', user);
   return (
     <>
       {user && (
@@ -41,6 +44,8 @@ export const UserProfile = () => {
               progress={60}
               bgColor="white"
               progressColor="rgb(105, 228, 222)"
+              level={user.level}
+              points={user.totalPoints}
             />
           </div>
 
@@ -75,9 +80,13 @@ export const UserProfile = () => {
             </div>
           )}
 
-          {showRoadmap && <div>{<RoadmapParent tasks={tasks}></RoadmapParent>}</div>}
+          {showRoadmap && (
+            <div className="">
+              {<RoadmapParent tasks={tasks}></RoadmapParent>}
+            </div>
+          )}
           <div className="navbar">
-            <NavBar />
+            <WebNavBar />
           </div>
         </div>
       )}
