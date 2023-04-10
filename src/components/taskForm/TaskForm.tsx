@@ -5,10 +5,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { form, FormProps, fetchGroups } from 'src/modules/newTask/actions';
 import { useNavigate } from 'react-router-dom';
-import {
-  DateSelect,
-  SelectMenu,
-} from 'lib-productivio';
+import { DateSelect, SelectMenu } from 'lib-productivio';
 import { useSelector } from 'react-redux';
 
 export const TaskForm = () => {
@@ -39,36 +36,40 @@ export const TaskForm = () => {
   return (
     <div>
       <div className="text-fields">
-        <InputWithLabel
-          label="Nombre"
-          height={31}
-          width={346}
-          name="name"
-          textColor="#1A3891"
-          borderColor="#1A3891"
-          fontSize={16}
-          onChange={(value: any) => {
-            setData({
-              ...data,
-              name: value,
-            });
-          }}
-        />
-        <InputWithLabel
-          label="Descripción"
-          height={100}
-          width={346}
-          name="description"
-          textColor="#1A3891"
-          borderColor="#1A3891"
-          fontSize={16}
-          onChange={(value: any) => {
-            setData({
-              ...data,
-              description: value,
-            });
-          }}
-        />
+        <div className="input-label">
+          <InputWithLabel
+            label="Nombre"
+            height={31}
+            width={346}
+            name="name"
+            textColor="#1A3891"
+            borderColor="#1A3891"
+            fontSize={16}
+            onChange={(value: any) => {
+              setData({
+                ...data,
+                name: value,
+              });
+            }}
+          />
+        </div>
+        <div className="input-label">
+          <InputWithLabel
+            label="Descripción"
+            height={100}
+            width={346}
+            name="description"
+            textColor="#1A3891"
+            borderColor="#1A3891"
+            fontSize={16}
+            onChange={(value: any) => {
+              setData({
+                ...data,
+                description: value,
+              });
+            }}
+          />
+        </div>
         <div className="wrapper">
           <DateSelect label="Selecciona fecha" color="#1A3891" />
           <div className="select-menu">
@@ -86,21 +87,23 @@ export const TaskForm = () => {
             />
           </div>
         </div>
-        <InputWithLabel
-          label="Asignar"
-          height={31}
-          width={346}
-          name="assign"
-          textColor="#1A3891"
-          borderColor="#1A3891"
-          fontSize={16}
-          onChange={(value: any) => {
-            setData({
-              ...data,
-              asign: value,
-            });
-          }}
-        />
+        <div className="input-label">
+          <InputWithLabel
+            label="Asignar"
+            height={31}
+            width={346}
+            name="assign"
+            textColor="#1A3891"
+            borderColor="#1A3891"
+            fontSize={16}
+            onChange={(value: any) => {
+              setData({
+                ...data,
+                asign: value,
+              });
+            }}
+          />
+        </div>
         <div className="select-group">
           <SelectMenu
             options={getTeamName()}
