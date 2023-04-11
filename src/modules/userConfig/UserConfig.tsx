@@ -25,12 +25,12 @@ export const UserConfig = () => {
 
   return (
     <>
-      <div className="header">
+      <div className="header" data-testid="userConfig-header">
         <Header count={1} title={'Productivio'} />
       </div>
-      <div className="container">
+      <div className="container" data-testid="userConfig-container">
         <div className="photo_button">
-          <div className="photo">
+          <div className="photo" data-testid="user-photo">
             <UserPhoto
               imageSrc="https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos.jpg"
               borderColor="blue"
