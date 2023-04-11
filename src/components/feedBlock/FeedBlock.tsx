@@ -44,13 +44,13 @@ export const FeedBlock = (feedProps: FeedBlockProps) => {
     <div className="block">
       <div className="feedblock">
         <div className="feedblock__user-photo">
-          <UserPhoto imageSrc={imageSrc} borderColor={borderColor} />
+          <UserPhoto imageSrc={imageSrc} borderColor={borderColor}/>
         </div>
         <div className="feedblock__content">
-          <div className="feedblock__content__username">{username}</div>
-          <div className="feedblock__content__description">{description}</div>
+          <div className="feedblock__content__username" data-testid="username">{username}</div>
+          <div className="feedblock__content__description" data-testid="user-description">{description}</div>
           {showProgressBar() && (
-            <div className="feedblock__content__bar">
+            <div className="feedblock__content__bar" data-testid="progress-bar">
               <TaskProgressBar percentage={taskProgessBarPercent} />
             </div>
           )}
@@ -60,10 +60,10 @@ export const FeedBlock = (feedProps: FeedBlockProps) => {
         </div>
       </div>
       <div className="interactions">
-        <div className="interactions__likes">
+        <div className="interactions__likes" data-testid="user-likes">
           <Likes likedByMe={likedByMe} totalLikes={totalLikes} />
         </div>
-        <div className="interactions__comments">
+        <div className="interactions__comments" data-testid="user-comments">
           <Comments
             commentProps={{
               name: username,
