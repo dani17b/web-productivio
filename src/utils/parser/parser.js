@@ -59,3 +59,98 @@ function parseJSXTree(jsxString) {
     children,
   };
 }
+
+
+export function parseJsonToTsx(json){
+  let result = '';
+
+  const components = json.json.components;
+  components.map((component) => {
+    console.log(component);
+  // let name = component.name;
+  // let dom = component.dom;
+  console.log(component.dom);
+ 
+  result += createTsxDom(component.dom);
+  })
+
+  return result;
+}
+
+// TODO agregar atributos¿?
+function createTsxDom(domJson){
+  console.log("Segunda funcion" , domJson);
+  const {type, children} = domJson;
+  let text = ''
+  children.map((child) => {
+    if (child.dom){
+      createTsxDom(child.dom);
+    }else if(child.text){
+      text = child.text;
+    }   
+  });
+
+  return `<${type}>${text}</${type}>`
+}
+
+// import React from 'react';
+
+// const Div = ({ children, className }) => {
+//   return <div className={className}>{children}</div>;
+// };
+
+// const H1 = ({ children }) => {
+//   return <h1>{children}</h1>;
+// };
+
+// const P = ({ children }) => {
+//   return <p>{children}</p>;
+// };
+// const json = {...} // el JSON de ejemplo
+
+const createReactElement = (element) => {
+   const { tag, attributes, children, text } = element;
+
+   if (text) {
+    return text;
+  }
+
+  const Component = COMPONENT_MAP[tag];
+
+  if (Component) {
+    return (
+      <Component {...attributes}>
+        {children && children.map(createReactElement)}
+      </Component>
+    );
+  }
+
+  return null;
+};
+
+// const COMPONENT_MAP = {
+//   div: Div,
+//   h1: H1,
+//   p: P,
+// };
+
+// const App = () => {
+//   const reactElements = json.children.map(createReactElement);
+//   return <>{reactElements}</>;
+// };
+// {
+//   "tag": "div",
+//   "attributes": {
+//     "class": "container"
+//   },
+//   "children": [
+//     {
+//       "tag": "h1",
+//       "text": "Hola mundo"
+//     },
+//     {
+//       "tag": "p",
+//       "text": "Este es un ejemplo de cómo convertir un JSON de elementos HTML a componentes de React"
+//     }
+//   ]
+// }

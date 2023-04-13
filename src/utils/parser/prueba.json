@@ -5,12 +5,20 @@
       "name": "Prueba",
       "dom": {
         "type": "div",
+
         "children": [
           {
             "dom": {
-              "type": "textNode",
-              "text": "Hola mundo!"
+              "type": "b",
+              "children": [
+                {
+                  "text" : "Caracola"
+                }
+              ]
             }
+          },
+          {
+            "text": "Hola mundo!"
           }
         ]
       }

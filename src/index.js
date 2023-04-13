@@ -9,7 +9,7 @@ import configureAppStore from './redux/configureStore';
 import 'lib-productivio/dist/cjs/index.css';
 import { IndexedDB } from './lib/axios/indexeddb/IndexedDB';
 import apiDefinitionYml from './config/api.json';
-import { reactToJson, parseCode } from './utils/parser/parser';
+import { reactToJson, parseJsonToTsx, parseCode } from './utils/parser/parser';
 
 const store = configureAppStore({});
 
@@ -36,5 +36,22 @@ export const Prueba = () => {
   )
 }`;
 
-console.log(reactToJson(react));
-console.log(parseCode(react));
+const json = {
+  "imports": [],
+  "components": [
+    {
+      "name": "Prueba",
+      "dom": {
+        "type": "div",
+
+        "children": [
+          {
+            "text": "Hola mundo!"
+          }
+        ]
+      }
+    }
+  ]
+}
+
+console.log("Esto es HTML :D", parseJsonToTsx({json}));
