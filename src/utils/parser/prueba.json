@@ -1,14 +1,19 @@
 {
-  "component": {
-    "name": "Prueba",
-    "elements": [
-      {
+  "imports": [],
+  "components": [
+    {
+      "name": "Prueba",
+      "dom": {
         "type": "div",
-        "children": {
-          "type": "textNode",
-          "text": "Hola mundo!"
-        }
+        "children": [
+          {
+            "dom": {
+              "type": "textNode",
+              "text": "Hola mundo!"
+            }
+          }
+        ]
       }
-    ]
-  }
+    }
+  ]
 }
