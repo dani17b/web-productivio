@@ -66,11 +66,6 @@ export function parseJsonToTsx(json){
 
   const components = json.json.components;
   components.map((component) => {
-    console.log(component);
-  // let name = component.name;
-  // let dom = component.dom;
-  console.log(component.dom);
- 
   result += createTsxDom(component.dom);
   })
 
@@ -79,18 +74,22 @@ export function parseJsonToTsx(json){
 
 // TODO agregar atributos¿?
 function createTsxDom(domJson){
-  console.log("Segunda funcion" , domJson);
   const {type, children} = domJson;
-  let text = ''
+  let result = `<${type}>`;
+  debugger;
   children.map((child) => {
-    if (child.dom){
-      createTsxDom(child.dom);
+    console.log("CHILDOM", child.dom)
+    if (child.dom != null){
+      debugger;
+      result += createTsxDom(child.dom);
     }else if(child.text){
-      text = child.text;
+      result += child.text;
     }   
   });
 
-  return `<${type}>${text}</${type}>`
+  result +=  `</${type}>`;
+
+  return result;
 }
 
 // import React from 'react';

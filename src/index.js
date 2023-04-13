@@ -46,6 +46,26 @@ const json = {
 
         "children": [
           {
+            "dom": {
+              "type": "div",
+              "children": [
+                {
+                  "text" : "Caracola"
+                }, 
+                {
+                  "dom": {
+                    "type": "b",
+                    "children": [
+                      {
+                        "text" : "Caracola"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
             "text": "Hola mundo!"
           }
         ]
