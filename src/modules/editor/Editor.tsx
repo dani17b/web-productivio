@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getFiles } from './actions';
 import { useSelector } from 'react-redux';
+import { ComponentsList } from './components/ComponentList';
 
 const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -42,7 +43,7 @@ const MovableItem = () => {
 
   return (
     <div ref={drag} className="movable-item" style={{ opacity }}>
-      We will move this item
+      <ComponentsList />
     </div>
   );
 };
