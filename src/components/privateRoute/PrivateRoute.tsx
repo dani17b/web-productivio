@@ -30,7 +30,7 @@ export const PrivateRoute = (props: PrivateRouteProps) => {
   const userHasRole = hasRole(roles, userInfo ? userInfo.roles : []);
 
   if (userHasRole) {
-    return <div>{children}</div>;
+    return children;
   }
 
   return <div>No tienes permiso para ver esta pagina</div>;
