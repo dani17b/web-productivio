@@ -1,0 +1,14 @@
+{
+  "component": {
+    "name": "Prueba",
+    "elements": [
+      {
+        "type": "div",
+        "children": {
+          "type": "textNode",
+          "text": "Hola mundo!"
+        }
+      }
+    ]
+  }
+}
