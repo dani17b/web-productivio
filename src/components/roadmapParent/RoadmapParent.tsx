@@ -24,7 +24,7 @@ export const RoadmapParent = (taskList: RoadmapParentProps) => {
       new Date(a.endDate).getTime() - new Date(b.endDate).getTime()
   );
 
-  let fullRoadMap: JSX.Element[] = [];
+  let fullRoadMap: any[] = [];
   let totalPoints = 0;
   let level = 1;
 

@@ -16,8 +16,13 @@ import { NotFound } from './modules/notFound/NotFound';
 import { EditTaskPage } from './modules/editTaskPage/EditTaskPage';
 
 import { NewTeam } from './modules/newTeam/NewTeam';
+import { Editor } from './modules/editor/Editor';
 
 const ROUTES = [
+  {
+    path: '/',
+    element: <Editor />,
+  },
   {
     path: '/login',
     element: <Login />,
@@ -39,7 +44,7 @@ const ROUTES = [
   },
   {
     path: '/config',
-    element: <UserConfig/>,
+    element: <UserConfig />,
   },
   {
     path: '/ranking',
@@ -55,12 +60,12 @@ const ROUTES = [
   },
   {
     path: '/team',
-    element: <NewTeam />
+    element: <NewTeam />,
   },
   {
     path: '/newtask',
-    element: <NewTask />
-  }
+    element: <NewTask />,
+  },
 ];
 
 function App() {
