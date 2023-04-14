@@ -43,30 +43,28 @@ const json = {
       "name": "Prueba",
       "dom": {
         "type": "div",
-
+        "attributes": [
+        ],
         "children": [
           {
             "dom": {
               "type": "div",
+              "attributes": [
+                {
+                  "key": "className",
+                  "value": "prueba"
+                }
+              ],
               "children": [
+               
                 {
-                  "text" : "Caracola"
-                }, 
-                {
-                  "dom": {
-                    "type": "b",
-                    "children": [
-                      {
-                        "text" : "Caracola"
-                      }
-                    ]
-                  }
+                  "text": "Hola mundo!"
                 }
               ]
             }
           },
           {
-            "text": "Hola mundo!"
+            "text" : "que quereis que ponga¿?¿"
           }
         ]
       }

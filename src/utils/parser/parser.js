@@ -60,34 +60,35 @@ function parseJSXTree(jsxString) {
   };
 }
 
-
-export function parseJsonToTsx(json){
+export function parseJsonToTsx(json) {
   let result = '';
-
   const components = json.json.components;
   components.map((component) => {
-  result += createTsxDom(component.dom);
-  })
+    result += createTsxDom(component.dom);
+  });
 
   return result;
 }
 
 // TODO agregar atributos¿?
-function createTsxDom(domJson){
-  const {type, children} = domJson;
-  let result = `<${type}>`;
-  debugger;
+function createTsxDom(domJson) {
+  const { type, children, attributes } = domJson;
+  let result = `<${type}`;
+  attributes.map((attribute) => {
+    result+= ` ${attribute.key} = ${attribute.value}`
+  })
+
+  result += '>';
+
   children.map((child) => {
-    console.log("CHILDOM", child.dom)
-    if (child.dom != null){
-      debugger;
+    if (child.dom != null) {
       result += createTsxDom(child.dom);
-    }else if(child.text){
+    } else if (child.text) {
       result += child.text;
-    }   
+    }
   });
 
-  result +=  `</${type}>`;
+  result += `</${type}>`;
 
   return result;
 }
@@ -108,9 +109,9 @@ function createTsxDom(domJson){
 // const json = {...} // el JSON de ejemplo
 
 const createReactElement = (element) => {
-   const { tag, attributes, children, text } = element;
+  const { tag, attributes, children, text } = element;
 
-   if (text) {
+  if (text) {
     return text;
   }
 
