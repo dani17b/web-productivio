@@ -1,1 +1,31 @@
-// Tab's scss
+.tab-container {
+  //   background-color: rgb(255, 184, 255);
+  width: 40vw;
+  position: relative;
+
+  &__label {
+    background-color: #a2b7f1;
+    width: 90px;
+    position: absolute;
+    right: 0px;
+    padding: 5px;
+    border-radius: 5px;
+
+    &__x {
+      position: absolute;
+      height: 24px;
+      right: 8px;
+      top: 0px;
+      padding: 3px;
+      font-size: 14pt;
+    }
+  }
+
+  &__content {
+    background-color: coral;
+    width: 40vw;
+    height: 95vh;
+    position: absolute;
+    top: 30px;
+  }
+}

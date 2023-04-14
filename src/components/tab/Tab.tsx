@@ -9,7 +9,7 @@ interface TabProps {
   /**
    * Module placed inside that particular tab
    */
-  tabContent: React.ReactNode;
+  tabContent: string /*React.ReactNode*/;
 }
 
 export const Tab = (props: TabProps) => {
@@ -26,7 +26,7 @@ export const Tab = (props: TabProps) => {
       return (
         <div className="tab-container__label" id={getUniqueId()}>
           {tabLabel}
-          <div className="tab-container__label-x" /*onClick={}*/>x</div>
+          <div className="tab-container__label__x" /*onClick={}*/>x</div>
         </div>
       );
     }
@@ -37,7 +37,7 @@ export const Tab = (props: TabProps) => {
   return (
     <div className="tab-container">
       {getTabLabel()}
-      <div className="tab-container__content"></div>
+      <div className="tab-container__content">Hola soy el contenido</div>
     </div>
   );
 };
