@@ -4,7 +4,10 @@ import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { parse, buildJsx } from '../../lib/tsx-builder';
 import { InfoPanel } from './components/infoPanel/InfoPanel';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { getFiles } from './actions';
+import { useSelector } from 'react-redux';
 
 const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -46,6 +49,21 @@ const MovableItem = () => {
 
 export const Editor = () => {
   const [selectedElement, setSelectedElement] = useState(null);
+
+  const dispatch = useDispatch();
+
+  const { files } = useSelector((state) => state.editor);
+
+  useEffect(() => {
+    dispatch(getFiles('C:\\workspace\\dev\\web-productivio'));
+  }, []);
+
+  useEffect(() => {
+    if (files.length > 0) {
+      // TODO cargar el componente en si, que sera el que se muestre en el editor abierto
+      //debugger;
+    }
+  }, [files]);
 
   const componentDef = parse(`export const ScreenSample = () => {
         return (

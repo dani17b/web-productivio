@@ -7,6 +7,7 @@ import form from '../modules/newTask/reducer';
 import editConf from '../modules/userConfig/reducer';
 import ranking from 'src/modules/ranking/reducer';
 import {usersFetch, teamPost} from 'src/modules/newTeam/reducer';
+import editor from '../modules/editor/reducer';
 
 export const reducers = {
   login,
@@ -20,5 +21,6 @@ export const reducers = {
   circleFetch,
   circlePost,
   usersFetch,
-  teamPost
+  teamPost,
+  editor
 };

@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
+const { getFiles } = require('./utils/FileUtils');
 
 const app = express();
 app.use(cors());
@@ -18,6 +20,15 @@ const getMock = (method, url) => {
 
   return mockData;
 }
+
+app.get('/project', (req, res) => {
+  
+  // Leer el path pasado como parametro y devolver una respuesta
+  const files = getFiles(path.join(req.query.path, 'src'), 'modules');
+
+  res.header('Content-Type', 'application/json');
+  res.end(JSON.stringify(files));
+})
 
 app.all('*', (req, res) => {
   const mockData = getMock(req.method.toLowerCase(), req.originalUrl);
