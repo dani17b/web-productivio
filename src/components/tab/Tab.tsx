@@ -1,30 +1,42 @@
+import uuid from 'react-uuid';
 import './tab.scss';
 
 interface TabProps {
   /**
-   * Tab's id (auto-generated)
-   */
-  tabId: number;
-  /**
-   * Tab's name. Initially the component's name
+   * Tab's name. Initially the module's name
    */
   tabLabel: string;
   /**
-   * Component placed inside that particular tab
+   * Module placed inside that particular tab
    */
   tabContent: React.ReactNode;
 }
 
-// TODO autogenerate tab ID
-
-// TODO function that dinamically creates tabs as they're dragged to the middle section
-
 export const Tab = (props: TabProps) => {
-  const { tabId, tabLabel, tabContent } = props;
+  const { tabLabel, tabContent } = props;
+
+  const getUniqueId = () => {
+    if (tabLabel) {
+      return uuid();
+    }
+  };
+
+  const getTabLabel = () => {
+    if (tabLabel && tabContent) {
+      return (
+        <div className="tab-container__label" id={getUniqueId()}>
+          {tabLabel}
+          <div className="tab-container__label-x" /*onClick={}*/>x</div>
+        </div>
+      );
+    }
+  };
+
+  // TODO function that dinamically creates tabs as they're dragged to the middle section
 
   return (
     <div className="tab-container">
-      <div className="tab-container__label"></div>
+      {getTabLabel()}
       <div className="tab-container__content"></div>
     </div>
   );
