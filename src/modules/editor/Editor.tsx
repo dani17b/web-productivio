@@ -8,15 +8,10 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getFiles } from './actions';
 import { useSelector } from 'react-redux';
-//import { Component1 } from './components/componentsPrueba/Component1';
-//import { Component2 } from './components/componentsPrueba/Component2';
-import { FaReact } from 'react-icons/fa';
-import { IoLogoJavascript, IoLogoHtml5, IoLogoCss3 } from 'react-icons/io';
-import { Input, Likes, TopOne, UserPhoto } from 'lib-productivio';
+import { ComponentsList } from './components/componentList/ComponentList';
 
 
-
-const Column = ({ children, className, title }) => {
+export const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: 'TYPE',
     drop: () => ({ name: 'Some name' }),
@@ -36,7 +31,8 @@ const Column = ({ children, className, title }) => {
   );
 };
 
-const MovableItem = ({ children }) => {
+
+export const MovableItem = ({ children }) => {
   const [{ isDragging }, drag] = useDrag({
     item: { name: 'Any custom name' },
     type: 'TYPE',
@@ -51,46 +47,6 @@ const MovableItem = ({ children }) => {
     <div ref={drag} className="movable-item" style={{ opacity }}>
       {children}
     </div>
-  );
-};
-const ComponentsList = () => {
-  const libraries = {
-    React: [
-      { name: 'React', icon: <FaReact /> },
-      { name: 'React Router', icon: '🚀' },
-      { name: 'Material UI', icon: '🎨' }
-    ],
-    JavaScript: [
-      { name: 'JavaScript', icon: <IoLogoJavascript /> },
-      { name: 'React Native', icon: '📱' },
-      { name: 'Node.js', icon: '🚀' }
-    ],
-    HTML_CSS: [
-      { name: 'HTML5', icon: <IoLogoHtml5 /> },
-      { name: 'CSS3', icon: <IoLogoCss3 /> },
-      { name: 'Bootstrap', icon: '👢' }
-    ],
-    Productivio: [
-      {name: 'Input' , icon: <Input/>},
-      {name: 'UserPhoto' , icon: <UserPhoto/>},
-      {name: 'Likes' , icon: <Likes/>},
-      {name: 'TopOne' , icon: <TopOne/>},
-
-    ]
-
-  };
-
-  return (
-    <>
-      {Object.entries(libraries).map(([libraryName, components], index) => (
-        <Column key={index}>
-          <h2>{libraryName}</h2>
-          {components.map((component, index) => (
-            <MovableItem key={index}>{component.name}{component.icon}</MovableItem>
-          ))}
-        </Column>
-      ))}
-    </>
   );
 };
 
