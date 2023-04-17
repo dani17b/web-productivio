@@ -8,7 +8,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getFiles } from './actions';
 import { useSelector } from 'react-redux';
-import { ComponentsList } from './components/ComponentList';
+import { Component1 } from './components/componentsPrueba/Component1';
+import { Component2 } from './components/componentsPrueba/Component2';
 
 const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -30,7 +31,7 @@ const Column = ({ children, className, title }) => {
   );
 };
 
-const MovableItem = () => {
+const MovableItem = ({ children }) => {
   const [{ isDragging }, drag] = useDrag({
     item: { name: 'Any custom name' },
     type: 'TYPE',
@@ -43,8 +44,22 @@ const MovableItem = () => {
 
   return (
     <div ref={drag} className="movable-item" style={{ opacity }}>
-      <ComponentsList />
+      {children}
     </div>
+  );
+};
+
+const ComponentsList = () => {
+  const components = [Component1, Component2, 'Componente 3', 'Componente 4'];
+
+  return (
+    <>
+      {components.map((component, index) => (
+        <Column key={index}>
+          <MovableItem>{component}</MovableItem>
+        </Column>
+      ))}
+    </>
   );
 };
 
@@ -82,7 +97,7 @@ export const Editor = () => {
         <div className="editor__components">
           Selector de elementos
           <Column>
-            <MovableItem />
+            <ComponentsList />
           </Column>
         </div>
         <Column className="editor__canvas">
