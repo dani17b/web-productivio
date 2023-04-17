@@ -1,4 +1,5 @@
 // @ts-nocheck
+import './componentList.scss';
 import { FaReact } from 'react-icons/fa';
 import { IoLogoJavascript, IoLogoHtml5, IoLogoCss3 } from 'react-icons/io';
 import { Column, MovableItem } from '../../Editor';
@@ -41,7 +42,7 @@ export const ComponentsList = () => {
     ],
   };
   return (
-    <>
+    <div className='component-list-container'>
       {Object.entries(libraries).map(([libraryName, components], index) => (
         <>
           <Column key={index}>
@@ -55,6 +56,6 @@ export const ComponentsList = () => {
           </Column>
         </>
       ))}
-    </>
+    </div>
   );
 };
