@@ -47,47 +47,6 @@ const MovableItem = ({ children }) => {
     </div>
   );
 };
-const ComponentsList = () => {
-  const libraries = {
-    React: [
-      { name: 'React', icon: <FaReact /> },
-      { name: 'React Router', icon: '🚀' },
-      { name: 'Material UI', icon: '🎨' }
-    ],
-    JavaScript: [
-      { name: 'JavaScript', icon: <IoLogoJavascript /> },
-      { name: 'React Native', icon: '📱' },
-      { name: 'Node.js', icon: '🚀' }
-    ],
-    HTML_CSS: [
-      { name: 'HTML5', icon: <IoLogoHtml5 /> },
-      { name: 'CSS3', icon: <IoLogoCss3 /> },
-      { name: 'Bootstrap', icon: '👢' }
-    ],
-    Productivio: [
-      {name: 'Input' , icon: <Input/>},
-      {name: 'UserPhoto' , icon: <UserPhoto/>},
-      {name: 'Likes' , icon: <Likes/>},
-      {name: 'TopOne' , icon: <TopOne/>},
-
-    ]
-
-  };
-
-  return (
-    <>
-      {Object.entries(libraries).map(([libraryName, components], index) => (
-        <Column key={index}>
-          <h2>{libraryName}</h2>
-          {components.map((component, index) => (
-            <MovableItem key={index}>{component.name}{component.icon}</MovableItem>
-          ))}
-        </Column>
-      ))}
-    </>
-  );
-};
-
 
 const getComponentNames = (componentsData) => {
   return Object.values(componentsData).map((componentData) => componentData.displayName);
