@@ -55,15 +55,28 @@ export const Editor = () => {
   const { files } = useSelector((state) => state.editor);
 
   useEffect(() => {
-    dispatch(getFiles('C:\\workspace\\dev\\web-productivio'));
+    dispatch(
+      getFiles(
+        'C:\\Users\\enrique.jimenez\\Documents\\formaciónDani\\productivio\\web-productivio'
+      )
+    );
   }, []);
+
+  const [componentCode, setComponentCode] = useState(null);
 
   useEffect(() => {
     if (files.length > 0) {
-      // TODO cargar el componente en si, que sera el que se muestre en el editor abierto
-      //debugger;
+      const componentFile = files[0].files.find(file => file === "Admin.tsx");
+      if (componentFile) {
+        fetch(`/${files[0].path}/${componentFile}`)
+          .then(response => response.text())
+          .then(code => setComponentCode(code))
+          .catch(error => console.log(error));
+      }
     }
   }, [files]);
+  
+  console.log(componentCode);
 
   const componentDef = parse(`export const ScreenSample = () => {
         return (
