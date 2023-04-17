@@ -1,5 +1,7 @@
-//TYPES
+// Esta versión de eslint tiene un bug para typescript: dice que DomElementType no se utiliza.
+/* eslint-disable */
 
+//TYPES
 type DomElement = {
   name: string;
   type: DomElementType;
@@ -22,7 +24,6 @@ type TagObj = {
 };
 
 //FUNCTIONS
-
 function stringToStringArray(code: string): string[] {
   const arr: string[] = [];
   let tempStr = '';
@@ -105,10 +106,8 @@ function elementArrayToNestedJson(elementArray: DomElement[]): TagObj {
   return result;
 }
 
-export function parse(input: string): string {
-  return JSON.stringify(
-    elementArrayToNestedJson(
-      stringArrayToElementArray(stringToStringArray(input))
-    )
+export function parse(input: string): TagObj {
+  return elementArrayToNestedJson(
+    stringArrayToElementArray(stringToStringArray(input))
   );
 }
