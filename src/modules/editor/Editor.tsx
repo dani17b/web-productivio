@@ -10,7 +10,10 @@ import { getFiles } from './actions';
 import { useSelector } from 'react-redux';
 //import { Component1 } from './components/componentsPrueba/Component1';
 //import { Component2 } from './components/componentsPrueba/Component2';
-import { FaReact, FaCode, FaPen } from 'react-icons/fa';
+import { FaReact } from 'react-icons/fa';
+import { IoLogoJavascript, IoLogoHtml5, IoLogoCss3 } from 'react-icons/io';
+import { Input, Likes, TopOne, UserPhoto } from 'lib-productivio';
+
 
 
 const Column = ({ children, className, title }) => {
@@ -51,17 +54,40 @@ const MovableItem = ({ children }) => {
   );
 };
 const ComponentsList = () => {
-  const components = [
-    { name: 'React', icon: <FaReact /> },
-    { name: 'Code', icon: <FaCode /> },
-    { name: 'Pen', icon: <FaPen /> }
-  ];
+  const libraries = {
+    React: [
+      { name: 'React', icon: <FaReact /> },
+      { name: 'React Router', icon: '🚀' },
+      { name: 'Material UI', icon: '🎨' }
+    ],
+    JavaScript: [
+      { name: 'JavaScript', icon: <IoLogoJavascript /> },
+      { name: 'React Native', icon: '📱' },
+      { name: 'Node.js', icon: '🚀' }
+    ],
+    HTML_CSS: [
+      { name: 'HTML5', icon: <IoLogoHtml5 /> },
+      { name: 'CSS3', icon: <IoLogoCss3 /> },
+      { name: 'Bootstrap', icon: '👢' }
+    ],
+    Productivio: [
+      {name: 'Input' , icon: <Input/>},
+      {name: 'UserPhoto' , icon: <UserPhoto/>},
+      {name: 'Likes' , icon: <Likes/>},
+      {name: 'TopOne' , icon: <TopOne/>},
+
+    ]
+
+  };
 
   return (
     <>
-      {components.map((component, index) => (
+      {Object.entries(libraries).map(([libraryName, components], index) => (
         <Column key={index}>
-          <MovableItem>{component.icon}{component.name}</MovableItem>
+          <h2>{libraryName}</h2>
+          {components.map((component, index) => (
+            <MovableItem key={index}>{component.name}{component.icon}</MovableItem>
+          ))}
         </Column>
       ))}
     </>
@@ -100,7 +126,6 @@ export const Editor = () => {
     <DndProvider backend={HTML5Backend}>
       <div className="editor">
         <div className="editor__components">
-          Selector de elementos
           <Column>
             <ComponentsList />
           </Column>
