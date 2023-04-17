@@ -1,0 +1,20 @@
+.tab-container {
+  display: flex;
+  flex-direction: column;
+
+  .tab-container__tab-row {
+    border-bottom: 1px solid gray;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .tab-container__label {
+    text-transform: uppercase;
+  }
+
+  .tab-container__tab-content {
+    padding: 1rem;
+  }
+}
