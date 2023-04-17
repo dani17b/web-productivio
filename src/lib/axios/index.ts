@@ -159,6 +159,11 @@ export default {
   request: (requestConfig: AxiosRequestConfig) => {
     const { url, method, data } = requestConfig;
 
+    if(1 === parseInt('1')){
+      const axios = require('axios-original').default;
+      return axios.request(requestConfig);
+    }
+
     return new Promise((resolve, reject) => {
       let interpolatedResponse = getSampleResponse(url, method, data);
       const ignoredToStore = AXIOS_MOCK_CONFIG.ignoreStore;

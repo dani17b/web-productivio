@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-noCheck
 import './editor.scss';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -47,6 +47,46 @@ const MovableItem = ({ children }) => {
     </div>
   );
 };
+const ComponentsList = () => {
+  const libraries = {
+    React: [
+      { name: 'React', icon: <FaReact /> },
+      { name: 'React Router', icon: '🚀' },
+      { name: 'Material UI', icon: '🎨' }
+    ],
+    JavaScript: [
+      { name: 'JavaScript', icon: <IoLogoJavascript /> },
+      { name: 'React Native', icon: '📱' },
+      { name: 'Node.js', icon: '🚀' }
+    ],
+    HTML_CSS: [
+      { name: 'HTML5', icon: <IoLogoHtml5 /> },
+      { name: 'CSS3', icon: <IoLogoCss3 /> },
+      { name: 'Bootstrap', icon: '👢' }
+    ],
+    Productivio: [
+      {name: 'Input' , icon: <Input/>},
+      {name: 'UserPhoto' , icon: <UserPhoto/>},
+      {name: 'Likes' , icon: <Likes/>},
+      {name: 'TopOne' , icon: <TopOne/>},
+
+    ]
+
+  };
+
+  return (
+    <>
+      {Object.entries(libraries).map(([libraryName, components], index) => (
+        <Column key={index}>
+          <h2>{libraryName}</h2>
+          {components.map((component, index) => (
+            <MovableItem key={index}>{component.name}{component.icon}</MovableItem>
+          ))}
+        </Column>
+      ))}
+    </>
+  );
+};
 
 
 const getComponentNames = (componentsData) => {
@@ -77,7 +117,7 @@ export const Editor = () => {
 
   useEffect(() => {
     dispatch(getFiles('C:\\workspace\\dev\\web-productivio'));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (files.length > 0) {
@@ -100,7 +140,6 @@ export const Editor = () => {
     <DndProvider backend={HTML5Backend}>
       <div className="editor">
         <div className="editor__components">
-          Selector de elementos
           <Column>
             <ComponentsList />
           </Column>
