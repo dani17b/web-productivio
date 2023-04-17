@@ -1,6 +1,7 @@
 .tab-container {
   display: flex;
   flex-direction: column;
+  width: 50vw;
 
   .tab-container__tab-row {
     border-bottom: 1px solid gray;

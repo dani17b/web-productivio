@@ -16,12 +16,16 @@ interface TabProps {
 }
 
 export const TabComponent = (props: TabProps) => {
-  // const { tabLabel, tabContent } = props;
-  const [tabIndex, setTabIndex] = useState(1);
+  const { tabLabel, tabContent } = props;
+  const [tabIndex, setTabIndex] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
   };
+
+  //TODO lógica para crear dinámicamente las pestañas una vez sepamos cómo nos van a pasar la info
+
+  //TODO creación dinámica de tabIndexes linkeados al nuevo tab que se cree
 
   return (
     <div className="tab-container">
@@ -31,11 +35,11 @@ export const TabComponent = (props: TabProps) => {
           value={tabIndex}
           onChange={handleChange}
         >
-          <Tab label="Prueba 1" value="0" />
+          <Tab label={tabLabel} value="0" />
           <Tab label="Prueba 2" value="1" />
         </Tabs>
         <div className="tab-container__tab-content">
-          <TabPanel value="0">Contenido de prueba 1</TabPanel>
+          <TabPanel value="0">{tabContent}</TabPanel>
           <TabPanel value="1">Contenido de prueba 2</TabPanel>
         </div>
       </TabContext>
