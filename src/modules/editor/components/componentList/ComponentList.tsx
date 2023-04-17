@@ -15,22 +15,13 @@ export const ComponentsList = () => {
   const componetsNames = getComponentNames(componentsData);
 
   const libraries = {
-    React: [
+    Example_Lib: [
       { name: 'React', icon: <FaReact /> },
-      { name: 'React Router', icon: '🚀' },
-      { name: 'Material UI', icon: '🎨' },
-    ],
-    JavaScript: [
       { name: 'JavaScript', icon: <IoLogoJavascript /> },
-      { name: 'React Native', icon: '📱' },
-      { name: 'Node.js', icon: '🚀' },
-    ],
-    HTML_CSS: [
       { name: 'HTML5', icon: <IoLogoHtml5 /> },
       { name: 'CSS3', icon: <IoLogoCss3 /> },
-      { name: 'Bootstrap', icon: '👢' },
     ],
-
+ 
     Productivio: [
       {
         name: componetsNames.map((componentName, index) => (
