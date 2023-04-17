@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-noCheck
 import './editor.scss';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -8,8 +8,10 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getFiles } from './actions';
 import { useSelector } from 'react-redux';
-import { Component1 } from './components/componentsPrueba/Component1';
-import { Component2 } from './components/componentsPrueba/Component2';
+//import { Component1 } from './components/componentsPrueba/Component1';
+//import { Component2 } from './components/componentsPrueba/Component2';
+import { FaReact, FaCode, FaPen } from 'react-icons/fa';
+
 
 const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -48,15 +50,18 @@ const MovableItem = ({ children }) => {
     </div>
   );
 };
-
 const ComponentsList = () => {
-  const components = [Component1, Component2, 'Componente 3', 'Componente 4'];
+  const components = [
+    { name: 'React', icon: <FaReact /> },
+    { name: 'Code', icon: <FaCode /> },
+    { name: 'Pen', icon: <FaPen /> }
+  ];
 
   return (
     <>
       {components.map((component, index) => (
         <Column key={index}>
-          <MovableItem>{component}</MovableItem>
+          <MovableItem>{component.icon}{component.name}</MovableItem>
         </Column>
       ))}
     </>
@@ -72,7 +77,7 @@ export const Editor = () => {
 
   useEffect(() => {
     dispatch(getFiles('C:\\workspace\\dev\\web-productivio'));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (files.length > 0) {
