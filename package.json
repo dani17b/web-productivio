@@ -35,7 +35,9 @@
     "test": "craco test",
     "test-ci": "craco test --coverage --silent --watchAll=false",
     "eject": "react-scripts eject",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "generate-component-docs": "react-docgen \"../lib-productivio/src/components\" --pretty --extension tsx --out my-project-components.json"
+
   },
   "eslintConfig": {
     "extends": [
@@ -58,6 +60,7 @@
   "devDependencies": {
     "@craco/craco": "^7.1.0",
     "craco-alias": "^3.0.1",
-    "jest-canvas-mock": "2.5.0"
+    "jest-canvas-mock": "2.5.0",
+    "react-docgen": "^5.4.3"
   }
 }

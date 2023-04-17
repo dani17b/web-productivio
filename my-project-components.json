@@ -1,0 +1,1035 @@
+{
+  "..\\lib-productivio\\src\\components\\badge\\Badge.tsx": {
+    "description": "",
+    "displayName": "Badge",
+    "methods": [],
+    "props": {
+      "label": {
+        "required": true,
+        "tsType": {
+          "name": "string"
+        },
+        "description": "Label to render into badge"
+      },
+      "showAny": {
+        "required": true,
+        "tsType": {
+          "name": "boolean"
+        },
+        "description": "Example"
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\comments\\Comments.tsx": {
+    "description": "",
+    "displayName": "Comments",
+    "methods": [],
+    "props": {
+      "commentProps": {
+        "required": true,
+        "tsType": {
+          "name": "CommentProps"
+        },
+        "description": ""
+      },
+      "visualCommentsProps": {
+        "required": true,
+        "tsType": {
+          "name": "Array",
+          "elements": [
+            {
+              "name": "VisualCommentsProps"
+            }
+          ],
+          "raw": "VisualCommentsProps[]"
+        },
+        "description": ""
+      },
+      "onPostClick": {
+        "required": true,
+        "tsType": {
+          "name": "signature",
+          "type": "function",
+          "raw": "() => void",
+          "signature": {
+            "arguments": [],
+            "return": {
+              "name": "void"
+            }
+          }
+        },
+        "description": ""
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\dateSelect\\DateSelect.tsx": {
+    "description": "",
+    "displayName": "DateSelect",
+    "methods": [],
+    "props": {
+      "label": {
+        "required": true,
+        "tsType": {
+          "name": "string"
+        },
+        "description": "Text for the label"
+      },
+      "color": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": "Label text color"
+      },
+      "fontSize": {
+        "required": false,
+        "tsType": {
+          "name": "number"
+        },
+        "description": "Label FontSize"
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\formButton\\FormButton.tsx": {
+    "description": "",
+    "displayName": "FormButton",
+    "methods": [],
+    "props": {
+      "buttonText": {
+        "required": true,
+        "tsType": {
+          "name": "string"
+        },
+        "description": "Text contained in the button (e.g: Save, Delete, Cancel...)"
+      },
+      "fontSize": {
+        "required": false,
+        "tsType": {
+          "name": "number"
+        },
+        "description": "This prop allows font size changes"
+      },
+      "buttonColor": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": "This prop allows you to change the button's color"
+      },
+      "buttonWidth": {
+        "required": false,
+        "tsType": {
+          "name": "number"
+        },
+        "description": "Changes the button's width."
+      },
+      "onClick": {
+        "required": false,
+        "tsType": {
+          "name": "signature",
+          "type": "function",
+          "raw": "() => void",
+          "signature": {
+            "arguments": [],
+            "return": {
+              "name": "void"
+            }
+          }
+        },
+        "description": ""
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\header\\Header.tsx": {
+    "description": "",
+    "displayName": "Header",
+    "methods": [],
+    "props": {
+      "count": {
+        "required": true,
+        "tsType": {
+          "name": "number"
+        },
+        "description": ""
+      },
+      "title": {
+        "required": true,
+        "tsType": {
+          "name": "string"
+        },
+        "description": ""
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\input\\Input.tsx": {
+    "description": "",
+    "displayName": "Input",
+    "methods": [],
+    "props": {
+      "type": {
+        "required": true,
+        "tsType": {
+          "name": "any"
+        },
+        "description": ""
+      },
+      "onChange": {
+        "required": true,
+        "tsType": {
+          "name": "signature",
+          "type": "function",
+          "raw": "(value: any) => void",
+          "signature": {
+            "arguments": [
+              {
+                "name": "value",
+                "type": {
+                  "name": "any"
+                }
+              }
+            ],
+            "return": {
+              "name": "void"
+            }
+          }
+        },
+        "description": ""
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\inputWithLabel\\InputWithLabel.tsx": {
+    "description": "",
+    "displayName": "InputWithLabel",
+    "methods": [],
+    "props": {
+      "label": {
+        "required": true,
+        "tsType": {
+          "name": "string"
+        },
+        "description": ""
+      },
+      "height": {
+        "required": true,
+        "tsType": {
+          "name": "number"
+        },
+        "description": ""
+      },
+      "width": {
+        "required": true,
+        "tsType": {
+          "name": "number"
+        },
+        "description": ""
+      },
+      "name": {
+        "required": true,
+        "tsType": {
+          "name": "string"
+        },
+        "description": ""
+      },
+      "textColor": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": ""
+      },
+      "borderColor": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": ""
+      },
+      "fontSize": {
+        "required": false,
+        "tsType": {
+          "name": "number"
+        },
+        "description": ""
+      },
+      "placeHolder": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": ""
+      },
+      "onChange": {
+        "required": false,
+        "tsType": {
+          "name": "any"
+        },
+        "description": ""
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\likes\\Likes.tsx": {
+    "description": "",
+    "displayName": "Likes",
+    "methods": [],
+    "props": {
+      "totalLikes": {
+        "required": true,
+        "tsType": {
+          "name": "number"
+        },
+        "description": ""
+      },
+      "likedByMe": {
+        "required": true,
+        "tsType": {
+          "name": "boolean"
+        },
+        "description": ""
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\loadingAnimation\\Loading.tsx": {
+    "description": "",
+    "displayName": "Loading",
+    "methods": [],
+    "props": {
+      "loop": {
+        "required": false,
+        "tsType": {
+          "name": "boolean"
+        },
+        "description": "If false, it only will be played once. Otherwise will be looping itself."
+      },
+      "autoplay": {
+        "required": false,
+        "tsType": {
+          "name": "boolean"
+        },
+        "description": "If true, the animation will start to be played the moment if renders."
+      },
+      "size": {
+        "required": false,
+        "tsType": {
+          "name": "number"
+        },
+        "description": "The size for height and width of the loading animation"
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\missionBlock\\MissionBlock.tsx": {
+    "description": "",
+    "displayName": "MissionBlock",
+    "methods": [],
+    "props": {
+      "task": {
+        "required": true,
+        "tsType": {
+          "name": "Task"
+        },
+        "description": ""
+      },
+      "backgroundColor": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": ""
+      },
+      "progressBarColor": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": ""
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\navBar\\NavBar.tsx": {
+    "description": "",
+    "displayName": "NavBar",
+    "methods": [],
+    "props": {
+      "parentBackgroundColor": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": ""
+      },
+      "childBackgroundColor": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": ""
+      },
+      "icons": {
+        "required": false,
+        "tsType": {
+          "name": "Array",
+          "elements": [
+            {
+              "name": "IconType"
+            }
+          ],
+          "raw": "IconType[]"
+        },
+        "description": "",
+        "defaultValue": {
+          "value": "[\r\n  FaHome,\r\n  FaUserFriends,\r\n  IoMdAdd,\r\n  IoMdPodium,\r\n  FaUserAlt,\r\n]",
+          "computed": false
+        }
+      },
+      "onClickFunctions": {
+        "required": false,
+        "tsType": {
+          "name": "Array",
+          "elements": [
+            {
+              "name": "unknown"
+            }
+          ],
+          "raw": "(() => void)[]"
+        },
+        "description": ""
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\podium\\Podium.tsx": {
+    "description": "",
+    "displayName": "Podium",
+    "methods": [],
+    "props": {
+      "users": {
+        "required": true,
+        "tsType": {
+          "name": "Array",
+          "elements": [
+            {
+              "name": "User"
+            }
+          ],
+          "raw": "User[]"
+        },
+        "description": "List of users to show in the podium."
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\postComment\\PostComment.tsx": {
+    "description": "",
+    "displayName": "PostComment",
+    "methods": [],
+    "props": {
+      "commentProps": {
+        "required": true,
+        "tsType": {
+          "name": "CommentProps"
+        },
+        "description": ""
+      },
+      "onClick": {
+        "required": true,
+        "tsType": {
+          "name": "signature",
+          "type": "function",
+          "raw": "() => void",
+          "signature": {
+            "arguments": [],
+            "return": {
+              "name": "void"
+            }
+          }
+        },
+        "description": ""
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\privateRoute\\PrivateRoute.tsx": {
+    "description": "",
+    "displayName": "PrivateRoute",
+    "methods": [],
+    "props": {
+      "roles": {
+        "required": false,
+        "tsType": {
+          "name": "Array",
+          "elements": [
+            {
+              "name": "string"
+            }
+          ],
+          "raw": "string[]"
+        },
+        "description": ""
+      },
+      "children": {
+        "required": true,
+        "tsType": {
+          "name": "any"
+        },
+        "description": ""
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\profileProgressBar\\ProfileProgressBar.tsx": {
+    "description": "",
+    "displayName": "ProfileProgressBar",
+    "methods": [],
+    "props": {
+      "progress": {
+        "required": true,
+        "tsType": {
+          "name": "number"
+        },
+        "description": "The percentage completed"
+      },
+      "bgColor": {
+        "required": true,
+        "tsType": {
+          "name": "string"
+        },
+        "description": "The background"
+      },
+      "progressColor": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": "The color for the progress bar"
+      },
+      "level": {
+        "required": false,
+        "tsType": {
+          "name": "number"
+        },
+        "description": "The level to show it inside the progress bar"
+      },
+      "points": {
+        "required": false,
+        "tsType": {
+          "name": "number"
+        },
+        "description": "The poinst to show inside the progress bar"
+      },
+      "textColor": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": "Text color for the level and points. Default black"
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\roadmap\\Roadmap.tsx": {
+    "description": "",
+    "displayName": "Roadmap",
+    "methods": [],
+    "props": {
+      "date": {
+        "required": false,
+        "tsType": {
+          "name": "union",
+          "raw": "string | Date",
+          "elements": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "Date"
+            }
+          ]
+        },
+        "description": "Stores the date in which a task was finished or a level was upped"
+      },
+      "name": {
+        "required": true,
+        "tsType": {
+          "name": "string"
+        },
+        "description": "Task's name"
+      },
+      "difficulty": {
+        "required": false,
+        "tsType": {
+          "name": "number"
+        },
+        "description": "Number of points the task is worth"
+      },
+      "bigStyle": {
+        "required": true,
+        "tsType": {
+          "name": "boolean"
+        },
+        "description": "Changes the style depending on whether the element displayed is a task or a level up"
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\roundButton\\RoundButton.tsx": {
+    "description": "",
+    "displayName": "RoundButton",
+    "methods": []
+  },
+  "..\\lib-productivio\\src\\components\\searchBar\\SearchBar.tsx": {
+    "description": "",
+    "displayName": "SearchBar",
+    "methods": [],
+    "props": {
+      "onSearch": {
+        "required": true,
+        "tsType": {
+          "name": "signature",
+          "type": "function",
+          "raw": "(searchTerm: string) => void",
+          "signature": {
+            "arguments": [
+              {
+                "name": "searchTerm",
+                "type": {
+                  "name": "string"
+                }
+              }
+            ],
+            "return": {
+              "name": "void"
+            }
+          }
+        },
+        "description": "Function to search for input"
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\searchBox\\SearchBox.tsx": {
+    "description": "",
+    "displayName": "SearchBox",
+    "methods": []
+  },
+  "..\\lib-productivio\\src\\components\\selectMenu\\SelectMenu.tsx": {
+    "description": "",
+    "displayName": "SelectMenu",
+    "methods": [],
+    "props": {
+      "options": {
+        "required": true,
+        "tsType": {
+          "name": "Array",
+          "elements": [
+            {
+              "name": "string"
+            }
+          ],
+          "raw": "string[]"
+        },
+        "description": "List of options"
+      },
+      "onSelect": {
+        "required": true,
+        "tsType": {
+          "name": "signature",
+          "type": "function",
+          "raw": "(option: string) => void",
+          "signature": {
+            "arguments": [
+              {
+                "name": "option",
+                "type": {
+                  "name": "string"
+                }
+              }
+            ],
+            "return": {
+              "name": "void"
+            }
+          }
+        },
+        "description": "Selected option"
+      },
+      "label": {
+        "required": true,
+        "tsType": {
+          "name": "string"
+        },
+        "description": "Label for name the select menu"
+      },
+      "selectString": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": "Secondary label or default text showed on dropdown"
+      },
+      "fontSize": {
+        "required": false,
+        "tsType": {
+          "name": "number"
+        },
+        "description": "Font size for label, select and options"
+      },
+      "color": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": "To assign a color for text and borders"
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\sendButton\\SendButton.tsx": {
+    "description": "",
+    "displayName": "SendButton",
+    "methods": [],
+    "props": {
+      "onClick": {
+        "required": true,
+        "tsType": {
+          "name": "signature",
+          "type": "function",
+          "raw": "() => void",
+          "signature": {
+            "arguments": [],
+            "return": {
+              "name": "void"
+            }
+          }
+        },
+        "description": "Function to be called when the button is clicked"
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\style\\StyleExample.tsx": {
+    "description": "",
+    "displayName": "StyleExample",
+    "methods": []
+  },
+  "..\\lib-productivio\\src\\components\\taskProgressBar\\TaskProgressBar.tsx": {
+    "description": "",
+    "displayName": "TaskProgressBar",
+    "methods": [],
+    "props": {
+      "percentage": {
+        "required": true,
+        "tsType": {
+          "name": "number"
+        },
+        "description": "Percentage completed of the task"
+      },
+      "text": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": "Additional text to be displayed on progress bar"
+      },
+      "parentBackgroundColor": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": "Background color of progress bar parent"
+      },
+      "childBackgroundColor": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": "Background color of progress bar child"
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\teamDropdown\\TeamDropdown.tsx": {
+    "description": "",
+    "displayName": "TeamDropdown",
+    "methods": [],
+    "props": {
+      "title": {
+        "required": true,
+        "tsType": {
+          "name": "string"
+        },
+        "description": "Dropdown Menu render title"
+      },
+      "userInfoProps": {
+        "required": true,
+        "tsType": {
+          "name": "Array",
+          "elements": [
+            {
+              "name": "UserInfoProps"
+            }
+          ],
+          "raw": "UserInfoProps[]"
+        },
+        "description": "Components to render on dropdown clicked"
+      },
+      "bgColor": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": "Color to the dropdown menu"
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\timeAgo\\TimeAgo.tsx": {
+    "description": "",
+    "displayName": "TimeAgo",
+    "methods": [],
+    "props": {
+      "createdAt": {
+        "required": true,
+        "tsType": {
+          "name": "Date"
+        },
+        "description": "Date format YYYY-MM-DDThh:mm:ss.sssZ"
+      },
+      "textColor": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": "Color for the text"
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\timeRemaining\\TimeRemaining.tsx": {
+    "description": "",
+    "displayName": "TimeRemaining",
+    "methods": [],
+    "props": {
+      "dueTime": {
+        "required": true,
+        "tsType": {
+          "name": "Date"
+        },
+        "description": "Date of completion"
+      },
+      "simpleDisplay": {
+        "required": false,
+        "tsType": {
+          "name": "boolean"
+        },
+        "description": "Display with only one time unit? (8h instead of 8h 20min)"
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\topFiveUser\\TopFiveUser.tsx": {
+    "description": "",
+    "displayName": "TopFiveUser",
+    "methods": [],
+    "props": {
+      "userPicUrl": {
+        "required": true,
+        "tsType": {
+          "name": "string"
+        },
+        "description": ""
+      },
+      "name": {
+        "required": true,
+        "tsType": {
+          "name": "string"
+        },
+        "description": ""
+      },
+      "userColor": {
+        "required": true,
+        "tsType": {
+          "name": "string"
+        },
+        "description": ""
+      },
+      "points": {
+        "required": true,
+        "tsType": {
+          "name": "string"
+        },
+        "description": ""
+      },
+      "position": {
+        "required": true,
+        "tsType": {
+          "name": "string"
+        },
+        "description": ""
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\topOne\\TopOne.tsx": {
+    "description": "",
+    "displayName": "TopOne",
+    "methods": [],
+    "props": {
+      "userPicUrl": {
+        "required": true,
+        "tsType": {
+          "name": "string"
+        },
+        "description": ""
+      },
+      "name": {
+        "required": true,
+        "tsType": {
+          "name": "string"
+        },
+        "description": ""
+      },
+      "userColor": {
+        "required": true,
+        "tsType": {
+          "name": "string"
+        },
+        "description": ""
+      },
+      "points": {
+        "required": true,
+        "tsType": {
+          "name": "string"
+        },
+        "description": ""
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\userInfo\\UserInfo.tsx": {
+    "description": "",
+    "displayName": "UserInfo",
+    "methods": [],
+    "props": {
+      "user": {
+        "required": true,
+        "tsType": {
+          "name": "signature",
+          "type": "object",
+          "raw": "{\r\n  /**\r\n   * Label that contains the user's username\r\n   */\r\n  username: string;\r\n  /**\r\n   * User's profile picture\r\n   */\r\n  userImg: string;\r\n  /**\r\n   * User's color based on their level. This element could be reused\r\n   * for different purposes in other apps\r\n   */\r\n  userColor: string;\r\n  /**\r\n   * User's description. Max Characters 150\r\n   */\r\n  description?: string;\r\n  /**\r\n   * User's total points\r\n   */\r\n  totalPoints?: number;\r\n  /**\r\n   * User's current level\r\n   */\r\n  level?: number;\r\n  /**\r\n   * User's total contacts\r\n   */\r\n  contactsNumber?: number;\r\n  /**\r\n   * Total number of current missions/tasks\r\n   */\r\n  currentTasks?: number;\r\n}",
+          "signature": {
+            "properties": [
+              {
+                "key": "username",
+                "value": {
+                  "name": "string",
+                  "required": true
+                }
+              },
+              {
+                "key": "userImg",
+                "value": {
+                  "name": "string",
+                  "required": true
+                }
+              },
+              {
+                "key": "userColor",
+                "value": {
+                  "name": "string",
+                  "required": true
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "name": "string",
+                  "required": false
+                }
+              },
+              {
+                "key": "totalPoints",
+                "value": {
+                  "name": "number",
+                  "required": false
+                }
+              },
+              {
+                "key": "level",
+                "value": {
+                  "name": "number",
+                  "required": false
+                }
+              },
+              {
+                "key": "contactsNumber",
+                "value": {
+                  "name": "number",
+                  "required": false
+                }
+              },
+              {
+                "key": "currentTasks",
+                "value": {
+                  "name": "number",
+                  "required": false
+                }
+              }
+            ]
+          }
+        },
+        "description": ""
+      },
+      "backgroundColor": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": "Choose the background color otherwise default color is blue"
+      },
+      "textColor": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": "Choose the text color otherwise default color is white"
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\userListChild\\UserListChild.tsx": {
+    "description": "",
+    "displayName": "UserListChild",
+    "methods": [],
+    "props": {
+      "user": {
+        "required": true,
+        "tsType": {
+          "name": "UserProps"
+        },
+        "description": ""
+      },
+      "onClick": {
+        "required": true,
+        "tsType": {
+          "name": "any"
+        },
+        "description": ""
+      },
+      "backgroundColor": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": ""
+      },
+      "textColor": {
+        "required": false,
+        "tsType": {
+          "name": "string"
+        },
+        "description": ""
+      }
+    }
+  },
+  "..\\lib-productivio\\src\\components\\userPhoto\\UserPhoto.tsx": {
+    "description": "",
+    "displayName": "UserPhoto",
+    "methods": []
+  },
+  "..\\lib-productivio\\src\\components\\visualComments\\VisualComments.tsx": {
+    "description": "",
+    "displayName": "VisualComments",
+    "methods": [],
+    "props": {
+      "commentProps": {
+        "required": true,
+        "tsType": {
+          "name": "CommentProps"
+        },
+        "description": ""
+      }
+    }
+  }
+}
