@@ -50,6 +50,7 @@ export const MovableItem = ({ children }) => {
   );
 };
 
+
 export const Editor = () => {
   const [selectedElement, setSelectedElement] = useState(null);
 
