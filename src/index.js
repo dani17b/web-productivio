@@ -23,4 +23,4 @@ root.render(<Provider store={store}>{<App />}</Provider>);
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 
-console.log(parse('<div> Hola mundo! <b>Estoy en negrita</b> </div>'));
+console.log(JSON.stringify(parse('<div className="mi-clase"> Hola mundo! <b>Estoy en negrita</b> </div>')));
