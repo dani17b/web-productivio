@@ -1,9 +1,8 @@
 // @ts-nocheck
 import './componentList.scss';
-import { FaReact } from 'react-icons/fa';
-import { IoLogoJavascript, IoLogoHtml5, IoLogoCss3 } from 'react-icons/io';
 import { Column, MovableItem } from '../../Editor';
 import componentsData from '../../../../../productivio-components.json';
+import { Likes, TaskProgressBar, UserPhoto } from 'lib-productivio';
 
 export const getComponentNames = (componentsData) => {
   return Object.values(componentsData).map(
@@ -16,10 +15,11 @@ export const ComponentsList = () => {
 
   const libraries = {
     Example_Lib: [
-      { name: 'React', icon: <FaReact /> },
-      { name: 'JavaScript', icon: <IoLogoJavascript /> },
-      { name: 'HTML5', icon: <IoLogoHtml5 /> },
-      { name: 'CSS3', icon: <IoLogoCss3 /> },
+      { name: 'Likes', icon: <Likes/>},
+      { name: 'TaskProgressBar', icon: <TaskProgressBar/>},
+      { name: 'UserPhoto', icon: <UserPhoto/>},
+
+
     ],
  
     Productivio: [
