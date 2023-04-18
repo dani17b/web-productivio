@@ -16,31 +16,52 @@ interface TabProps {
 }
 
 export const TabComponent = (props: TabProps) => {
-  const { tabLabel, tabContent } = props;
+  const [tabs, setTabs] = useState<TabProps[]>([
+    { tabLabel: 'Generada', tabContent: 'Contenido de la pestaña generada' },
+  ]);
   const [tabIndex, setTabIndex] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
   };
 
-  //TODO lógica para crear dinámicamente las pestañas una vez sepamos cómo nos van a pasar la info
+  const addTab: React.MouseEventHandler<HTMLButtonElement> = () => {
+    const newTabIndex = tabs.length.toString();
+    const newTabs = [
+      ...tabs,
+      {
+        tabLabel: `Tab ${newTabIndex}`,
+        tabContent: `Contenido de la pestaña ${newTabIndex}`,
+      },
+    ];
 
-  //TODO creación dinámica de tabIndexes linkeados al nuevo tab que se cree
+    setTabs(newTabs);
+    setTabIndex(newTabs.length - 1);
+  };
 
   return (
     <div className="tab-container">
+      <div className="tab-container__trial-button-container">
+        <button className="tab-container__trial-button" onClick={addTab}>
+          Add
+        </button>
+      </div>
       <TabContext value={tabIndex.toString()}>
         <Tabs
           className="tab-container__tab-row"
           value={tabIndex}
           onChange={handleChange}
         >
-          <Tab label={tabLabel} value="0" />
-          <Tab label="Prueba 2" value="1" />
+          {tabs.map((tab, index) => (
+            <Tab key={index} label={tab.tabLabel} value={index.toString()} />
+          ))}
         </Tabs>
         <div className="tab-container__tab-content">
-          <TabPanel value="0">{tabContent}</TabPanel>
-          <TabPanel value="1">Contenido de prueba 2</TabPanel>
+          {tabs.map((tab, index) => (
+            <TabPanel key={index} value={index.toString()}>
+              {tab.tabContent}
+            </TabPanel>
+          ))}
         </div>
       </TabContext>
     </div>
