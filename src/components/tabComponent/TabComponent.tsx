@@ -3,6 +3,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface TabProps {
   /**
@@ -39,6 +40,17 @@ export const TabComponent = (props: TabProps) => {
     setTabIndex(newTabs.length - 1);
   };
 
+  const closeTab = (index: number) => {
+    const newTabs = [...tabs];
+    newTabs.splice(index, 1);
+    setTabs(newTabs);
+
+    if (index === tabIndex) {
+      const newTabIndex = Math.max(0, index - 1);
+      setTabIndex(newTabIndex);
+    }
+  };
+
   return (
     <div className="tab-container">
       <div className="tab-container__trial-button-container">
@@ -53,7 +65,17 @@ export const TabComponent = (props: TabProps) => {
           onChange={handleChange}
         >
           {tabs.map((tab, index) => (
-            <Tab key={index} label={tab.tabLabel} value={index.toString()} />
+            <Tab
+              key={index}
+              label={tab.tabLabel}
+              value={index.toString()}
+              icon={
+                <CloseIcon
+                  className="tab-container__tab-row__close"
+                  onClick={() => closeTab(index)}
+                />
+              }
+            />
           ))}
         </Tabs>
         <div className="tab-container__tab-content">
