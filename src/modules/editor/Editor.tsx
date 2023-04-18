@@ -66,17 +66,33 @@ export const Editor = () => {
 
   useEffect(() => {
     if (files.length > 0) {
-      const componentFile = files[0].files.find(file => file === "Admin.tsx");
+      const componentFile = files[0].files.find((file) => file === 'Admin.tsx');
       if (componentFile) {
-        fetch(`/${files[0].path}/${componentFile}`)
-          .then(response => response.text())
-          .then(code => setComponentCode(code))
-          .catch(error => console.log(error));
+        fetch(`src\\modules\\ranking\\Ranking.tsx`)
+          .then((response) => response.text())
+          .then((code) => setComponentCode(code))
+          .catch((error) => console.log(error));
       }
     }
   }, [files]);
-  
+
   console.log(componentCode);
+
+  // const [fileContent, setFileContent] = useState('');
+
+  // useEffect(() => {
+  //   async function fetchFile() {
+  //     try {
+  //       const response = await axios.get('C:\\Users\\enrique.jimenez\\Documents\\formaciónDani\\productivio\\web-productivio\\src\\modules\\ranking\\Ranking.tsx');
+  //       setFileContent(response.data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+  //   fetchFile();
+  // }, []);
+
+  // console.log(fileContent);
 
   const componentDef = parse(`export const ScreenSample = () => {
         return (
@@ -108,6 +124,7 @@ export const Editor = () => {
               setSelectedElement(element);
             },
           })}
+          {/* <pre>{fileContent}</pre> */}
         </Column>
         <div
           className="editor__element"
