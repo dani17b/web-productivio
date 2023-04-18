@@ -1,12 +1,64 @@
 {
   "imports": [],
+  "consts": [
+    {
+      "name": "MAX_HEIGHT",
+      "type": "number",
+      "value": 400
+    }
+  ],
+  "functions": [
+    {
+      "name": "parseJson",
+      "returnType": [
+        "undefined",
+        "string"
+      ],
+      "args": [
+        {
+          "name": "json",
+          "type": "string"
+        }
+      ],
+      "content": "console.log(json);"
+    }
+  ],
   "components": [
     {
       "name": "Prueba",
+      "consts": [
+        {
+          "name": "MAX_HEIGHT",
+          "type": "number",
+          "value": 400
+        }
+      ],
+      "props": [
+        {
+          "name": "color",
+          "type": "string",
+          "optional": true
+        }
+      ],
+      "functions": [
+        {
+          "name": "parseJson",
+          "returnType": [
+            "undefined",
+            "string"
+          ],
+          "args": [
+            {
+              "name": "json",
+              "type": "string"
+            }
+          ],
+          "content": "console.log(json);"
+        }
+      ],
       "dom": {
         "type": "div",
-        "attributes": [
-        ],
+        "attributes": [],
         "children": [
           {
             "dom": {
@@ -18,7 +70,6 @@
                 }
               ],
               "children": [
-               
                 {
                   "text": "Hola mundo!"
                 }
@@ -26,7 +77,7 @@
             }
           },
           {
-            "text" : "que quereis que ponga¿?¿"
+            "text": "que quereis que ponga¿?¿"
           }
         ]
       }
