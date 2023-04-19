@@ -73,14 +73,11 @@ export function parseJsonToTsx(json) {
 export const createFunctionsFromJson = (functions) => {
   let result = '';
   //TODO controlear indentaciones¿?
-  debugger;
   functions.map((child) => {
     let childResult = 'export const ';
-    childResult += `${child.name} ( ${child.args.map((arguito) => {
-      console.log('esto es arguito:', arguito);
-      console.log('esto es arguito.name:', arguito.name);
+    childResult += `${child.name} = (${child.args.map((arguito) => {
       return `${arguito.name} : ${arguito.type}`;
-    })} ) => {`;
+    })}) => {`;
     childResult += `${child.content} 
   }`;
     result += childResult;
