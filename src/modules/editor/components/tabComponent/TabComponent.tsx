@@ -1,5 +1,5 @@
 import './tabComponent.scss';
-import React from 'react';
+import React, { useRef } from 'react';
 import { useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
@@ -20,6 +20,7 @@ export const TabComponent = (props: TabProps) => {
   const [tabs, setTabs] = useState<TabProps[]>([
     { tabLabel: 'Generada', tabContent: 'Contenido de la pestaña generada' },
   ]);
+
   const [tabIndex, setTabIndex] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -40,16 +41,30 @@ export const TabComponent = (props: TabProps) => {
     setTabIndex(newTabs.length - 1);
   };
 
+  const contentRefs = useRef<Array<HTMLDivElement | null>>([]);
+
   const closeTab = (index: number) => {
     const newTabs = [...tabs];
     newTabs.splice(index, 1);
+
+    let newTabIndex = tabIndex;
+    if (index <= tabIndex) {
+      newTabIndex = Math.max(0, tabIndex - 1);
+    }
+
+    setTabIndex(newTabIndex);
     setTabs(newTabs);
 
-    if (index === tabIndex) {
-      const newTabIndex = Math.max(0, index - 1);
-      setTabIndex(newTabIndex);
+    const focusedElement = document.activeElement as HTMLElement;
+    if (focusedElement && focusedElement !== document.body) {
+      focusedElement.focus();
     }
   };
+
+  const handleContentRef =
+    (index: number) => (element: HTMLDivElement | null) => {
+      contentRefs.current[index] = element;
+    };
 
   return (
     <div className="tab-container">
@@ -81,7 +96,7 @@ export const TabComponent = (props: TabProps) => {
         <div className="tab-container__tab-content">
           {tabs.map((tab, index) => (
             <TabPanel key={index} value={index.toString()}>
-              {tab.tabContent}
+              <div ref={handleContentRef(index)}>{tab.tabContent}</div>
             </TabPanel>
           ))}
         </div>
