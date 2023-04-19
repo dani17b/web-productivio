@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const { getFiles } = require('./utils/FileUtils');
+const fs = require('fs-extra');
 
 const app = express();
 app.use(cors());
@@ -49,13 +50,26 @@ app.get('/modules', (req, res) => {
 });
 
 app.get('/project', (req, res) => {
-  
   // Leer el path pasado como parametro y devolver una respuesta
   const files = getFiles(path.join(req.query.path, 'src'), 'modules');
 
   res.header('Content-Type', 'application/json');
   res.end(JSON.stringify(files));
-})
+});
+
+// Nueva ruta para leer el contenido de un archivo en particular
+app.get('/file/:type/:component/:file', (req, res) => {
+  const filePath = path.join(__dirname, '..', 'src', req.params.type, req.params.component, req.params.file);
+  
+  fs.readFile(filePath, 'utf-8', (err, data) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error reading file');
+    } else {
+      res.send(data);
+    }
+  });
+});
 
 app.all('*', (req, res) => {
   const mockData = getMock(req.method.toLowerCase(), req.originalUrl);

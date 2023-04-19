@@ -62,37 +62,10 @@ export const Editor = () => {
     );
   }, []);
 
-  const [componentCode, setComponentCode] = useState(null);
-
   useEffect(() => {
     if (files.length > 0) {
-      const componentFile = files[0].files.find((file) => file === 'Admin.tsx');
-      if (componentFile) {
-        fetch(`src\\modules\\ranking\\Ranking.tsx`)
-          .then((response) => response.text())
-          .then((code) => setComponentCode(code))
-          .catch((error) => console.log(error));
-      }
     }
   }, [files]);
-
-  console.log(componentCode);
-
-  // const [fileContent, setFileContent] = useState('');
-
-  // useEffect(() => {
-  //   async function fetchFile() {
-  //     try {
-  //       const response = await axios.get('C:\\Users\\enrique.jimenez\\Documents\\formaciónDani\\productivio\\web-productivio\\src\\modules\\ranking\\Ranking.tsx');
-  //       setFileContent(response.data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
-  //   fetchFile();
-  // }, []);
-
-  // console.log(fileContent);
 
   const componentDef = parse(`export const ScreenSample = () => {
         return (
