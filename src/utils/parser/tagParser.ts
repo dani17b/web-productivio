@@ -18,6 +18,11 @@ type TextObj = {
   text: string;
 };
 
+type ComponentObj = {
+  imports: string[];
+  returnedTag: TagObj;
+};
+
 type TagObj = {
   dom: {
     type: string;
@@ -88,7 +93,7 @@ function getTagName(tag: string): string {
 
 function getTagAttributes(tag: string): KeyValue[] {
   let innerString = tag.replace('<', '').replace('>', '').replace('/', '');
-  const keyValues = innerString.split(' ').slice(1);
+  const keyValues = innerString.replaceAll('"', '').split(' ').slice(1);
   return keyValues.map((attr) => {
     const [key, value] = attr.split('=');
     return { key, value };
@@ -133,8 +138,31 @@ function elementArrayToNestedJson(elementArray: DomElement[]): TagObj {
   return result;
 }
 
-export function parse(input: string): TagObj {
+export function parseImports(input: string): string[] {
+  const imports: string[] = [];
+
+  let importIndex = input.indexOf('import');
+  while (importIndex !== -1) {
+    const semicolonIndex = input.indexOf(';');
+    imports.push(input.substring(importIndex, semicolonIndex));
+    input = input.slice(semicolonIndex + 1);
+    importIndex = input.indexOf('import');
+  }
+
+  return imports;
+}
+
+export function parseReturnedTag(input: string) {
   return elementArrayToNestedJson(
     stringArrayToElementArray(stringToStringArray(input))
   );
+}
+
+export function parse(input: string): ComponentObj {
+  return {
+    imports: parseImports(input),
+    returnedTag: elementArrayToNestedJson(
+      stringArrayToElementArray(stringToStringArray(input))
+    ),
+  };
 }
