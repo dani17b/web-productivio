@@ -9,7 +9,7 @@ import configureAppStore from './redux/configureStore';
 import 'lib-productivio/dist/cjs/index.css';
 import { IndexedDB } from './lib/axios/indexeddb/IndexedDB';
 import apiDefinitionYml from './config/api.json';
-import { parse } from './utils/parser/tagParser';
+import { parseImports, parseReturnedTag } from './utils/parser/tagParser';
 import { createFunctionsFromJson } from './utils/parser/parser';
 
 const store = configureAppStore({});
@@ -24,7 +24,28 @@ root.render(<Provider store={store}>{<App />}</Provider>);
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 
-console.log(parse('<div> Hola mundo! <b>Estoy en negrita</b> </div>'));
+console.log(
+  JSON.stringify(
+    parseReturnedTag(
+      `<div className="mi-clase">
+      Hola mundo! <b>Estoy en negrita</b>
+    </div>
+  `
+    )
+  )
+);
+
+console.log(
+  JSON.stringify(
+    parseImports(
+      `import { render, screen } from '@testing-library/react';
+      import { FeedBlock, FeedBlockProps } from './FeedBlock';
+
+      vamonosooossssads
+  `
+    )
+  )
+);
 
 console.log(
   'Estos son las funciones, ',

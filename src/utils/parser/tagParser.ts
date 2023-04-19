@@ -3,7 +3,7 @@
 
 //TYPES
 type DomElement = {
-  name: string;
+  innerString: string;
   type: DomElementType;
 };
 
@@ -18,9 +18,22 @@ type TextObj = {
   text: string;
 };
 
+type ComponentObj = {
+  imports: string[];
+  returnedTag: TagObj;
+};
+
 type TagObj = {
-  type: string;
-  children: (TagObj | TextObj)[];
+  dom: {
+    type: string;
+    attributes?: KeyValue[];
+    children: (TagObj | TextObj)[];
+  };
+};
+
+type KeyValue = {
+  key: string;
+  value: string;
 };
 
 //FUNCTIONS
@@ -65,7 +78,7 @@ function stringArrayToElementArray(strings: string[]): DomElement[] {
     }
 
     result.push({
-      name: getTagName(s),
+      innerString: s,
       type: type,
     });
   });
@@ -74,26 +87,48 @@ function stringArrayToElementArray(strings: string[]): DomElement[] {
 }
 
 function getTagName(tag: string): string {
-  let name = tag.replace('<', '').replace('>', '').replace('/', '');
-  return name;
+  let innerString = tag.replace('<', '').replace('>', '').replace('/', '');
+  return innerString.split(' ')[0];
+}
+
+function getTagAttributes(tag: string): KeyValue[] {
+  let innerString = tag.replace('<', '').replace('>', '').replace('/', '');
+  const keyValues = innerString.replaceAll('"', '').split(' ').slice(1);
+  return keyValues.map((attr) => {
+    const [key, value] = attr.split('=');
+    return { key, value };
+  });
 }
 
 function elementArrayToNestedJson(elementArray: DomElement[]): TagObj {
-  const result: TagObj = { type: elementArray[0].name, children: [] };
+  const tagInnerText = elementArray[0].innerString;
+  const result: TagObj = {
+    dom: {
+      type: getTagName(tagInnerText),
+      attributes: getTagAttributes(tagInnerText) || undefined,
+      children: [],
+    },
+  };
 
   for (let i = 1; i < elementArray.length; i++) {
     const element = elementArray[i];
     switch (element.type) {
       case DomElementType.PlainText:
-        result.children.push({ text: element.name });
+        result.dom.children.push({ text: element.innerString });
         break;
       case DomElementType.SelfClosed:
-        result.children.push({ type: element.name, children: [] });
+        result.dom.children.push({
+          dom: {
+            type: getTagName(element.innerString),
+            attributes: getTagAttributes(element.innerString) || undefined,
+            children: [],
+          },
+        });
         break;
       case DomElementType.Opening:
         const nested = elementArrayToNestedJson(elementArray.slice(i));
-        result.children.push(nested);
-        i += (nested.children.length + 1);
+        result.dom.children.push(nested);
+        i += nested.dom.children.length + 1;
         break;
       case DomElementType.Closing:
         return result;
@@ -103,9 +138,31 @@ function elementArrayToNestedJson(elementArray: DomElement[]): TagObj {
   return result;
 }
 
+export function parseImports(input: string): string[] {
+  const imports: string[] = [];
 
-export function parse(input: string): TagObj {
+  let importIndex = input.indexOf('import');
+  while (importIndex !== -1) {
+    const semicolonIndex = input.indexOf(';');
+    imports.push(input.substring(importIndex, semicolonIndex));
+    input = input.slice(semicolonIndex + 1);
+    importIndex = input.indexOf('import');
+  }
+
+  return imports;
+}
+
+export function parseReturnedTag(input: string) {
   return elementArrayToNestedJson(
     stringArrayToElementArray(stringToStringArray(input))
   );
+}
+
+export function parse(input: string): ComponentObj {
+  return {
+    imports: parseImports(input),
+    returnedTag: elementArrayToNestedJson(
+      stringArrayToElementArray(stringToStringArray(input))
+    ),
+  };
 }
