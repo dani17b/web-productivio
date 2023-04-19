@@ -1,12 +1,17 @@
-// @ts-nocheck
+// @ts-noCheck
 import './editor.scss';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { parse, buildJsx } from '../../lib/tsx-builder';
 import { InfoPanel } from './components/infoPanel/InfoPanel';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { getFiles } from './actions';
+import { useSelector } from 'react-redux';
+import { ComponentsList } from './components/componentList/ComponentList';
 
-const Column = ({ children, className, title }) => {
+
+export const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: 'TYPE',
     drop: () => ({ name: 'Some name' }),
@@ -26,7 +31,8 @@ const Column = ({ children, className, title }) => {
   );
 };
 
-const MovableItem = () => {
+
+export const MovableItem = ({ children }) => {
   const [{ isDragging }, drag] = useDrag({
     item: { name: 'Any custom name' },
     type: 'TYPE',
@@ -39,13 +45,29 @@ const MovableItem = () => {
 
   return (
     <div ref={drag} className="movable-item" style={{ opacity }}>
-      We will move this item
+      {children}
     </div>
   );
 };
 
+
 export const Editor = () => {
   const [selectedElement, setSelectedElement] = useState(null);
+
+  const dispatch = useDispatch();
+
+  const { files } = useSelector((state) => state.editor);
+
+  useEffect(() => {
+    dispatch(getFiles('C:\\workspace\\dev\\web-productivio'));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (files.length > 0) {
+      // TODO cargar el componente en si, que sera el que se muestre en el editor abierto
+      //debugger;
+    }
+  }, [files]);
 
   const componentDef = parse(`export const ScreenSample = () => {
         return (
@@ -61,9 +83,8 @@ export const Editor = () => {
     <DndProvider backend={HTML5Backend}>
       <div className="editor">
         <div className="editor__components">
-          Selector de elementos
           <Column>
-            <MovableItem />
+            <ComponentsList />
           </Column>
         </div>
         <Column className="editor__canvas">
