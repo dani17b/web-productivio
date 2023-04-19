@@ -6,7 +6,7 @@ import { parse, buildJsx } from '../../lib/tsx-builder';
 import { InfoPanel } from './components/infoPanel/InfoPanel';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getFiles } from './actions';
+import { getCode, getFiles } from './actions';
 import { useSelector } from 'react-redux';
 
 const Column = ({ children, className, title }) => {
@@ -53,17 +53,20 @@ export const Editor = () => {
   const dispatch = useDispatch();
 
   const { files } = useSelector((state) => state.editor);
+  const { code } = useSelector((state) => state.code);
+
+  console.log('code', code);
 
   useEffect(() => {
     dispatch(
-      getFiles(
-        'C:\\Users\\enrique.jimenez\\Documents\\formaciónDani\\productivio\\web-productivio'
-      )
+      getFiles()
+      // 'C:\\Users\\paula.alba\\Desktop\\workspace\\dev\\web-productivio'
     );
   }, []);
 
   useEffect(() => {
     if (files.length > 0) {
+      dispatch(getCode('components', 'input', 'Input.tsx'));
     }
   }, [files]);
 
@@ -87,6 +90,7 @@ export const Editor = () => {
           </Column>
         </div>
         <Column className="editor__canvas">
+          {code}
           {buildJsx(componentDef.components[0].dom, {
             selectElement: (element) => {
               console.log('edit element', element);
