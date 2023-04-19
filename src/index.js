@@ -10,6 +10,7 @@ import 'lib-productivio/dist/cjs/index.css';
 import { IndexedDB } from './lib/axios/indexeddb/IndexedDB';
 import apiDefinitionYml from './config/api.json';
 import { parse } from './utils/parser/tagParser';
+import { createFunctionsFromJson } from './utils/parser/parser';
 
 const store = configureAppStore({});
 
@@ -24,3 +25,21 @@ root.render(<Provider store={store}>{<App />}</Provider>);
 reportWebVitals();
 
 console.log(JSON.stringify(parse('<div className="mi-clase"> Hola mundo! <b>Estoy en negrita</b> </div>')));
+
+
+console.log(
+  'Estos son las funciones, ',
+  createFunctionsFromJson([
+    {
+      name: 'parseJson',
+      returnType: ['undefined', 'string'],
+      args: [
+        {
+          name: 'json',
+          type: 'string',
+        },
+      ],
+      content: 'console.log(json);',
+    },
+  ])
+);
