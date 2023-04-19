@@ -58,13 +58,12 @@ app.get('/project', (req, res) => {
 });
 
 // Nueva ruta para leer el contenido de un archivo en particular
-app.get('/file/:type/:component/:file', (req, res) => {
+app.get('/file/:path/:file', (req, res) => {
   const filePath = path.join(
     __dirname,
     '..',
     'src',
-    req.params.type,
-    req.params.component,
+    req.params.path,
     req.params.file
   );
 

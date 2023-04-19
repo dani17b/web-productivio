@@ -26,7 +26,7 @@ export const getFiles = (projectPath: string): any => {
   };
 };
 
-export const getCode = (type: string, component: string, file: string): any => {
+export const getCode = (path: string, file: string): any => {
   return (dispatch: (arg0: any) => void) => {
     dispatch({
       type: requestType(GET_FILE_CODE),
@@ -34,7 +34,7 @@ export const getCode = (type: string, component: string, file: string): any => {
 
     axios
       .request({
-        url: `/file/${type}/${component}/${file}`,
+        url: `/file/${path}/${file}`,
         method: 'GET',
         baseURL: SERVER_BASE_URL,
       })

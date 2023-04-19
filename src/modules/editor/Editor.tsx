@@ -59,14 +59,18 @@ export const Editor = () => {
 
   useEffect(() => {
     dispatch(
-      getFiles()
+      getFiles(
+        'C:\\Users\\paula.alba\\Desktop\\workspace\\dev\\web-productivio'
+      )
       // 'C:\\Users\\paula.alba\\Desktop\\workspace\\dev\\web-productivio'
     );
   }, []);
 
   useEffect(() => {
     if (files.length > 0) {
-      dispatch(getCode('components', 'input', 'Input.tsx'));
+      let path = files.map((file) => file.path);
+      let name = files.map((file) => file.name);
+      dispatch(getCode(path[0], name[0] + '.tsx'));
     }
   }, [files]);
 
