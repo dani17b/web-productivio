@@ -6,6 +6,7 @@ const fs = require('fs-extra');
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
 const port = 8081;
 
@@ -73,6 +74,29 @@ app.get('/file/:path/:file', (req, res) => {
       res.status(500).send('Error reading file');
     } else {
       res.send(data);
+    }
+  });
+});
+
+// Nueva ruta para guardar un archivo
+app.post('/save-file', (req, res) => {
+  const { filename, content } = req.body;
+  const validExtensions = ['.js', '.tsx', '.ts', '.json'];
+  const fileExtension = path.extname(filename);
+
+  if (!validExtensions.includes(fileExtension)) {
+    res.status(400).send('Invalid file extension');
+    return;
+  }
+
+  const filePath = path.join(__dirname, '..', 'src', 'components', filename);
+  
+  fs.outputFile(filePath, content, (err) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error saving file');
+    } else {
+      res.send('File saved successfully');
     }
   });
 });
