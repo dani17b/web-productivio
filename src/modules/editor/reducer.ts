@@ -1,12 +1,13 @@
 import { responseType } from 'src/utils/ReduxUtils';
-import { GET_PROJECT_FILES } from './actions';
+import { GET_PROJECT_FILES, GET_FILE_CODE } from './actions';
 
 const initialState = {
   loading: false,
   files: [],
+  code: [],
 };
 
-const editor = (state = initialState, action: any) => {
+export const editor = (state = initialState, action: any) => {
   switch (action.type) {
     case responseType(GET_PROJECT_FILES):
       return {
@@ -18,4 +19,17 @@ const editor = (state = initialState, action: any) => {
       return state;
   }
 };
-export default editor;
+
+export const code = (state = initialState, action: any) => {
+  debugger;
+  switch (action.type) {
+    case responseType(GET_FILE_CODE):
+      return {
+        ...state,
+        loading: false,
+        code: action.code,
+      };
+    default:
+      return state;
+  }
+};

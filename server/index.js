@@ -60,8 +60,15 @@ app.get('/project', (req, res) => {
 
 // Nueva ruta para leer el contenido de un archivo en particular
 app.get('/file/:type/:component/:file', (req, res) => {
-  const filePath = path.join(__dirname, '..', 'src', req.params.type, req.params.component, req.params.file);
-  
+  const filePath = path.join(
+    __dirname,
+    '..',
+    'src',
+    req.params.type,
+    req.params.component,
+    req.params.file
+  );
+
   fs.readFile(filePath, 'utf-8', (err, data) => {
     if (err) {
       console.error(err);
