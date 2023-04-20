@@ -8,7 +8,8 @@ import configureAppStore from './redux/configureStore';
 import 'lib-productivio/dist/cjs/index.css';
 import { IndexedDB } from './lib/axios/indexeddb/IndexedDB';
 import apiDefinitionYml from './config/api.json';
-import { parse, parseFunction } from './utils/parser/tagParser';
+import { parseImports, parseReturnedTag } from './utils/parser/tagParser';
+import { createFunctionsFromJson } from './utils/parser/parser';
 
 const store = configureAppStore({});
 
@@ -28,4 +29,43 @@ console.log(
   parseFunction(
     "export const Prueba = (props:string) => {return (  <div>'Hola mundo!'</div>    ) }"
   )
+);
+console.log(
+  JSON.stringify(
+    parseReturnedTag(
+      `<div className="mi-clase">
+      Hola mundo! <b>Estoy en negrita</b>
+    </div>
+  `
+    )
+  )
+);
+
+console.log(
+  JSON.stringify(
+    parseImports(
+      `import { render, screen } from '@testing-library/react';
+      import { FeedBlock, FeedBlockProps } from './FeedBlock';
+
+      vamonosooossssads
+  `
+    )
+  )
+);
+
+console.log(
+  'Estos son las funciones, ',
+  createFunctionsFromJson([
+    {
+      name: 'parseJson',
+      returnType: ['undefined', 'string'],
+      args: [
+        {
+          name: 'json',
+          type: 'string',
+        },
+      ],
+      content: 'console.log(json);',
+    },
+  ])
 );
