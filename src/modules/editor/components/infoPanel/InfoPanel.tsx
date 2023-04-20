@@ -1,8 +1,18 @@
-// @ts-nocheck
+import { StyleEditor } from 'src/components/propsEditor/StyleEditor';
 import './infoPanel.scss';
 import { IoCloseOutline } from 'react-icons/io5';
 
-export const InfoPanel = ({ element, onClose }) => {
+interface InfoPanelProps {
+  element: any;
+  onClose: any;
+  styles: any;
+  setStyles: any;
+  text: string;
+}
+
+export const InfoPanel = (props: InfoPanelProps) => {
+  const { element, onClose, styles, setStyles } = props;
+
   if (element == null) {
     return () => {};
   }
@@ -15,13 +25,18 @@ export const InfoPanel = ({ element, onClose }) => {
           <IoCloseOutline />
         </div>
       </div>
-      <div className='info-panel__section'>
+      <div className="info-panel__section">
         <div className="info-panel__section-title">Propiedades</div>
-        <div className="info-panel__section-content">Formulario con las posibles propiedades a cambiar</div>
+        <div className="info-panel__section-content"></div>
       </div>
-      <div className='info-panel__section'>
+      <div className="info-panel__section">
         <div className="info-panel__section-title">Estilos</div>
-        <div className="info-panel__section-content">Formulario con las posibles estilos a cambiar</div>
+        <div className="info-panel__section-content">
+          <StyleEditor
+            initialStyles={Object.assign({}, ...styles)}
+            onStylesChange={setStyles}
+          />
+        </div>
       </div>
       Info panel, nombre del componente, descricion, propiedades, estilo, enlace
       a documentacion

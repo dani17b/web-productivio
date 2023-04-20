@@ -1,53 +1,14 @@
 import * as React from 'react';
-import PropsEditor from './PropsEditor';
 
-export interface MyComponentProps {
-  width: number;
-  height: number;
+export interface TestComponentProps {
   text: string;
-  color: string;
-  backgroundColor: string;
-  fontSize: number;
-  textAlign: 'left' | 'center' | 'right';
-  flexDirection: 'row' | 'row-reverse' | 'column' | 'column-reverse';
-  justifyContent:
-    | 'flex-start'
-    | 'flex-end'
-    | 'center'
-    | 'space-between'
-    | 'space-around';
-  alignItems: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch';
-  fontWeight: 'normal' | 'bold';
-  style: React.CSSProperties;
+  style: React.CSSProperties[];
 }
 
-export const MyComponent: React.FC<MyComponentProps> = ({
-  width,
-  height,
+export const MyComponent: React.FC<TestComponentProps> = ({
   text,
-  backgroundColor,
-  color,
-  fontSize,
-  textAlign,
-  flexDirection,
-  justifyContent,
+
   style,
 }) => {
-  return (
-    <div
-      style={{
-        width,
-        height,
-        backgroundColor,
-        color,
-        fontSize,
-        textAlign,
-        flexDirection,
-        justifyContent,
-        ...style,
-      }}
-    >
-      {text}
-    </div>
-  );
+  return <div style={Object.assign({}, ...style)}>{text}</div>;
 };
