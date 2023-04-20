@@ -1,4 +1,4 @@
-// @ts-noCheck
+//@ts-nocheck
 import './editor.scss';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -9,7 +9,10 @@ import { useDispatch } from 'react-redux';
 import { getFiles } from './actions';
 import { useSelector } from 'react-redux';
 import { ComponentsList } from './components/componentList/ComponentList';
-
+import {
+  MyComponent,
+  MyComponentProps,
+} from 'src/components/propsEditor/TestComponent';
 
 export const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -31,7 +34,6 @@ export const Column = ({ children, className, title }) => {
   );
 };
 
-
 export const MovableItem = ({ children }) => {
   const [{ isDragging }, drag] = useDrag({
     item: { name: 'Any custom name' },
@@ -49,7 +51,6 @@ export const MovableItem = ({ children }) => {
     </div>
   );
 };
-
 
 export const Editor = () => {
   const [selectedElement, setSelectedElement] = useState(null);
@@ -78,7 +79,7 @@ export const Editor = () => {
   //const componentStr = build(componentDef);
 
   console.log(componentDef);
-
+  const [styles, setStyles] = useState<MyComponentProps['style']>([]);
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="editor">
@@ -98,6 +99,7 @@ export const Editor = () => {
               setSelectedElement(element);
             },
           })}
+          <MyComponent text="Hello World!" style={styles} />
         </Column>
         <div
           className="editor__element"
@@ -108,6 +110,8 @@ export const Editor = () => {
           <InfoPanel
             element={selectedElement}
             onClose={() => setSelectedElement(null)}
+            styles={styles}
+            setStyles={setStyles}
           />
         </div>
       </div>
