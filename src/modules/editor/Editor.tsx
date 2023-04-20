@@ -1,4 +1,4 @@
-// @ts-nocheck
+//@ts-nocheck
 import './editor.scss';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -8,8 +8,13 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getFiles } from './actions';
 import { useSelector } from 'react-redux';
+import { ComponentsList } from './components/componentList/ComponentList';
+import {
+  MyComponent,
+  MyComponentProps,
+} from 'src/components/propsEditor/TestComponent';
 
-const Column = ({ children, className, title }) => {
+export const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: 'TYPE',
     drop: () => ({ name: 'Some name' }),
@@ -29,7 +34,7 @@ const Column = ({ children, className, title }) => {
   );
 };
 
-const MovableItem = () => {
+export const MovableItem = ({ children }) => {
   const [{ isDragging }, drag] = useDrag({
     item: { name: 'Any custom name' },
     type: 'TYPE',
@@ -42,7 +47,7 @@ const MovableItem = () => {
 
   return (
     <div ref={drag} className="movable-item" style={{ opacity }}>
-      We will move this item
+      {children}
     </div>
   );
 };
@@ -56,7 +61,7 @@ export const Editor = () => {
 
   useEffect(() => {
     dispatch(getFiles('C:\\workspace\\dev\\web-productivio'));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (files.length > 0) {
@@ -74,14 +79,13 @@ export const Editor = () => {
   //const componentStr = build(componentDef);
 
   console.log(componentDef);
-
+  const [styles, setStyles] = useState<MyComponentProps['style']>([]);
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="editor">
         <div className="editor__components">
-          Selector de elementos
           <Column>
-            <MovableItem />
+            <ComponentsList />
           </Column>
         </div>
         <Column className="editor__canvas">
@@ -95,6 +99,7 @@ export const Editor = () => {
               setSelectedElement(element);
             },
           })}
+          <MyComponent text="Hello World!" style={styles} />
         </Column>
         <div
           className="editor__element"
@@ -105,6 +110,8 @@ export const Editor = () => {
           <InfoPanel
             element={selectedElement}
             onClose={() => setSelectedElement(null)}
+            styles={styles}
+            setStyles={setStyles}
           />
         </div>
       </div>
