@@ -29,8 +29,19 @@ reportWebVitals();
 
 //console.log(parse('<div> Hola mundo! <b>Estoy en negrita</b> </div>'));
 console.log(
-  'FUNCIÖN PARSEADA',
-  parseFunction(
-    "export const Prueba = (props:string) => {return (  <div>'Hola mundo!'</div>    ) }"
-  )
+  JSON.stringify(parseFunction(
+    `export const NotFound = (props?: string) => {
+
+  return (
+    <div className='notFound'>
+      <Header></Header>
+      <div>
+        <h1>404 - Page Not Found</h1>
+        <p>Sorry, the page does not exist (by the moment)</p>
+      </div>
+      <WebNavBar></WebNavBar>
+    </div>
+  );
+};`
+  ))
 );

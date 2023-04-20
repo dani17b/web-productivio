@@ -39,6 +39,7 @@ type KeyValue = {
 type Arg = {
   name: string;
   type: string;
+  optional: boolean;
 };
 
 type FunctionObj = {
@@ -164,28 +165,43 @@ export function parseImports(input: string): string[] {
   return imports;
 }
 
-export function parseFunction(functionText: string) {
+export function parseFunction(functionText: string): FunctionObj {
   const firstLine = functionText.substring(0, functionText.indexOf('='));
-  let result = [];
+  let result: FunctionObj = {
+    name: '',
+    args: [],
+  };
   const name =
     firstLine.indexOf('export') != -1
       ? firstLine.split(' ')[2]
       : firstLine.split(' ')[1];
-  result.push(name);
+  result.name = name;
   let args: Arg[] = [];
-  result.push(args);
   let argsRaw = functionText
     .substring(functionText.indexOf('(') + 1, functionText.indexOf(')'))
     .split(',');
   argsRaw.forEach((arg) => {
     let [name, type] = arg.split(':');
-    args.push({ name, type });
+
+    name.includes('?')
+      ? args.push({ name: name.replace('?', ''), type: type, optional: true })
+      : args.push({ name: name, type: type, optional: false });
+
   });
+  result.args = args;
+  
+  let content = functionText.match(/return\s+([\s\S]+?);/)?.[1].replace(/[\r\n]+\s*/g, '') || '';
+  content = content[0] === '(' ? content.slice(1, -1) : content;
+
+  result.returnedContent = content[0] === '<' ? parseReturnedTag(content) : content;
+
+  
   //const name = functionText.slice(functionText.indexOf('const') + 6,  functionText.indexOf('='));
-  return { result };
+
+  return result;
 }
 
-export function parseReturnedTag(input: string) {
+export function parseReturnedTag(input: string) : TagObj {
   return elementArrayToNestedJson(
     stringArrayToElementArray(stringToStringArray(input))
   );
