@@ -1,7 +1,5 @@
-import React from 'react'
+import React from 'react';
 
-export const Prueba = () => {
-  return (
-    <div>"Hola mundo!"</div>
-  )
-}
+export const Prueba = (props: string) => {
+  return <div>"Hola mundo!"</div>;
+};

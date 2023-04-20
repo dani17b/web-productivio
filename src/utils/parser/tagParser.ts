@@ -23,6 +23,18 @@ type TagObj = {
   children: (TagObj | TextObj)[];
 };
 
+type Arg = {
+  name: string;
+  type: string;
+};
+
+type FunctionObj = {
+  name: string;
+  args: Arg[];
+  content?: string;
+  returnedContent?: string | TagObj;
+};
+
 //FUNCTIONS
 function stringToStringArray(code: string): string[] {
   const arr: string[] = [];
@@ -93,7 +105,7 @@ function elementArrayToNestedJson(elementArray: DomElement[]): TagObj {
       case DomElementType.Opening:
         const nested = elementArrayToNestedJson(elementArray.slice(i));
         result.children.push(nested);
-        i += (nested.children.length + 1);
+        i += nested.children.length + 1;
         break;
       case DomElementType.Closing:
         return result;
@@ -103,6 +115,26 @@ function elementArrayToNestedJson(elementArray: DomElement[]): TagObj {
   return result;
 }
 
+export function parseFunction(functionText: string) {
+  const firstLine = functionText.substring(0, functionText.indexOf('='));
+  let result = [];
+  const name =
+    firstLine.indexOf('export') != -1
+      ? firstLine.split(' ')[2]
+      : firstLine.split(' ')[1];
+  result.push(name);
+  let args: Arg[] = [];
+  result.push(args);
+  let argsRaw = functionText
+    .substring(functionText.indexOf('(') + 1, functionText.indexOf(')'))
+    .split(',');
+  argsRaw.forEach((arg) => {
+    let [name, type] = arg.split(':');
+    args.push({ name, type });
+  });
+  //const name = functionText.slice(functionText.indexOf('const') + 6,  functionText.indexOf('='));
+  return { result };
+}
 
 export function parse(input: string): TagObj {
   return elementArrayToNestedJson(
