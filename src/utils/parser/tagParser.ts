@@ -152,6 +152,18 @@ function elementArrayToNestedJson(elementArray: DomElement[]): TagObj {
 
 export function parseImports(input: string): string[] {
   const imports: string[] = [];
+
+  let importIndex = input.indexOf('import');
+  while (importIndex !== -1) {
+    const semicolonIndex = input.indexOf(';');
+    imports.push(input.substring(importIndex, semicolonIndex));
+    input = input.slice(semicolonIndex + 1);
+    importIndex = input.indexOf('import');
+  }
+
+  return imports;
+}
+
 export function parseFunction(functionText: string) {
   const firstLine = functionText.substring(0, functionText.indexOf('='));
   let result = [];
@@ -171,17 +183,6 @@ export function parseFunction(functionText: string) {
   });
   //const name = functionText.slice(functionText.indexOf('const') + 6,  functionText.indexOf('='));
   return { result };
-}
-
-  let importIndex = input.indexOf('import');
-  while (importIndex !== -1) {
-    const semicolonIndex = input.indexOf(';');
-    imports.push(input.substring(importIndex, semicolonIndex));
-    input = input.slice(semicolonIndex + 1);
-    importIndex = input.indexOf('import');
-  }
-
-  return imports;
 }
 
 export function parseReturnedTag(input: string) {
