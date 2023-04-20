@@ -18,7 +18,8 @@ interface TabProps {
 
 export const TabComponent = (props: TabProps) => {
   const [tabs, setTabs] = useState<TabProps[]>([
-    { tabLabel: 'Generada', tabContent: 'Contenido de la pestaña generada' },
+    // { tabLabel: 'Generada', tabContent: 'Contenido de la pestaña generada' },
+    props,
   ]);
 
   const [tabIndex, setTabIndex] = useState(0);
