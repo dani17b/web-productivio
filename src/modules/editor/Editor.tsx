@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 //@ts-nocheck
 import './editor.scss';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
@@ -7,10 +8,12 @@ import { InfoPanel } from './components/infoPanel/InfoPanel';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getFiles } from './actions';
+import { Likes } from 'lib-productivio';
 import { useSelector } from 'react-redux';
 import { ComponentsList } from './components/componentList/ComponentList';
-import { Responsive, WidthProvider } from "react-grid-layout";
-import { TaskProgressBar } from 'lib-productivio';
+import { WidthProvider, Responsive } from 'react-grid-layout';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -34,7 +37,6 @@ export const Column = ({ children, className, title }) => {
   );
 };
 
-
 export const MovableItem = ({ children }) => {
   const [{ isDragging }, drag] = useDrag({
     item: { name: 'Any custom name' },
@@ -52,7 +54,6 @@ export const MovableItem = ({ children }) => {
     </div>
   );
 };
-
 
 export const Editor = () => {
   const [selectedElement, setSelectedElement] = useState(null);
@@ -82,10 +83,9 @@ export const Editor = () => {
 
   console.log(componentDef);
 
-  const layouts = [
-    { i: "a", x: 0, y: 0, w: 1, h: 2, isResizable: true, static: true },
-    { i: "b", x: 1, y: 0, w: 3, h: 2, isResizable: true, minW: 2, maxW: 4 },
-    { i: "c", x: 4, y: 0, w: 1, h: 2, isResizable: true },
+  const layout = [
+    { i: 'a', x: 0, y: 0, w: 5, h: 5, static: false },
+    { i: 'b', x: 6, y: 0, w: 2, h: 2, static: false },
   ];
 
   return (
@@ -96,7 +96,11 @@ export const Editor = () => {
             <ComponentsList />
           </Column>
         </div>
-        <Column className="editor__canvas" children={undefined} title={undefined}>
+        <Column
+          className="editor__canvas"
+          children={undefined}
+          title={undefined}
+        >
           {buildJsx(componentDef.components[0].dom, {
             selectElement: (element) => {
               console.log('edit element', element);
@@ -108,14 +112,26 @@ export const Editor = () => {
             },
           })}
           <ResponsiveGridLayout
-        className="layout"
-        layouts={layouts}
-        breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-        cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
-      >
-        {layouts.map(lay => <div key={lay.i} data-grid={{ x: lay.x, y: lay.y, w: lay.w, h: lay.h, static: lay.static }}c lassName='layout-item'><TaskProgressBar percentage={50} /></div>)
-        }
-      </ResponsiveGridLayout>
+            className="layout"
+            layouts={{ lg: layout }}
+            rowHeight={30}
+            isResizable={true}
+          >
+            {layout.map((lay) => (
+              <div
+                key={lay.i}
+                className="movable-item"
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  border: '1px solid black',
+                }}
+              >
+                <Likes />
+              </div>
+            ))}
+          </ResponsiveGridLayout>
         </Column>
         <div
           className="editor__element"
