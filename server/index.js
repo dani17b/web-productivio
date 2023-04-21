@@ -89,17 +89,27 @@ app.post('/save-file', (req, res) => {
     return;
   }
 
-  const filePath = path.join(__dirname, '..', 'src', 'components', filename);
-  
-  fs.outputFile(filePath, content, (err) => {
+  const folderName = path.basename(filename, fileExtension);
+  const folderPath = path.join(__dirname, '..', 'src', 'components', folderName);
+  const filePath = path.join(folderPath, filename);
+
+  fs.mkdir(folderPath, { recursive: true }, (err) => {
     if (err) {
       console.error(err);
-      res.status(500).send('Error saving file');
+      res.status(500).send('Error creating folder');
     } else {
-      res.send('File saved successfully');
+      fs.outputFile(filePath, content, (err) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Error saving file');
+        } else {
+          res.send('File saved successfully');
+        }
+      });
     }
   });
 });
+
 
 app.all('*', (req, res) => {
   const mockData = getMock(req.method.toLowerCase(), req.originalUrl);
