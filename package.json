@@ -20,6 +20,7 @@
     "react-dnd-html5-backend": "^16.0.1",
     "react-docgen-typescript": "2.2.2",
     "react-dom": "18.2.0",
+    "react-grid-layout": "^1.3.4",
     "react-icons": "4.8.0",
     "react-redux": "8.0.5",
     "react-router-dom": "^6.8.2",
@@ -38,7 +39,6 @@
     "eject": "react-scripts eject",
     "prepare": "husky install",
     "generate-component-docs": "react-docgen \"../lib-productivio/src/components\" --pretty --extension tsx --out productivio-components.json"
-
   },
   "eslintConfig": {
     "extends": [
@@ -60,6 +60,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0",
+    "@types/react-grid-layout": "^1.3.2",
     "craco-alias": "^3.0.1",
     "jest-canvas-mock": "2.5.0",
     "react-docgen": "^5.4.3"
