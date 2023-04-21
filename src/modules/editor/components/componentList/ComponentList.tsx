@@ -15,13 +15,11 @@ export const ComponentsList = () => {
 
   const libraries = {
     Example_Lib: [
-      { name: 'Likes', icon: <Likes/>},
-      { name: 'TaskProgressBar', icon: <TaskProgressBar/>},
-      { name: 'UserPhoto', icon: <UserPhoto/>},
-
-
+      { name: 'Likes', icon: <Likes /> },
+      { name: 'TaskProgressBar', icon: <TaskProgressBar /> },
+      { name: 'UserPhoto', icon: <UserPhoto /> },
     ],
- 
+
     Productivio: [
       {
         name: componetsNames.map((componentName, index) => (
@@ -33,7 +31,7 @@ export const ComponentsList = () => {
     ],
   };
   return (
-    <div className='component-list-container'>
+    <div className="component-list-container">
       {Object.entries(libraries).map(([libraryName, components], index) => (
         <>
           <Column key={index}>
