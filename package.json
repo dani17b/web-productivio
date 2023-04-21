@@ -25,6 +25,7 @@
     "react-dnd-html5-backend": "16.0.1",
     "react-docgen-typescript": "2.2.2",
     "react-dom": "18.2.0",
+    "react-element-to-jsx-string": "^15.0.0",
     "react-icons": "4.8.0",
     "react-redux": "8.0.5",
     "react-router-dom": "6.8.2",
@@ -45,7 +46,6 @@
     "eject": "react-scripts eject",
     "prepare": "husky install",
     "generate-component-docs": "react-docgen \"../lib-productivio/src/components\" --pretty --extension tsx --out productivio-components.json"
-
   },
   "eslintConfig": {
     "extends": [

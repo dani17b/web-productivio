@@ -14,6 +14,7 @@ import {
   MyComponentProps,
 } from 'src/components/propsEditor/TestComponent';
 import { TabComponent } from './components/tabComponent/TabComponent';
+import { Badge } from 'lib-productivio';
 
 export const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -54,10 +55,15 @@ export const MovableItem = ({ children }) => {
 };
 
 export const Editor = () => {
+  const [componentCode, setComponentCode] = useState('');
+  const generateBadgeComponentCode = () => {
+    const componentDefinition = Badge.toString();
+    setComponentCode(componentDefinition);
+    //const componentStr = buildJsx(componentDefinition.components[0].dom);
+  };
+
   const [selectedElement, setSelectedElement] = useState(null);
-
   const dispatch = useDispatch();
-
   const { files } = useSelector((state) => state.editor);
 
   useEffect(() => {
@@ -90,6 +96,11 @@ export const Editor = () => {
           </Column>
         </div>
         <Column className="editor__canvas">
+          <button onClick={generateBadgeComponentCode}>
+            Generar componente Badge
+          </button>
+          <textarea value={componentCode} readOnly />
+
           <TabComponent
             tabLabel="Hello World"
             tabContent={
