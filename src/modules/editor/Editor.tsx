@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 //@ts-nocheck
 import './editor.scss';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
@@ -83,10 +82,12 @@ export const Editor = () => {
 
   console.log(componentDef);
 
-  const layout = [
-    { i: 'a', x: 0, y: 0, w: 5, h: 5, static: false },
+  const [layout] = useState([
+    { i: 'a', x: 0, y: 0, w: 1, h: 1, static: false },
     { i: 'b', x: 6, y: 0, w: 2, h: 2, static: false },
-  ];
+  ]);
+  const [backgroundSize] = useState('160px 32px');
+
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -111,27 +112,35 @@ export const Editor = () => {
               setSelectedElement(element);
             },
           })}
-          <ResponsiveGridLayout
-            className="layout"
-            layouts={{ lg: layout }}
-            rowHeight={30}
-            isResizable={true}
-          >
-            {layout.map((lay) => (
-              <div
-                key={lay.i}
-                className="movable-item"
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  border: '1px solid black',
-                }}
-              >
-                <Likes />
-              </div>
-            ))}
-          </ResponsiveGridLayout>
+          <div style={{ background: 'linear-gradient(#eee 1px, transparent 1px), linear-gradient(90deg, #eee 1px, transparent 1px), linear-gradient(#eee 1px, transparent 1px) repeat-x, linear-gradient(90deg, #eee 1px, transparent 1px) repeat-x', backgroundSize }}>
+            <ResponsiveGridLayout
+              className="layout"
+              layouts={{ lg: layout }}
+              margin={[0,0]}
+              containerPadding={[0,0]}
+              isBounded={true}
+              rowHeight={30}
+              isResizable={true}
+              style={{
+                marginRight: selectedElement == null ? -250 : 0,
+              }}
+            >
+              {layout.map((lay) => (
+                <div
+                  key={lay.i}
+                  className="movable-item"
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    boxSizing: 'border-box'
+                  }}
+                >
+                  <Likes />
+                </div>
+              ))}
+            </ResponsiveGridLayout>
+          </div>
         </Column>
         <div
           className="editor__element"
