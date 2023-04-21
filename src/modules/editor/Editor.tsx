@@ -65,7 +65,6 @@ export const Editor = () => {
         h: 2,
         component: (
           <div className="movable-item">
-            {component.name}
             {component.icon}
           </div>
         ),

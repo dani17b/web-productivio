@@ -21,7 +21,7 @@ export const ComponentsList = ({ onComponentSelect }) => {
     ],
 
     Productivio: componetsNames.map((componentName) => ({
-      name: componentName,
+      icon: componentName,
     })),
   };
 
@@ -41,7 +41,6 @@ export const ComponentsList = ({ onComponentSelect }) => {
                 className='movable-item'
                 onClick={() => onComponentClick(component, index)}
               >
-                {component.name}
                 {component.icon}
               </div>
             ))}
