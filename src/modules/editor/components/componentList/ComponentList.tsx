@@ -1,6 +1,6 @@
 // @ts-nocheck
 import './componentList.scss';
-import { Column, MovableItem } from '../../Editor';
+import { Column } from '../../Editor';
 import componentsData from '../../../../../productivio-components.json';
 import { Likes, TaskProgressBar, UserPhoto } from 'lib-productivio';
 
@@ -10,7 +10,7 @@ export const getComponentNames = (componentsData) => {
   );
 };
 
-export const ComponentsList = () => {
+export const ComponentsList = ({ onComponentSelect }) => {
   const componetsNames = getComponentNames(componentsData);
 
   const libraries = {
@@ -20,31 +20,34 @@ export const ComponentsList = () => {
       { name: 'UserPhoto', icon: <UserPhoto /> },
     ],
 
-    Productivio: [
-      {
-        name: componetsNames.map((componentName, index) => (
-          <Column key={index}>
-            <MovableItem>{componentName}</MovableItem>
-          </Column>
-        )),
-      },
-    ],
+    Productivio: componetsNames.map((componentName) => ({
+      name: componentName,
+    })),
   };
+
+  const onComponentClick = (component, index) => {
+    onComponentSelect(component, index);
+  };
+
   return (
-    <div className="component-list-container">
+    <div className='component-list-container'>
       {Object.entries(libraries).map(([libraryName, components], index) => (
         <>
           <Column key={index}>
             <h2>{libraryName}</h2>
             {components.map((component, index) => (
-              <MovableItem key={index}>
+              <div
+                key={index}
+                className='movable-item'
+                onClick={() => onComponentClick(component, index)}
+              >
                 {component.name}
                 {component.icon}
-              </MovableItem>
+              </div>
             ))}
           </Column>
         </>
       ))}
-    </div >
+    </div>
   );
 };

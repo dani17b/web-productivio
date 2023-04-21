@@ -1,7 +1,5 @@
 //@ts-nocheck
 import './editor.scss';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 import { parse, buildJsx } from '../../lib/tsx-builder';
 import { InfoPanel } from './components/infoPanel/InfoPanel';
 import { useEffect, useState } from 'react';
@@ -14,43 +12,15 @@ import {
   MyComponentProps,
 } from 'src/components/propsEditor/TestComponent';
 import { Responsive, WidthProvider } from 'react-grid-layout';
-import { TaskProgressBar } from 'lib-productivio';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export const Column = ({ children, className, title }) => {
-  const [{ canDrop, isOver }, drop] = useDrop({
-    accept: 'TYPE',
-    drop: () => ({ name: 'Some name' }),
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
-    }),
-  });
-
-  console.log('options', { canDrop, isOver });
-
   return (
-    <div ref={drop} className={className}>
+    <div className={className}>
       {title}
-      {children}
-    </div>
-  );
-};
-
-export const MovableItem = ({ children }) => {
-  const [{ isDragging }, drag] = useDrag({
-    item: { name: 'Any custom name' },
-    type: 'TYPE',
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
-
-  const opacity = isDragging ? 0.4 : 1;
-
-  return (
-    <div ref={drag} className="movable-item" style={{ opacity }}>
       {children}
     </div>
   );
@@ -80,79 +50,73 @@ export const Editor = () => {
         );
     }`);
 
-  //const componentStr = build(componentDef);
-
   console.log(componentDef);
   const [styles, setStyles] = useState<MyComponentProps['style']>([]);
+  const [layout, setLayout] = useState([]);
 
-  const layouts = [
-    { i: 'a', x: 0, y: 0, w: 1, h: 2, isResizable: true, static: true },
-    { i: 'b', x: 1, y: 0, w: 3, h: 2, isResizable: true, minW: 2, maxW: 4 },
-    { i: 'c', x: 4, y: 0, w: 1, h: 2, isResizable: true },
-  ];
+  const handleComponentSelect = (component, index) => {
+    setLayout((prevLayout) => [
+      ...prevLayout,
+      {
+        i: `${component.name}-${index}`,
+        x: 0,
+        y: Infinity,
+        w: 2,
+        h: 2,
+        component: (
+          <div className="movable-item">
+            {component.name}
+            {component.icon}
+          </div>
+        ),
+      },
+    ]);
+  };
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      <div className="editor">
-        <div className="editor__components">
-          <Column children={undefined} className={undefined} title={undefined}>
-            <ComponentsList />
-          </Column>
-        </div>
-        <Column
-          className="editor__canvas"
-          children={undefined}
-          title={undefined}
-        >
-          {buildJsx(componentDef.components[0].dom, {
-            selectElement: (element) => {
-              console.log('edit element', element);
-              setSelectedElement(element);
-            },
-            removeElement: (element) => {
-              console.log('remove element', element);
-              setSelectedElement(element);
-            },
-          })}
-          <MyComponent text="Hello World!" style={styles} />
-          <ResponsiveGridLayout
-            className="layout"
-            layouts={layouts}
-            breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-            cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
-          >
-            {layouts.map((lay) => (
-              <div
-                key={lay.i}
-                data-grid={{
-                  x: lay.x,
-                  y: lay.y,
-                  w: lay.w,
-                  h: lay.h,
-                  static: lay.static,
-                }}
-                c
-                lassName="layout-item"
-              >
-                <TaskProgressBar percentage={50} />
-              </div>
-            ))}
-          </ResponsiveGridLayout>
+    <div className="editor">
+      <div className="editor__components">
+        <Column>
+          <ComponentsList onComponentSelect={handleComponentSelect} />
         </Column>
-        <div
-          className="editor__element"
-          style={{
-            marginRight: selectedElement == null ? -250 : 0,
-          }}
-        >
-          <InfoPanel
-            element={selectedElement}
-            onClose={() => setSelectedElement(null)}
-            styles={styles}
-            setStyles={setStyles}
-          />
-        </div>
       </div>
-    </DndProvider>
+      <div className="editor__canvas">
+        <ResponsiveGridLayout
+          className="layout"
+          rowHeight={30}
+          cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
+        >
+          {layout.map((item) => (
+            <div key={item.i} data-grid={item}>
+              {item.component}
+            </div>
+          ))}
+        </ResponsiveGridLayout>
+        {buildJsx(componentDef.components[0].dom, {
+          selectElement: (element) => {
+            console.log('edit element', element);
+            setSelectedElement(element);
+          },
+          removeElement: (element) => {
+            console.log('remove element', element);
+            setSelectedElement(element);
+          },
+        })}
+        <MyComponent text="Hello World!" style={styles} />
+      </div>
+      <div
+        className="editor__element"
+        style={{
+          marginRight: selectedElement == null ? -250 : 0,
+        }}
+      >
+        <InfoPanel
+          element={selectedElement}
+          onClose={() => setSelectedElement(null)}
+          styles={styles}
+          setStyles={setStyles}
+        />
+      </div>
+    </div>
   );
 };
