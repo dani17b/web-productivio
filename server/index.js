@@ -121,14 +121,23 @@ app.post('/update-file', (req, res) => {
     return;
   }
 
-  const filePath = path.join(__dirname, '..', 'src', 'components', filename);
+  const folderName = path.basename(filename, fileExtension);
+  const folderPath = path.join(__dirname, '..', 'src', 'components', folderName);
+  const filePath = path.join(folderPath, filename);
 
-  fs.writeFile(filePath, content, (err) => {
+  fs.mkdir(folderPath, { recursive: true }, (err) => {
     if (err) {
       console.error(err);
-      res.status(500).send('Error updating file');
+      res.status(500).send('Error creating folder');
     } else {
-      res.send('File updated successfully');
+      fs.writeFile(filePath, content, (err) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Error updating file');
+        } else {
+          res.send('File updated successfully');
+        }
+      });
     }
   });
 });
