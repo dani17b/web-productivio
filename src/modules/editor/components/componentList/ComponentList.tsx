@@ -45,6 +45,6 @@ export const ComponentsList = () => {
           </Column>
         </>
       ))}
-    </div>
+    </div >
   );
 };
