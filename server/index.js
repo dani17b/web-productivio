@@ -90,13 +90,36 @@ app.post('/save-file', (req, res) => {
   }
 
   const filePath = path.join(__dirname, '..', 'src', 'components', filename);
-  
+
   fs.outputFile(filePath, content, (err) => {
     if (err) {
       console.error(err);
       res.status(500).send('Error saving file');
     } else {
       res.send('File saved successfully');
+    }
+  });
+});
+
+//Actualizar archivo
+app.post('/update-file', (req, res) => {
+  const { filename, content } = req.body;
+  const validExtensions = ['.js', '.tsx', '.ts', '.json'];
+  const fileExtension = path.extname(filename);
+
+  if (!validExtensions.includes(fileExtension)) {
+    res.status(400).send('Invalid file extension');
+    return;
+  }
+
+  const filePath = path.join(__dirname, '..', 'src', 'components', filename);
+
+  fs.writeFile(filePath, content, (err) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error updating file');
+    } else {
+      res.send('File updated successfully');
     }
   });
 });
