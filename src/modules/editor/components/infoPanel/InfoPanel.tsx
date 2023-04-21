@@ -1,17 +1,19 @@
 import { StyleEditor } from 'src/components/propsEditor/StyleEditor';
 import './infoPanel.scss';
 import { IoCloseOutline } from 'react-icons/io5';
+import { PropsEditor } from 'src/components/propsEditor/PropsEditor';
 
 interface InfoPanelProps {
   element: any;
   onClose: any;
   styles: any;
   setStyles: any;
-  text: string;
+  text: any;
+  setText: any;
 }
 
 export const InfoPanel = (props: InfoPanelProps) => {
-  const { element, onClose, styles, setStyles } = props;
+  const { element, onClose, styles, setStyles, text, setText } = props;
 
   if (element == null) {
     return () => {};
@@ -27,7 +29,12 @@ export const InfoPanel = (props: InfoPanelProps) => {
       </div>
       <div className="info-panel__section">
         <div className="info-panel__section-title">Propiedades</div>
-        <div className="info-panel__section-content"></div>
+        <div className="info-panel__section-content">
+          <PropsEditor
+            initialText={Object.assign({}, ...text)}
+            onTextChange={setText}
+          />{' '}
+        </div>
       </div>
       <div className="info-panel__section">
         <div className="info-panel__section-title">Estilos</div>

@@ -5,9 +5,8 @@ export interface TestComponentProps {
   style: React.CSSProperties[];
 }
 
-export const MyComponent: React.FC<TestComponentProps> = ({
+export const TestComponent: React.FC<TestComponentProps> = ({
   text,
-
   style,
 }) => {
   return <div style={Object.assign({}, ...style)}>{text}</div>;

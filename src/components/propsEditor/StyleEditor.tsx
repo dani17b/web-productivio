@@ -60,9 +60,7 @@ export const StyleEditor: React.FC<StyleEditorProps> = ({
           <div key={key}>
             <label htmlFor={key}>{key}:</label>
             <input
-              type={
-                key === 'color' || key === 'backgroundColor' ? 'color' : 'text'
-              }
+              type={/color/i.test(key) ? 'color' : 'text'}
               id={key}
               name={key}
               value={value}

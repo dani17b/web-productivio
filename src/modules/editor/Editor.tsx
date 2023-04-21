@@ -10,8 +10,8 @@ import { getFiles } from './actions';
 import { useSelector } from 'react-redux';
 import { ComponentsList } from './components/componentList/ComponentList';
 import {
-  MyComponent,
-  MyComponentProps,
+  TestComponent,
+  TestComponentProps,
 } from 'src/components/propsEditor/TestComponent';
 
 export const Column = ({ children, className, title }) => {
@@ -79,7 +79,14 @@ export const Editor = () => {
   //const componentStr = build(componentDef);
 
   console.log(componentDef);
-  const [styles, setStyles] = useState<MyComponentProps['style']>([]);
+  const [styles, setStyles] = useState<TestComponentProps['style']>([
+    {
+      color: '#FF5733',
+      backgroundColor: '#C70039',
+      borderColor: '#900C3F',
+    },
+  ]);
+  const [text, setText] = useState<TestComponentProps['text']>('Hello World!');
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="editor">
@@ -99,7 +106,7 @@ export const Editor = () => {
               setSelectedElement(element);
             },
           })}
-          <MyComponent text="Hello World!" style={styles} />
+          <TestComponent text={text} style={styles} />
         </Column>
         <div
           className="editor__element"
@@ -112,6 +119,8 @@ export const Editor = () => {
             onClose={() => setSelectedElement(null)}
             styles={styles}
             setStyles={setStyles}
+            text={text}
+            setText={setText}
           />
         </div>
       </div>
