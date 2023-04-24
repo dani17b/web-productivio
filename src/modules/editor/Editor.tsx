@@ -6,7 +6,7 @@ import { parse, buildJsx } from '../../lib/tsx-builder';
 import { InfoPanel } from './components/infoPanel/InfoPanel';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getCode, getFiles } from './actions';
+import { getCode, getFiles, postFile, updateFile } from './actions';
 import { useSelector } from 'react-redux';
 import { ComponentsList } from './components/componentList/ComponentList';
 import {
@@ -65,9 +65,7 @@ export const Editor = () => {
 
   useEffect(() => {
     dispatch(
-      getFiles(
-        'C:\\Users\\enrique.jimenez\\Documents\\formaciónDani\\productivio\\web-productivio'
-      )
+      getFiles('')
       // 'C:\\Users\\paula.alba\\Desktop\\workspace\\dev\\web-productivio'
       // 'C:\\Users\\enrique.jimenez\\Documents\\formaciónDani\\productivio\\web-productivio'
     );
@@ -86,6 +84,15 @@ export const Editor = () => {
             <div>Hola mundo</div>
         );
     }`);
+
+  // const file = {
+  //   filename: 'Test.js',
+  //   content:
+  //     "console.log('Este es un archivo de ejemplo.');",
+  // };
+
+  //dispatch(postFile(file));
+  // dispatch(updateFile(file));
 
   //const componentStr = build(componentDef);
 

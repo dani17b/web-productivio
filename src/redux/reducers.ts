@@ -7,7 +7,7 @@ import form from '../modules/newTask/reducer';
 import editConf from '../modules/userConfig/reducer';
 import ranking from 'src/modules/ranking/reducer';
 import { usersFetch, teamPost } from 'src/modules/newTeam/reducer';
-import { editor, code } from '../modules/editor/reducer';
+import { editor, code, postFile } from '../modules/editor/reducer';
 
 export const reducers = {
   login,
@@ -24,4 +24,5 @@ export const reducers = {
   teamPost,
   editor,
   code,
+  postFile,
 };
