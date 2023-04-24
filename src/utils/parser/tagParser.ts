@@ -131,7 +131,6 @@ function elementArrayToNestedJson(elementArray: DomElement[]): {
 
   for (let i = 1; i < elementArray.length; i++) {
     // console.log(i, elementArray);
-    debugger;
     const element = elementArray[i];
     switch (element.type) {
       case DomElementType.PlainText:

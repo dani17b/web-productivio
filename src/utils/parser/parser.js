@@ -86,8 +86,9 @@ export const createFunctionsFromJson = (functions) => {
 };
 
 //Return parser
-function createTsxDom(domJson) {
-  const { type, children, attributes } = domJson;
+export function createTsxDom(domJson) {
+  const { type, children, attributes } = domJson.dom;
+  debugger;
   let result = `<${type}`;
   attributes.map((attribute) => {
     result += ` ${attribute.key} = ${attribute.value}`;
@@ -97,7 +98,7 @@ function createTsxDom(domJson) {
 
   children.map((child) => {
     if (child.dom != null) {
-      result += createTsxDom(child.dom);
+      result += createTsxDom(child);
     } else if (child.text) {
       result += child.text;
     }
@@ -107,6 +108,10 @@ function createTsxDom(domJson) {
 
   return result;
 }
+
+export const createFullComponent = (json) => {
+  let result = '';
+};
 
 // import React from 'react';
 
