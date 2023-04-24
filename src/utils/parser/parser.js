@@ -1,3 +1,5 @@
+import { json } from 'react-router-dom';
+
 export const reactToJson = (input) => {
   // extract component name from the 'export default' statement
   const componentName = input.match(/export const (\w+)/)[1];
@@ -78,8 +80,10 @@ export const createFunctionsFromJson = (functions) => {
     childResult += `${child.name} = (${child.args.map((arguito) => {
       return `${arguito.name} : ${arguito.type}`;
     })}) => {`;
-    childResult += `${child.content} 
-  }`;
+    //childResult += `${child.content}
+    childResult += `return (${createTsxDom(child.returnedContent)});`;
+    childResult += '}';
+
     result += childResult;
   });
   return result;
@@ -109,7 +113,13 @@ export function createTsxDom(domJson) {
   return result;
 }
 
+export const creatProps = (jsonProps, name) => {
+  let result = '';
+  jsonProps.map((prop) => {});
+};
+
 export const createFullComponent = (json) => {
+  //TODO imports¿?
   let result = '';
 };
 
