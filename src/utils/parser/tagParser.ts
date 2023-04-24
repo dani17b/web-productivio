@@ -113,24 +113,32 @@ function getTagAttributes(tag: string): KeyValue[] {
   });
 }
 
-function elementArrayToNestedJson(elementArray: DomElement[]): TagObj {
+function elementArrayToNestedJson(elementArray: DomElement[]): {
+  tag: TagObj;
+  index: number;
+} {
   const tagInnerText = elementArray[0].innerString;
-  const result: TagObj = {
-    dom: {
-      type: getTagName(tagInnerText),
-      attributes: getTagAttributes(tagInnerText) || undefined,
-      children: [],
+  const result: { tag: TagObj; index: number } = {
+    tag: {
+      dom: {
+        type: getTagName(tagInnerText),
+        attributes: getTagAttributes(tagInnerText) || undefined,
+        children: [],
+      },
     },
+    index: 1,
   };
 
   for (let i = 1; i < elementArray.length; i++) {
+    // console.log(i, elementArray);
+    debugger;
     const element = elementArray[i];
     switch (element.type) {
       case DomElementType.PlainText:
-        result.dom.children.push({ text: element.innerString });
+        result.tag.dom.children.push({ text: element.innerString });
         break;
       case DomElementType.SelfClosed:
-        result.dom.children.push({
+        result.tag.dom.children.push({
           dom: {
             type: getTagName(element.innerString),
             attributes: getTagAttributes(element.innerString) || undefined,
@@ -140,12 +148,14 @@ function elementArrayToNestedJson(elementArray: DomElement[]): TagObj {
         break;
       case DomElementType.Opening:
         const nested = elementArrayToNestedJson(elementArray.slice(i));
-        result.dom.children.push(nested);
-        i += nested.dom.children.length + 1;
+        result.tag.dom.children.push(nested.tag);
+        i += nested.index;
         break;
       case DomElementType.Closing:
+        result.index = i;
         return result;
     }
+    result.index = i;
   }
 
   return result;
@@ -186,25 +196,27 @@ export function parseFunction(functionText: string): FunctionObj {
     name.includes('?')
       ? args.push({ name: name.replace('?', ''), type: type, optional: true })
       : args.push({ name: name, type: type, optional: false });
-
   });
   result.args = args;
-  
-  let content = functionText.match(/return\s+([\s\S]+?);/)?.[1].replace(/[\r\n]+\s*/g, '') || '';
+
+  let content =
+    functionText
+      .match(/return\s+([\s\S]+?);/)?.[1]
+      .replace(/[\r\n]+\s*/g, '') || '';
   content = content[0] === '(' ? content.slice(1, -1) : content;
 
-  result.returnedContent = content[0] === '<' ? parseReturnedTag(content) : content;
+  result.returnedContent =
+    content[0] === '<' ? parseReturnedTag(content) : content;
 
-  
   //const name = functionText.slice(functionText.indexOf('const') + 6,  functionText.indexOf('='));
 
   return result;
 }
 
-export function parseReturnedTag(input: string) : TagObj {
+export function parseReturnedTag(input: string): TagObj {
   return elementArrayToNestedJson(
     stringArrayToElementArray(stringToStringArray(input))
-  );
+  ).tag;
 }
 
 export function parse(input: string): ComponentObj {
@@ -212,6 +224,6 @@ export function parse(input: string): ComponentObj {
     imports: parseImports(input),
     returnedTag: elementArrayToNestedJson(
       stringArrayToElementArray(stringToStringArray(input))
-    ),
+    ).tag,
   };
 }
