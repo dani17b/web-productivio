@@ -10,8 +10,8 @@ import { getFiles } from './actions';
 import { useSelector } from 'react-redux';
 import { ComponentsList } from './components/componentList/ComponentList';
 import {
-  MyComponent,
-  MyComponentProps,
+  TestComponent,
+  TestComponentProps,
 } from 'src/components/propsEditor/TestComponent';
 import { TabComponent } from './components/tabComponent/TabComponent';
 
@@ -80,7 +80,15 @@ export const Editor = () => {
   //const componentStr = build(componentDef);
 
   console.log(componentDef);
-  const [styles, setStyles] = useState<MyComponentProps['style']>([]);
+  const [styles, setStyles] = useState<TestComponentProps['style']>([
+    {
+      color: '#1b1918',
+      backgroundColor: '#C70039',
+      margin: '10px',
+      textAlign: 'center',
+    },
+  ]);
+  const [text, setText] = useState<TestComponentProps['text']>('Hello World!');
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="editor">
@@ -90,11 +98,21 @@ export const Editor = () => {
           </Column>
         </div>
         <Column className="editor__canvas">
+          {buildJsx(componentDef.components[0].dom, {
+            selectElement: (element) => {
+              console.log('edit element', element);
+              setSelectedElement(element);
+            },
+            removeElement: (element) => {
+              console.log('remove element', element);
+              setSelectedElement(element);
+            },
+          })}
+          <TestComponent text={text} style={styles} />
           <TabComponent
             tabLabel="Hello World"
             tabContent={
               <div className="editor__canvas__wrapper">
-                <MyComponent text="Hello World!" style={styles} />
                 {buildJsx(componentDef.components[0].dom, {
                   selectElement: (element) => {
                     console.log('edit element', element);
@@ -120,6 +138,8 @@ export const Editor = () => {
             onClose={() => setSelectedElement(null)}
             styles={styles}
             setStyles={setStyles}
+            text={text}
+            setText={setText}
           />
         </div>
       </div>
