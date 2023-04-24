@@ -31,7 +31,7 @@ export const FeedBlock = (feedProps: FeedBlockProps) => {
     comments,
     createdAt,
     onClick,
-    likedByMe
+    likedByMe,
   } = feedProps;
 
   const date = new Date(createdAt);
@@ -44,11 +44,18 @@ export const FeedBlock = (feedProps: FeedBlockProps) => {
     <div className="block">
       <div className="feedblock">
         <div className="feedblock__user-photo">
-          <UserPhoto imageSrc={imageSrc} borderColor={borderColor}/>
+          <UserPhoto imageSrc={imageSrc} borderColor={borderColor} />
         </div>
         <div className="feedblock__content">
-          <div className="feedblock__content__username" data-testid="username">{username}</div>
-          <div className="feedblock__content__description" data-testid="user-description">{description}</div>
+          <div className="feedblock__content__username" data-testid="username">
+            {username}
+          </div>
+          <div
+            className="feedblock__content__description"
+            data-testid="user-description"
+          >
+            {description}
+          </div>
           {showProgressBar() && (
             <div className="feedblock__content__bar" data-testid="progress-bar">
               <TaskProgressBar percentage={taskProgessBarPercent} />

@@ -13,6 +13,7 @@ import {
   TestComponent,
   TestComponentProps,
 } from 'src/components/propsEditor/TestComponent';
+import { TabComponent } from './components/tabComponent/TabComponent';
 
 export const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -108,6 +109,23 @@ export const Editor = () => {
             },
           })}
           <TestComponent text={text} style={styles} />
+          <TabComponent
+            tabLabel="Hello World"
+            tabContent={
+              <div className="editor__canvas__wrapper">
+                {buildJsx(componentDef.components[0].dom, {
+                  selectElement: (element) => {
+                    console.log('edit element', element);
+                    setSelectedElement(element);
+                  },
+                  removeElement: (element) => {
+                    console.log('remove element', element);
+                    setSelectedElement(element);
+                  },
+                })}{' '}
+              </div>
+            }
+          />
         </Column>
         <div
           className="editor__element"
