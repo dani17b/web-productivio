@@ -1,7 +1,8 @@
-import { StyleEditor } from 'src/components/propsEditor/StyleEditor';
 import './infoPanel.scss';
 import { IoCloseOutline } from 'react-icons/io5';
-import { PropsEditor } from 'src/components/propsEditor/PropsEditor';
+import React from 'react';
+import { PropsEditor } from '../../../../components/propsEditor/PropsEditor';
+import { StyleEditor } from '../../../../components/propsEditor/StyleEditor';
 
 interface InfoPanelProps {
   element: any;

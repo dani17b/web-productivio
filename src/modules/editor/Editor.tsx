@@ -81,9 +81,10 @@ export const Editor = () => {
   console.log(componentDef);
   const [styles, setStyles] = useState<TestComponentProps['style']>([
     {
-      color: '#FF5733',
+      color: '#1b1918',
       backgroundColor: '#C70039',
-      borderColor: '#900C3F',
+      margin: '10px',
+      textAlign: 'center',
     },
   ]);
   const [text, setText] = useState<TestComponentProps['text']>('Hello World!');
