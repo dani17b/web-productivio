@@ -9,6 +9,7 @@ import configureAppStore from './redux/configureStore';
 import 'lib-productivio/dist/cjs/index.css';
 import { IndexedDB } from './lib/axios/indexeddb/IndexedDB';
 import apiDefinitionYml from './config/api.json';
+import { SetJsonStyle } from './utils/SetJsonStyle';
 
 const store = configureAppStore({});
 
@@ -25,3 +26,5 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+console.log('setter json', SetJsonStyle({ color: red }));
