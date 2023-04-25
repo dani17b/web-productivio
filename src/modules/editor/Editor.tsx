@@ -92,7 +92,7 @@ export const Editor = () => {
     w: number;
     h: number;
   }
-  export const AddGridItem = (component: JSX.Element) => {
+  const AddGridItem = (component: JSX.Element) => {
     const newItemUUID = uuid();
 
     setLayout(prevLayout => [
