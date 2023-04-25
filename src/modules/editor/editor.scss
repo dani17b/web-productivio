@@ -19,8 +19,16 @@
         transition: 0.5s ease all;
     }
 }
+.layout-grid{
+    height: 550px;
+    width: 60vw;
+}
 .layout{
     border: 2px solid black;
+    width: 1414px;
+    height: 900px;
+    max-height: 900px;
+    
 }
 .layout-item{
     border: 2px solid black;

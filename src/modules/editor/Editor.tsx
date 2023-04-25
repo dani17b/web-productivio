@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 //@ts-nocheck
 import './editor.scss';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
@@ -7,10 +8,11 @@ import { InfoPanel } from './components/infoPanel/InfoPanel';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getFiles } from './actions';
-import { Likes } from 'lib-productivio';
+import { Likes, TaskProgressBar } from 'lib-productivio';
 import { useSelector } from 'react-redux';
 import { ComponentsList } from './components/componentList/ComponentList';
 import { WidthProvider, Responsive } from 'react-grid-layout';
+import uuid from 'react-uuid';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
@@ -82,12 +84,28 @@ export const Editor = () => {
 
   console.log(componentDef);
 
-  const [layout] = useState([
-    { i: 'a', x: 0, y: 0, w: 1, h: 1, static: false },
-    { i: 'b', x: 6, y: 0, w: 2, h: 2, static: false },
-  ]);
-  const [backgroundSize] = useState('160px 32px');
+  interface Item {
+    i: string;
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+  }
 
+  const [layout, setLayout] = useState([
+    { i: uuid(), x: 0, y: 0, w: 1.5, h: 1, static: false, maxH: 30, component: <Likes totalLikes={100} likedByMe={false} />},
+    { i: uuid(), x: 0, y: 0, w: 3, h: 3, static: false, maxH: 30, component: <TaskProgressBar percentage={45} />},
+  ]);
+
+  const onLayoutChange = (newLayout: Item[]) => {
+    setLayout(newLayout);
+  };
+
+  useEffect(() => {
+    console.log(layout);
+  }, [layout]);
+
+  
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -112,31 +130,35 @@ export const Editor = () => {
               setSelectedElement(element);
             },
           })}
-          <div style={{ background: 'linear-gradient(#eee 1px, transparent 1px), linear-gradient(90deg, #eee 1px, transparent 1px), linear-gradient(#eee 1px, transparent 1px) repeat-x, linear-gradient(90deg, #eee 1px, transparent 1px) repeat-x', backgroundSize }}>
+          <div
+            className="layout-grid"
+            
+          >
             <ResponsiveGridLayout
               className="layout"
+              autoSize={false}
               layouts={{ lg: layout }}
-              margin={[0,0]}
-              containerPadding={[0,0]}
+              onLayoutChange={onLayoutChange}
+              margin={[0, 0]}
+              containerPadding={[0, 0]}
               isBounded={true}
               rowHeight={30}
               isResizable={true}
-              style={{
-                marginRight: selectedElement == null ? -250 : 0,
-              }}
             >
               {layout.map((lay) => (
                 <div
                   key={lay.i}
+                  id={lay.i}
                   className="movable-item"
                   style={{
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    boxSizing: 'border-box'
+                    boxSizing: 'border-box',
                   }}
                 >
-                  <Likes />
+                  <TaskProgressBar />
+
                 </div>
               ))}
             </ResponsiveGridLayout>
