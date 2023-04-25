@@ -1,7 +1,15 @@
 // Esta versión de eslint tiene un bug para typescript: dice que DomElementType no se utiliza.
 /* eslint-disable */
 
+import { forIn } from 'lodash';
+
 //TYPES
+type TsxObj = {
+  imports: string[];
+  component: FunctionObj;
+  functions?: FunctionObj[];
+  //TODO más cosas
+};
 type DomElement = {
   innerString: string;
   type: DomElementType;
@@ -218,11 +226,22 @@ export function parseReturnedTag(input: string): TagObj {
   ).tag;
 }
 
-export function parse(input: string): ComponentObj {
+export const trimFunctions = (input: any) => {
+  let firstOpening = input.indexOf('{');
+  if (firstOpening != -1) {
+    input.slice(firstOpening);
+    for (const char in input) {
+      if (char === '{') {
+      }
+    }
+  } else {
+    return null;
+  }
+};
+
+export function parse(input: string): TsxObj {
   return {
     imports: parseImports(input),
-    returnedTag: elementArrayToNestedJson(
-      stringArrayToElementArray(stringToStringArray(input))
-    ).tag,
+    component: parseFunction(input),
   };
 }

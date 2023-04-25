@@ -8,11 +8,7 @@ import configureAppStore from './redux/configureStore';
 import 'lib-productivio/dist/cjs/index.css';
 import { IndexedDB } from './lib/axios/indexeddb/IndexedDB';
 import apiDefinitionYml from './config/api.json';
-import {
-  parseImports,
-  parseReturnedTag,
-  parseFunction,
-} from './utils/parser/tagParser';
+import { parse } from './utils/parser/tagParser';
 import { createFunctionsFromJson } from './utils/parser/parser';
 
 const store = configureAppStore({});
@@ -29,19 +25,27 @@ reportWebVitals();
 
 //console.log(parse('<div> Hola mundo! <b>Estoy en negrita</b> </div>'));
 console.log(
-  JSON.stringify(parseFunction(
-    `export const NotFound = (props?: string) => {
-
-  return (
-    <div className='notFound'>
-      <Header></Header>
-      <div>
-        <h1>404 - Page Not Found</h1>
-        <p>Sorry, the page does not exist (by the moment)</p>
-      </div>
-      <WebNavBar></WebNavBar>
-    </div>
-  );
-};`
-  ))
+  JSON.stringify(
+    parse(
+      `import React, { useState } from 'react';
+    import { Header } from 'src/components/header/Header';
+    import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
+    import './notFound.scss';
+    
+    export const NotFound = () => {
+    
+      return (
+        <div className='notFound'>
+          <Header></Header>
+          <div>
+            <h1>404 - Page Not Found</h1>
+            <p>Sorry, the page does not exist (by the moment)</p>
+          </div>
+          <WebNavBar />
+        </div>
+      );
+    };
+    `
+    )
+  )
 );
