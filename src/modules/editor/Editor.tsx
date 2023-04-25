@@ -6,7 +6,7 @@ import { parse, buildJsx } from '../../lib/tsx-builder';
 import { InfoPanel } from './components/infoPanel/InfoPanel';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getFiles } from './actions';
+import { getCode, getFiles, postFile, updateFile } from './actions';
 import { useSelector } from 'react-redux';
 import { ComponentsList } from './components/componentList/ComponentList';
 import {
@@ -59,15 +59,23 @@ export const Editor = () => {
   const dispatch = useDispatch();
 
   const { files } = useSelector((state) => state.editor);
+  const { code } = useSelector((state) => state.code);
+
+  console.log('code', code);
 
   useEffect(() => {
-    dispatch(getFiles('C:\\workspace\\dev\\web-productivio'));
-  }, [dispatch]);
+    dispatch(
+      getFiles('')
+      // 'C:\\Users\\paula.alba\\Desktop\\workspace\\dev\\web-productivio'
+      // 'C:\\Users\\enrique.jimenez\\Documents\\formaciónDani\\productivio\\web-productivio'
+    );
+  }, []);
 
   useEffect(() => {
     if (files.length > 0) {
-      // TODO cargar el componente en si, que sera el que se muestre en el editor abierto
-      //debugger;
+      let path = files.map((file) => file.path);
+      let name = files.map((file) => file.name);
+      dispatch(getCode(path[0], name[0] + '.tsx'));
     }
   }, [files]);
 
@@ -76,6 +84,15 @@ export const Editor = () => {
             <div>Hola mundo</div>
         );
     }`);
+
+  // const file = {
+  //   filename: 'Test.js',
+  //   content:
+  //     "console.log('Este es un archivo de ejemplo.');",
+  // };
+
+  //dispatch(postFile(file));
+  // dispatch(updateFile(file));
 
   //const componentStr = build(componentDef);
 
