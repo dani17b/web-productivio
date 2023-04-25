@@ -16,9 +16,7 @@ import {
   TestComponentProps,
 } from 'src/components/propsEditor/TestComponent';
 import { TabComponent } from './components/tabComponent/TabComponent';
-import { getFiles } from './actions';
 import { Likes, TaskProgressBar } from 'lib-productivio';
-import { useSelector } from 'react-redux';
 import { ComponentsList } from './components/componentList/ComponentList';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import uuid from 'react-uuid';
@@ -72,11 +70,14 @@ export const Editor = () => {
   const { code } = useSelector((state) => state.code);
   const objectNames = files.map((file) => file.name);
 
-
   console.log('code', code);
 
   useEffect(() => {
-    dispatch(getFiles('C:\\Users\\fernando.valerio\\Desktop\\workspace\\dev\\web-productivio'));
+    dispatch(
+      getFiles(
+        'C:\\Users\\fernando.valerio\\Desktop\\workspace\\dev\\web-productivio'
+      )
+    );
   }, [dispatch]);
 
   useEffect(() => {
@@ -114,34 +115,27 @@ export const Editor = () => {
   export const AddGridItem = (component: JSX.Element) => {
     const newItemUUID = uuid();
 
-    setLayout(prevLayout => [
-        ...prevLayout,
-        { i: newItemUUID, x: 0, y: 0, w: 1.5, h: 1, static: false, maxH: 30 }
+    setLayout((prevLayout) => [
+      ...prevLayout,
+      { i: newItemUUID, x: 0, y: 0, w: 1.5, h: 1, static: false, maxH: 30 },
     ]);
 
-    setLists(prevLists => [
-        ...prevLists,
-        { i: newItemUUID, component }
-    ]);
-  }
+    setLists((prevLists) => [...prevLists, { i: newItemUUID, component }]);
+  };
 
   const [layout, setLayout] = useState([
-    { i: uuid(), x: 0, y: 0, w: 1.5, h: 1, static: false, maxH: 30},
-    { i: uuid(), x: 0, y: 0, w: 3, h: 3, static: false, maxH: 30},
+    { i: uuid(), x: 0, y: 0, w: 1.5, h: 1, static: false, maxH: 30 },
+    { i: uuid(), x: 0, y: 0, w: 3, h: 3, static: false, maxH: 30 },
   ]);
 
   const [lists, setLists] = useState([
-    {i: layout[0].i, component: <Likes totalLikes={100} likedByMe={false} />},
-    {i: layout[1].i, component: <TaskProgressBar />}
+    { i: layout[0].i, component: <Likes totalLikes={100} likedByMe={false} /> },
+    { i: layout[1].i, component: <TaskProgressBar /> },
   ]);
 
   const onLayoutChange = (newLayout: Item[]) => {
     setLayout(newLayout);
   };
-
-
-
-  
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -149,12 +143,9 @@ export const Editor = () => {
         <div className="editor__components">
           <Column>
             {objectNames.map((objectName, index) => (
-              <MovableItem key={index}>
-                {objectName}
-              </MovableItem>
-
+              <MovableItem key={index}>{objectName}</MovableItem>
             ))}
-
+          </Column>
           <Column children={undefined} className={undefined} title={undefined}>
             <ComponentsList />
           </Column>
@@ -192,10 +183,7 @@ export const Editor = () => {
               </div>
             }
           />
-          <div
-            className="layout-grid"
-            
-          >
+          <div className="layout-grid">
             <ResponsiveGridLayout
               className="layout"
               autoSize={false}
@@ -219,9 +207,7 @@ export const Editor = () => {
                     boxSizing: 'border-box',
                   }}
                 >
-                  {
-                    lists.find(component => lay.i === component.i)?.component           
-                  }
+                  {lists.find((component) => lay.i === component.i)?.component}
                 </div>
               ))}
             </ResponsiveGridLayout>
