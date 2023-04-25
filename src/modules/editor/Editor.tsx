@@ -1,4 +1,7 @@
 //@ts-nocheck
+/* eslint-disable max-len */
+//@ts-nocheck
+import React from 'react';
 import './editor.scss';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -13,6 +16,16 @@ import {
   TestComponentProps,
 } from 'src/components/propsEditor/TestComponent';
 import { TabComponent } from './components/tabComponent/TabComponent';
+import { getFiles } from './actions';
+import { Likes, TaskProgressBar } from 'lib-productivio';
+import { useSelector } from 'react-redux';
+import { ComponentsList } from './components/componentList/ComponentList';
+import { WidthProvider, Responsive } from 'react-grid-layout';
+import uuid from 'react-uuid';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
+
+const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -90,6 +103,46 @@ export const Editor = () => {
     },
   ]);
   const [text, setText] = useState<TestComponentProps['text']>('Hello World!');
+
+  interface Item {
+    i: string;
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+  }
+  export const AddGridItem = (component: JSX.Element) => {
+    const newItemUUID = uuid();
+
+    setLayout(prevLayout => [
+        ...prevLayout,
+        { i: newItemUUID, x: 0, y: 0, w: 1.5, h: 1, static: false, maxH: 30 }
+    ]);
+
+    setLists(prevLists => [
+        ...prevLists,
+        { i: newItemUUID, component }
+    ]);
+  }
+
+  const [layout, setLayout] = useState([
+    { i: uuid(), x: 0, y: 0, w: 1.5, h: 1, static: false, maxH: 30},
+    { i: uuid(), x: 0, y: 0, w: 3, h: 3, static: false, maxH: 30},
+  ]);
+
+  const [lists, setLists] = useState([
+    {i: layout[0].i, component: <Likes totalLikes={100} likedByMe={false} />},
+    {i: layout[1].i, component: <TaskProgressBar />}
+  ]);
+
+  const onLayoutChange = (newLayout: Item[]) => {
+    setLayout(newLayout);
+  };
+
+
+
+  
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="editor">
@@ -102,9 +155,15 @@ export const Editor = () => {
 
             ))}
 
+          <Column children={undefined} className={undefined} title={undefined}>
+            <ComponentsList />
           </Column>
         </div>
-        <Column className="editor__canvas">
+        <Column
+          className="editor__canvas"
+          children={undefined}
+          title={undefined}
+        >
           {buildJsx(componentDef.components[0].dom, {
             selectElement: (element) => {
               console.log('edit element', element);
@@ -133,6 +192,40 @@ export const Editor = () => {
               </div>
             }
           />
+          <div
+            className="layout-grid"
+            
+          >
+            <ResponsiveGridLayout
+              className="layout"
+              autoSize={false}
+              layouts={{ lg: layout }}
+              onLayoutChange={onLayoutChange}
+              margin={[0, 0]}
+              containerPadding={[0, 0]}
+              isBounded={true}
+              rowHeight={30}
+              isResizable={true}
+            >
+              {layout.map((lay) => (
+                <div
+                  key={lay.i}
+                  id={lay.i}
+                  className="movable-item"
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    boxSizing: 'border-box',
+                  }}
+                >
+                  {
+                    lists.find(component => lay.i === component.i)?.component           
+                  }
+                </div>
+              ))}
+            </ResponsiveGridLayout>
+          </div>
         </Column>
         <div
           className="editor__element"
