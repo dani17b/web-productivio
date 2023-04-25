@@ -17,7 +17,6 @@ import {
 } from 'src/components/propsEditor/TestComponent';
 import { TabComponent } from './components/tabComponent/TabComponent';
 import { Likes, TaskProgressBar } from 'lib-productivio';
-import { ComponentsList } from './components/componentList/ComponentList';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import uuid from 'react-uuid';
 import 'react-grid-layout/css/styles.css';
@@ -112,7 +111,7 @@ export const Editor = () => {
     w: number;
     h: number;
   }
-  export const AddGridItem = (component: JSX.Element) => {
+  const AddGridItem = (component: JSX.Element) => {
     const newItemUUID = uuid();
 
     setLayout((prevLayout) => [
@@ -147,7 +146,6 @@ export const Editor = () => {
             ))}
           </Column>
           <Column children={undefined} className={undefined} title={undefined}>
-            <ComponentsList />
           </Column>
         </div>
         <Column
