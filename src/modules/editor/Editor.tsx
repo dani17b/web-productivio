@@ -6,9 +6,8 @@ import { parse, buildJsx } from '../../lib/tsx-builder';
 import { InfoPanel } from './components/infoPanel/InfoPanel';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getCode, getFiles, postFile, updateFile } from './actions';
+import { getCode, getFiles } from './actions';
 import { useSelector } from 'react-redux';
-import { ComponentsList } from './components/componentList/ComponentList';
 import {
   TestComponent,
   TestComponentProps,
@@ -55,21 +54,17 @@ export const MovableItem = ({ children }) => {
 
 export const Editor = () => {
   const [selectedElement, setSelectedElement] = useState(null);
-
   const dispatch = useDispatch();
-
   const { files } = useSelector((state) => state.editor);
   const { code } = useSelector((state) => state.code);
+  const objectNames = files.map((file) => file.name);
+
 
   console.log('code', code);
 
   useEffect(() => {
-    dispatch(
-      getFiles('')
-      // 'C:\\Users\\paula.alba\\Desktop\\workspace\\dev\\web-productivio'
-      // 'C:\\Users\\enrique.jimenez\\Documents\\formaciónDani\\productivio\\web-productivio'
-    );
-  }, []);
+    dispatch(getFiles('C:\\workspace\\dev\\web-productivio'));
+  }, [dispatch]);
 
   useEffect(() => {
     if (files.length > 0) {
@@ -77,24 +72,13 @@ export const Editor = () => {
       let name = files.map((file) => file.name);
       dispatch(getCode(path[0], name[0] + '.tsx'));
     }
-  }, [files]);
+  }, [dispatch, files]);
 
   const componentDef = parse(`export const ScreenSample = () => {
         return (
             <div>Hola mundo</div>
         );
     }`);
-
-  // const file = {
-  //   filename: 'Test.js',
-  //   content:
-  //     "console.log('Este es un archivo de ejemplo.');",
-  // };
-
-  //dispatch(postFile(file));
-  // dispatch(updateFile(file));
-
-  //const componentStr = build(componentDef);
 
   console.log(componentDef);
   const [styles, setStyles] = useState<TestComponentProps['style']>([
@@ -111,7 +95,13 @@ export const Editor = () => {
       <div className="editor">
         <div className="editor__components">
           <Column>
-            <ComponentsList />
+            {objectNames.map((objectName, index) => (
+              <MovableItem key={index}>
+                {objectName}
+              </MovableItem>
+
+            ))}
+
           </Column>
         </div>
         <Column className="editor__canvas">
