@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 //@ts-nocheck
+import React from 'react';
 import './editor.scss';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -91,19 +92,35 @@ export const Editor = () => {
     w: number;
     h: number;
   }
+  export const AddGridItem = (component: JSX.Element) => {
+    const newItemUUID = uuid();
+
+    setLayout(prevLayout => [
+        ...prevLayout,
+        { i: newItemUUID, x: 0, y: 0, w: 1.5, h: 1, static: false, maxH: 30 }
+    ]);
+
+    setLists(prevLists => [
+        ...prevLists,
+        { i: newItemUUID, component }
+    ]);
+  }
 
   const [layout, setLayout] = useState([
-    { i: uuid(), x: 0, y: 0, w: 1.5, h: 1, static: false, maxH: 30, component: <Likes totalLikes={100} likedByMe={false} />},
-    { i: uuid(), x: 0, y: 0, w: 3, h: 3, static: false, maxH: 30, component: <TaskProgressBar percentage={45} />},
+    { i: uuid(), x: 0, y: 0, w: 1.5, h: 1, static: false, maxH: 30},
+    { i: uuid(), x: 0, y: 0, w: 3, h: 3, static: false, maxH: 30},
+  ]);
+
+  const [lists, setLists] = useState([
+    {i: layout[0].i, component: <Likes totalLikes={100} likedByMe={false} />},
+    {i: layout[1].i, component: <TaskProgressBar />}
   ]);
 
   const onLayoutChange = (newLayout: Item[]) => {
     setLayout(newLayout);
   };
 
-  useEffect(() => {
-    console.log(layout);
-  }, [layout]);
+
 
   
 
@@ -157,8 +174,9 @@ export const Editor = () => {
                     boxSizing: 'border-box',
                   }}
                 >
-                  <TaskProgressBar />
-
+                  {
+                    lists.find(component => lay.i === component.i)?.component           
+                  }
                 </div>
               ))}
             </ResponsiveGridLayout>
