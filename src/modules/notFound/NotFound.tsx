@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Header } from 'src/components/header/Header';
 import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
 import './notFound.scss';
 
 export const NotFound = () => {
+
   return (
     <div className='notFound'>
       <Header></Header>
