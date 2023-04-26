@@ -5,7 +5,7 @@ import './notFound.scss';
 
 export const NotFound = () => {
   return (
-    <div className='notFound'>
+    <div className="notFound">
       <Header></Header>
       <div>
         <h1>404 - Page Not Found</h1>
