@@ -6,7 +6,7 @@ import { parse, buildJsx } from '../../lib/tsx-builder';
 import { InfoPanel } from './components/infoPanel/InfoPanel';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getCode, getFiles } from './actions';
+import { getCode, getFiles, postFile, updateFile } from './actions';
 import { useSelector } from 'react-redux';
 import { ComponentsList } from './components/componentList/ComponentList';
 import {
@@ -104,6 +104,15 @@ export const Editor = () => {
             <div>Hola mundo</div>
         );
     }`);
+
+  // const file = {
+  //   filename: 'Test.js',
+  //   content:
+  //     "console.log('Este es un archivo de ejemplo.');",
+  // };
+
+  //dispatch(postFile(file));
+  // dispatch(updateFile(file));
 
   //const componentStr = build(componentDef);
 
