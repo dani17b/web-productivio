@@ -194,10 +194,11 @@ function parseFunction(functionText: string): FunctionObj {
     .split(',');
   argsRaw.forEach((arg) => {
     let [name, type] = arg.split(':');
-
-    name.includes('?')
-      ? args.push({ name: name.replace('?', ''), type: type, optional: true })
-      : args.push({ name: name, type: type, optional: false });
+    if (name.replace(' ', '') !== '') {
+      name.includes('?')
+        ? args.push({ name: name.replace('?', ''), type: type, optional: true })
+        : args.push({ name: name, type: type, optional: false });
+    }
   });
   result.args = args;
 
