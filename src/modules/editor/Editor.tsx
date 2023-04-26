@@ -63,7 +63,7 @@ export const Editor = () => {
   console.log('code', code);
 
   useEffect(() => {
-    dispatch(getFiles('C:\\workspace\\dev\\web-productivio'));
+    dispatch(getFiles('C:\\AltiaWorkSpace\\web-productivio'));
   }, [dispatch]);
 
   useEffect(() => {
