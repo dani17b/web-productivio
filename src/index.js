@@ -8,12 +8,12 @@ import configureAppStore from './redux/configureStore';
 import 'lib-productivio/dist/cjs/index.css';
 import { IndexedDB } from './lib/axios/indexeddb/IndexedDB';
 import apiDefinitionYml from './config/api.json';
-import {
-  parseImports,
-  parseReturnedTag,
-  parseFunction,
-} from './utils/parser/tagParser';
-import { createFunctionsFromJson } from './utils/parser/parser';
+// import {
+//   parseImports,
+//   parseReturnedTag,
+//   parseFunction,
+// } from './utils/parser/tagParser';
+// import { createFunctionsFromJson } from './utils/parser/parser';
 
 const store = configureAppStore({});
 
@@ -28,20 +28,20 @@ root.render(<Provider store={store}>{<App />}</Provider>);
 reportWebVitals();
 
 //console.log(parse('<div> Hola mundo! <b>Estoy en negrita</b> </div>'));
-console.log(
-  JSON.stringify(parseFunction(
-    `export const NotFound = (props?: string) => {
+// console.log(
+//   JSON.stringify(parseFunction(
+//     `export const NotFound = (props?: string) => {
 
-  return (
-    <div className='notFound'>
-      <Header></Header>
-      <div>
-        <h1>404 - Page Not Found</h1>
-        <p>Sorry, the page does not exist (by the moment)</p>
-      </div>
-      <WebNavBar></WebNavBar>
-    </div>
-  );
-};`
-  ))
-);
+//   return (
+//     <div className='notFound'>
+//       <Header></Header>
+//       <div>
+//         <h1>404 - Page Not Found</h1>
+//         <p>Sorry, the page does not exist (by the moment)</p>
+//       </div>
+//       <WebNavBar></WebNavBar>
+//     </div>
+//   );
+// };`
+//   ))
+// );

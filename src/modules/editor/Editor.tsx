@@ -14,6 +14,7 @@ import {
   TestComponentProps,
 } from 'src/components/propsEditor/TestComponent';
 import { TabComponent } from './components/tabComponent/TabComponent';
+import { reactToJson } from '../../utils/parser/parser.js';
 
 export const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -65,7 +66,9 @@ export const Editor = () => {
 
   useEffect(() => {
     dispatch(
-      getFiles('')
+      getFiles(
+        'C:\\Users\\paula.seoane\\Documents\\Productivio\\web-productivio'
+      )
       // 'C:\\Users\\paula.alba\\Desktop\\workspace\\dev\\web-productivio'
       // 'C:\\Users\\enrique.jimenez\\Documents\\formaciónDani\\productivio\\web-productivio'
     );
@@ -75,7 +78,7 @@ export const Editor = () => {
     if (files.length > 0) {
       let path = files.map((file) => file.path);
       let name = files.map((file) => file.name);
-      dispatch(getCode(path[0], name[0] + '.tsx'));
+      dispatch(getCode('modules/notFound', 'NotFound.tsx'));
     }
   }, [files]);
 
@@ -84,6 +87,9 @@ export const Editor = () => {
             <div>Hola mundo</div>
         );
     }`);
+
+  console.log(reactToJson(code[0]));
+  console.log(typeof code);
 
   // const file = {
   //   filename: 'Test.js',
