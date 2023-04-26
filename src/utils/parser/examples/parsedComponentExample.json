@@ -1,0 +1,79 @@
+// Json modelo del parseo del componente NotFound, que está en: web-productivio\src\modules\notFound
+{
+  "imports": [
+    "import React, { useState } from 'react'",
+    "import { Header } from 'src/components/header/Header'",
+    "import { WebNavBar } from 'src/components/webNavBar/WebNavBar'",
+    "import './notFound.scss'"
+  ],
+  "component": {
+    "name": "NotFound",
+    "args": [{ "name": "", "optional": false }],
+    "returnedContent": {
+      "dom": {
+        "type": "div",
+        "attributes": [{ "key": "className", "value": "'notFound'" }],
+        "children": [
+          { "dom": { "type": "Header", "attributes": [], "children": [] } },
+          {
+            "dom": {
+              "type": "div",
+              "attributes": [],
+              "children": [
+                {
+                  "dom": {
+                    "type": "h1",
+                    "attributes": [],
+                    "children": [{ "text": "404 - Page Not Found" }]
+                  }
+                },
+                {
+                  "dom": {
+                    "type": "p",
+                    "attributes": [],
+                    "children": [
+                      {
+                        "text": "Sorry, the page does not exist (by the moment)"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "dom": {
+              "type": "WebNavBar",
+              "attributes": [{ "key": "" }],
+              "children": []
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+
+/*
+
+Resultado de Parsear el componente NotFound del json
+
+import React from 'react';
+import { Header } from 'src/components/header/Header';
+import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
+import './notFound.scss';
+
+export const NotFound = () => {
+  return (
+    <div className="notFound">
+      <Header></Header>
+      <div>
+        <h1>404 - Page Not Found</h1>
+        <p>Sorry, the page does not exist (by the moment)</p>
+      </div>
+      <WebNavBar></WebNavBar>
+    </div>
+  );
+};
+
+*/
