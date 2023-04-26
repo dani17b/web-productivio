@@ -1,18 +1,18 @@
 // Json modelo del parseo del componente NotFound, que está en: web-productivio\src\modules\notFound
 {
   "imports": [
-    "import React, { useState } from 'react'",
+    "import React from 'react'",
     "import { Header } from 'src/components/header/Header'",
     "import { WebNavBar } from 'src/components/webNavBar/WebNavBar'",
     "import './notFound.scss'"
   ],
   "component": {
     "name": "NotFound",
-    "args": [{ "name": "", "optional": false }],
+    "args": [],
     "returnedContent": {
       "dom": {
         "type": "div",
-        "attributes": [{ "key": "className", "value": "'notFound'" }],
+        "attributes": [{ "key": "className", "value": "notFound" }],
         "children": [
           { "dom": { "type": "Header", "attributes": [], "children": [] } },
           {
@@ -41,13 +41,7 @@
               ]
             }
           },
-          {
-            "dom": {
-              "type": "WebNavBar",
-              "attributes": [{ "key": "" }],
-              "children": []
-            }
-          }
+          { "dom": { "type": "WebNavBar", "attributes": [], "children": [] } }
         ]
       }
     }
