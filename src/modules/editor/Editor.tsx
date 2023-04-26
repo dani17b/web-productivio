@@ -111,3 +111,16 @@ export const Editor = () => {
     </DndProvider>
   );
 };
+
+export const NotFound = () => {
+  return (
+    <div className="notFound">
+      <Header></Header>
+      <div>
+        <h1>404 - Page Not Found</h1>
+        <p>Sorry, the page does not exist (by the moment)</p>
+      </div>
+      <WebNavBar></WebNavBar>
+    </div>
+  );
+};

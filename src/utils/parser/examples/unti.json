@@ -6,7 +6,7 @@
     "import './notFound.scss'"
   ],
   "component": {
-    "name": "{",
+    "name": "NotFound",
     "args": [{ "name": "", "optional": false }],
     "returnedContent": {
       "dom": {

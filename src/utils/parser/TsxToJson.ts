@@ -1,8 +1,5 @@
 // Esta versión de eslint tiene un bug para typescript: dice que DomElementType no se utiliza.
-/* eslint-disable */
-
-import { forIn } from 'lodash';
-
+/* eslint-disable*/
 //TYPES
 type TsxObj = {
   imports: string[];
@@ -24,11 +21,6 @@ enum DomElementType {
 
 type TextObj = {
   text: string;
-};
-
-type ComponentObj = {
-  imports: string[];
-  returnedTag: TagObj;
 };
 
 type TagObj = {
@@ -138,7 +130,6 @@ function elementArrayToNestedJson(elementArray: DomElement[]): {
   };
 
   for (let i = 1; i < elementArray.length; i++) {
-    // console.log(i, elementArray);
     const element = elementArray[i];
     switch (element.type) {
       case DomElementType.PlainText:
@@ -168,7 +159,7 @@ function elementArrayToNestedJson(elementArray: DomElement[]): {
   return result;
 }
 
-export function parseImports(input: string): string[] {
+function parseImports(input: string): string[] {
   const imports: string[] = [];
 
   let importIndex = input.indexOf('import');
@@ -182,14 +173,14 @@ export function parseImports(input: string): string[] {
   return imports;
 }
 
-export function parseFunction(functionText: string): FunctionObj {
+function parseFunction(functionText: string): FunctionObj {
   const firstLine = functionText.substring(0, functionText.indexOf('='));
   let result: FunctionObj = {
     name: '',
     args: [],
   };
   const name =
-    firstLine.indexOf('export') != -1
+    firstLine.indexOf('export') !== -1
       ? firstLine.split(' ')[2]
       : firstLine.split(' ')[1];
   result.name = name;
@@ -215,33 +206,41 @@ export function parseFunction(functionText: string): FunctionObj {
   result.returnedContent =
     content[0] === '<' ? parseReturnedTag(content) : content;
 
-  //const name = functionText.slice(functionText.indexOf('const') + 6,  functionText.indexOf('='));
-
   return result;
 }
 
-export function parseReturnedTag(input: string): TagObj {
+function parseReturnedTag(input: string): TagObj {
   return elementArrayToNestedJson(
     stringArrayToElementArray(stringToStringArray(input))
   ).tag;
 }
 
-export const trimFunctions = (input: any) => {
-  let firstOpening = input.indexOf('{');
-  if (firstOpening != -1) {
-    input.slice(firstOpening);
-    for (const char in input) {
-      if (char === '{') {
-      }
+const trimFunctions = (input: any) => {
+  let openingCount = 0;
+  for (let i = input.indexOf('{'); i < input.length; i++) {
+    let char = input[i];
+    if (char === '{') {
+      openingCount++;
+    } else if (char === '}') {
+      openingCount--;
     }
-  } else {
-    return null;
+    if (openingCount === 0) return input.substring(0, i);
   }
 };
 
-export function parse(input: string): TsxObj {
+/**
+ * Parsea el contenido de un .tsx a JSON.
+ *
+ *
+ * @param input - String con todo el código de un archivo tsx y devuelve
+ * @returns JSON/objeto de tipo TsxObj
+ *
+ */
+export function parseTsxToJson(input: string): TsxObj {
   return {
     imports: parseImports(input),
-    component: parseFunction(input),
+    component: parseFunction(
+      trimFunctions(input.slice(input.indexOf('export const')))
+    ),
   };
 }

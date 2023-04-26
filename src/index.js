@@ -8,8 +8,8 @@ import configureAppStore from './redux/configureStore';
 import 'lib-productivio/dist/cjs/index.css';
 import { IndexedDB } from './lib/axios/indexeddb/IndexedDB';
 import apiDefinitionYml from './config/api.json';
-import { parse } from './utils/parser/tagParser';
-import { createFunctionsFromJson } from './utils/parser/parser';
+import { parseTsxToJson } from './utils/parser/TsxToJson';
+import { parseJsonToTsx } from './utils/parser/JsonToTsx';
 
 const store = configureAppStore({});
 
@@ -25,8 +25,8 @@ reportWebVitals();
 
 //console.log(parse('<div> Hola mundo! <b>Estoy en negrita</b> </div>'));
 console.log(
-  JSON.stringify(
-    parse(
+  parseJsonToTsx(
+    parseTsxToJson(
       `import React, { useState } from 'react';
     import { Header } from 'src/components/header/Header';
     import { WebNavBar } from 'src/components/webNavBar/WebNavBar';
