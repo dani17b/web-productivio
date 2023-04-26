@@ -1,3 +1,7 @@
+/**This is the main function and parse all the json to return the genereted code
+ * @param json json
+ * @returns String/string  with all the component`s code
+ */
 export function parseJsonToTsx(json) {
   let result = '';
   result += createImportsFromJson(json.imports);
@@ -23,7 +27,6 @@ const createComponentsFromJson = (functions) => {
     childResult += `${child.name} = (${child.args.map((arguito) => {
       return `${arguito.name} : ${arguito.type}`;
     })}) => {`;
-    //childResult += `${child.content}
     childResult += `return (${createTsxDom(child.returnedContent)});`;
     childResult += '}';
 
