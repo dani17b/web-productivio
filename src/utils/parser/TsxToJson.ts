@@ -1,7 +1,12 @@
 // Esta versión de eslint tiene un bug para typescript: dice que DomElementType no se utiliza.
-/* eslint-disable */
-
+/* eslint-disable*/
 //TYPES
+type TsxObj = {
+  imports: string[];
+  component: FunctionObj;
+  functions?: FunctionObj[];
+  //TODO más cosas
+};
 type DomElement = {
   innerString: string;
   type: DomElementType;
@@ -16,11 +21,6 @@ enum DomElementType {
 
 type TextObj = {
   text: string;
-};
-
-type ComponentObj = {
-  imports: string[];
-  returnedTag: TagObj;
 };
 
 type TagObj = {
@@ -107,10 +107,14 @@ function getTagName(tag: string): string {
 function getTagAttributes(tag: string): KeyValue[] {
   let innerString = tag.replace('<', '').replace('>', '').replace('/', '');
   const keyValues = innerString.replaceAll('"', '').split(' ').slice(1);
-  return keyValues.map((attr) => {
-    const [key, value] = attr.split('=');
-    return { key, value };
-  });
+  return keyValues
+    .map((attr) => {
+      const [key, value] = attr.split('=');
+      return { key, value };
+    })
+    .filter((arg: KeyValue) => {
+      return arg.key.replace(' ', '') !== '';
+    });
 }
 
 function elementArrayToNestedJson(elementArray: DomElement[]): {
@@ -130,7 +134,6 @@ function elementArrayToNestedJson(elementArray: DomElement[]): {
   };
 
   for (let i = 1; i < elementArray.length; i++) {
-    // console.log(i, elementArray);
     const element = elementArray[i];
     switch (element.type) {
       case DomElementType.PlainText:
@@ -160,7 +163,7 @@ function elementArrayToNestedJson(elementArray: DomElement[]): {
   return result;
 }
 
-export function parseImports(input: string): string[] {
+function parseImports(input: string): string[] {
   const imports: string[] = [];
 
   let importIndex = input.indexOf('import');
@@ -174,14 +177,14 @@ export function parseImports(input: string): string[] {
   return imports;
 }
 
-export function parseFunction(functionText: string): FunctionObj {
+function parseFunction(functionText: string): FunctionObj {
   const firstLine = functionText.substring(0, functionText.indexOf('='));
   let result: FunctionObj = {
     name: '',
     args: [],
   };
   const name =
-    firstLine.indexOf('export') != -1
+    firstLine.indexOf('export') !== -1
       ? firstLine.split(' ')[2]
       : firstLine.split(' ')[1];
   result.name = name;
@@ -191,10 +194,11 @@ export function parseFunction(functionText: string): FunctionObj {
     .split(',');
   argsRaw.forEach((arg) => {
     let [name, type] = arg.split(':');
-
-    name.includes('?')
-      ? args.push({ name: name.replace('?', ''), type: type, optional: true })
-      : args.push({ name: name, type: type, optional: false });
+    if (name.replace(' ', '') !== '') {
+      name.includes('?')
+        ? args.push({ name: name.replace('?', ''), type: type, optional: true })
+        : args.push({ name: name, type: type, optional: false });
+    }
   });
   result.args = args;
 
@@ -207,22 +211,41 @@ export function parseFunction(functionText: string): FunctionObj {
   result.returnedContent =
     content[0] === '<' ? parseReturnedTag(content) : content;
 
-  //const name = functionText.slice(functionText.indexOf('const') + 6,  functionText.indexOf('='));
-
   return result;
 }
 
-export function parseReturnedTag(input: string): TagObj {
+function parseReturnedTag(input: string): TagObj {
   return elementArrayToNestedJson(
     stringArrayToElementArray(stringToStringArray(input))
   ).tag;
 }
 
-export function parse(input: string): ComponentObj {
+const trimFunctions = (input: any) => {
+  let openingCount = 0;
+  for (let i = input.indexOf('{'); i < input.length; i++) {
+    let char = input[i];
+    if (char === '{') {
+      openingCount++;
+    } else if (char === '}') {
+      openingCount--;
+    }
+    if (openingCount === 0) return input.substring(0, i);
+  }
+};
+
+/**
+ * Parsea el contenido de un .tsx a JSON.
+ *
+ *
+ * @param input - String con todo el código de un archivo tsx y devuelve
+ * @returns JSON/objeto de tipo TsxObj
+ *
+ */
+export function parseTsxToJson(input: string): TsxObj {
   return {
     imports: parseImports(input),
-    returnedTag: elementArrayToNestedJson(
-      stringArrayToElementArray(stringToStringArray(input))
-    ).tag,
+    component: parseFunction(
+      trimFunctions(input.slice(input.indexOf('export const')))
+    ),
   };
 }
