@@ -107,10 +107,14 @@ function getTagName(tag: string): string {
 function getTagAttributes(tag: string): KeyValue[] {
   let innerString = tag.replace('<', '').replace('>', '').replace('/', '');
   const keyValues = innerString.replaceAll('"', '').split(' ').slice(1);
-  return keyValues.map((attr) => {
-    const [key, value] = attr.split('=');
-    return { key, value };
-  });
+  return keyValues
+    .map((attr) => {
+      const [key, value] = attr.split('=');
+      return { key, value };
+    })
+    .filter((arg: KeyValue) => {
+      return arg.key.replace(' ', '') !== '';
+    });
 }
 
 function elementArrayToNestedJson(elementArray: DomElement[]): {
