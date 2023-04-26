@@ -9,6 +9,7 @@ import 'lib-productivio/dist/cjs/index.css';
 import { IndexedDB } from './lib/axios/indexeddb/IndexedDB';
 import apiDefinitionYml from './config/api.json';
 import { SetJsonStyle } from './utils/SetJsonStyle';
+import { parseJsonToTsx } from './utils/parser/JsonToTsx';
 
 const store = configureAppStore({});
 
@@ -22,4 +23,4 @@ root.render(<Provider store={store}>{<App />}</Provider>);
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 
-console.log('setter json', SetJsonStyle({ color: red }));
+console.log('setter json', parseJsonToTsx(SetJsonStyle({ color: 'red' })));

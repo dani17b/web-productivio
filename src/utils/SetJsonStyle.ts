@@ -3,89 +3,63 @@ import { useSelector } from 'react-redux';
 export const SetJsonStyle = (json: JSON) => {
   //TODO cambiarlo cuando haya el redux.
   //const jsonRedux = useSelector((state:any) => state.parse);
-  jsonRedux.components[0].dom.attributes.push({
+  jsonRedux.component.returnedContent.dom.attributes.push({
     key: 'style',
     value: JSON.stringify(json),
   });
   return jsonRedux;
 };
 export const jsonRedux = {
-  imports: [],
-  consts: [
-    {
-      name: 'MAX_HEIGHT',
-      type: 'number',
-      value: 400,
-    },
+  imports: [
+    "import React, { useState } from 'react'",
+    "import { Header } from 'src/components/header/Header'",
+    "import { WebNavBar } from 'src/components/webNavBar/WebNavBar'",
+    "import './notFound.scss'",
   ],
-  functions: [
-    {
-      name: 'parseJson',
-      returnType: ['undefined', 'string'],
-      args: [
-        {
-          name: 'json',
-          type: 'string',
-        },
-      ],
-      content: 'console.log(json);',
-    },
-  ],
-  components: [
-    {
-      name: 'Prueba',
-      consts: [
-        {
-          name: 'MAX_HEIGHT',
-          type: 'number',
-          value: 400,
-        },
-      ],
-      props: [
-        {
-          name: 'color',
-          type: 'string',
-          optional: true,
-        },
-      ],
-      functions: [
-        {
-          name: 'parseJson',
-          returnType: ['undefined', 'string'],
-          args: [
-            {
-              name: 'json',
-              type: 'string',
-            },
-          ],
-          content: 'console.log(json);',
-        },
-      ],
+  component: {
+    name: 'NotFound',
+    args: [{ name: '', optional: false }],
+    returnedContent: {
       dom: {
         type: 'div',
-        attributes: [{}],
+        attributes: [{ key: 'className', value: "'notFound'" }],
         children: [
+          { dom: { type: 'Header', attributes: [], children: [] } },
           {
             dom: {
               type: 'div',
-              attributes: [
-                {
-                  key: 'className',
-                  value: 'prueba',
-                },
-              ],
+              attributes: [],
               children: [
                 {
-                  text: 'Hola mundo!',
+                  dom: {
+                    type: 'h1',
+                    attributes: [],
+                    children: [{ text: '404 - Page Not Found' }],
+                  },
+                },
+                {
+                  dom: {
+                    type: 'p',
+                    attributes: [],
+                    children: [
+                      {
+                        text: 'Sorry, the page does not exist (by the moment)',
+                      },
+                    ],
+                  },
                 },
               ],
             },
           },
           {
-            text: 'que quereis que ponga¿?¿',
+            dom: {
+              type: 'WebNavBar',
+              attributes: [{ key: '' }],
+              children: [],
+            },
           },
         ],
       },
     },
-  ],
+  },
 };
