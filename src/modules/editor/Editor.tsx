@@ -55,31 +55,49 @@ export const MovableItem = ({ children }) => {
 
 export const Editor = () => {
   const [selectedElement, setSelectedElement] = useState(null);
-
   const dispatch = useDispatch();
-
   const { files } = useSelector((state) => state.editor);
   const { code } = useSelector((state) => state.code);
-
   console.log('code', code);
+  const [inputValue, setInputValue] = useState("");
 
+  const handleSave = () => {
+    getFiles('C:\\Users\\enrique.jimenez\\Documents\\formaciónDani\\productivio\\web-productivio')
+      .then((data: any) => {
+        const fileExists = data.find((obj: any) => obj.name === inputValue);
+        if (fileExists) {
+          console.log('El archivo existe');
+          return true;
+        } else {
+          console.log('El archivo no existe');
+          return false;
+        }
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+  };
+  
+  
+  
   useEffect(() => {
-    dispatch(
-      getFiles(
-        'C:\\Users\\enrique.jimenez\\Documents\\formaciónDani\\productivio\\web-productivio'
-      )
-      // 'C:\\Users\\paula.alba\\Desktop\\workspace\\dev\\web-productivio'
-      // 'C:\\Users\\enrique.jimenez\\Documents\\formaciónDani\\productivio\\web-productivio'
-    );
+    getFiles(
+      'C:\\Users\\enrique.jimenez\\Documents\\formaciónDani\\productivio\\web-productivio'
+    ).then((data) => {
+      console.log(data);
+    }).catch((error) => {
+      console.log(error);
+    });
   }, []);
+  
 
-  useEffect(() => {
-    if (files.length > 0) {
-      let path = files.map((file) => file.path);
-      let name = files.map((file) => file.name);
-      dispatch(getCode(path[0], name[0] + '.tsx'));
-    }
-  }, [files]);
+  // useEffect(() => {
+  //   if (files.length > 0) {
+  //     let path = files.map((file) => file
+  //     let name = files.map((file) => file.name);
+  //     dispatch(getCode(path[0], name[0] + '.tsx'));
+  //   }
+  // }, [files]);
 
   const componentDef = parse(`export const ScreenSample = () => {
         return (
@@ -118,6 +136,10 @@ export const Editor = () => {
               </div>
             }
           />
+          <div className="editor-header">
+            <input onChange={(e) => setInputValue(e.target.value)} value={inputValue}></input>
+            <button onClick={handleSave}>Guardar</button>
+          </div>
         </Column>
         <div
           className="editor__element"

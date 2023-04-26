@@ -6,11 +6,7 @@ export const GET_PROJECT_FILES = 'GET_PROJECT_FILES';
 export const GET_FILE_CODE = 'GET_FILE_CODE';
 
 export const getFiles = (projectPath: string): any => {
-  return (dispatch: (arg0: any) => void) => {
-    dispatch({
-      type: requestType(GET_PROJECT_FILES),
-    });
-
+  return new Promise((resolve, reject) => {
     axios
       .request({
         url: `/project?path=${projectPath}`,
@@ -18,13 +14,14 @@ export const getFiles = (projectPath: string): any => {
         baseURL: SERVER_BASE_URL,
       })
       .then((response) => {
-        dispatch({
-          type: responseType(GET_PROJECT_FILES),
-          files: response.data,
-        });
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
       });
-  };
+  });
 };
+
 
 export const getCode = (path: string, file: string): any => {
   return (dispatch: (arg0: any) => void) => {
