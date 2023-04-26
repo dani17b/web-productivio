@@ -6,7 +6,7 @@ import { parse, buildJsx } from '../../lib/tsx-builder';
 import { InfoPanel } from './components/infoPanel/InfoPanel';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getCode, getFiles, postFile, updateFile } from './actions';
+import { getCode, getFiles } from './actions';
 import { useSelector } from 'react-redux';
 import { ComponentsList } from './components/componentList/ComponentList';
 import {
@@ -14,7 +14,7 @@ import {
   TestComponentProps,
 } from 'src/components/propsEditor/TestComponent';
 import { TabComponent } from './components/tabComponent/TabComponent';
-import { reactToJson } from '../../utils/parser/parser.js';
+import { parseTsxToJson } from './../../utils/parser/TsxToJson';
 
 export const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -62,12 +62,15 @@ export const Editor = () => {
   const { files } = useSelector((state) => state.editor);
   const { code } = useSelector((state) => state.code);
 
-  console.log('code', code);
+  if (code != [] && code != undefined && code != '') {
+    console.log('code', code);
+    console.log(parseTsxToJson(code));
+  }
 
   useEffect(() => {
     dispatch(
       getFiles(
-        'C:\\Users\\paula.seoane\\Documents\\Productivio\\web-productivio'
+        'C:\\Users\\paula.alba\\Desktop\\workspace\\dev\\web-productivio'
       )
       // 'C:\\Users\\paula.alba\\Desktop\\workspace\\dev\\web-productivio'
       // 'C:\\Users\\enrique.jimenez\\Documents\\formaciónDani\\productivio\\web-productivio'
@@ -76,8 +79,8 @@ export const Editor = () => {
 
   useEffect(() => {
     if (files.length > 0) {
-      let path = files.map((file) => file.path);
-      let name = files.map((file) => file.name);
+      // let path = files.map((file) => file.path);
+      // let name = files.map((file) => file.name);
       dispatch(getCode('modules/notFound', 'NotFound.tsx'));
     }
   }, [files]);
@@ -87,9 +90,6 @@ export const Editor = () => {
             <div>Hola mundo</div>
         );
     }`);
-
-  console.log(reactToJson(code[0]));
-  console.log(typeof code);
 
   // const file = {
   //   filename: 'Test.js',
