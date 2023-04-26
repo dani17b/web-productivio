@@ -1,15 +1,18 @@
-import { json } from 'react-router-dom';
-
 export function parseJsonToTsx(json) {
   let result = '';
-
-  result = createComponentsFromJson([json.component]);
+  result += createImportsFromJson(json.imports);
+  result += `\n ${createComponentsFromJson([json.component])}`;
 
   return result;
 }
 
 const createImportsFromJson = (imports) => {
   let result = '';
+  imports.map((imp) => {
+    result += `${imp}; \n`;
+  });
+
+  return result;
 };
 
 const createComponentsFromJson = (functions) => {
@@ -32,7 +35,6 @@ const createComponentsFromJson = (functions) => {
 //Return parser
 function createTsxDom(domJson) {
   const { type, children, attributes } = domJson.dom;
-  debugger;
   let result = `<${type}`;
   attributes.map((attribute) => {
     result += ` ${attribute.key} = ${attribute.value}`;
