@@ -6,7 +6,6 @@ import { TabContext, TabPanel } from '@mui/lab';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSelector } from 'react-redux';
 import { parseTsxToJson } from 'src/utils/parser/TsxToJson';
-import { ComponentsList } from '../componentList/ComponentList';
 
 export interface TabProps {
   /**
@@ -90,6 +89,7 @@ export const TabComponent = (props: TabProps) => {
       <div className="tab-container__trial-button-container">
         <button className="tab-container__trial-button" onClick={addPage}>
           Add Page
+        </button>
         <button className="tab-container__trial-button" onClick={addNewPage}>
           New Page
         </button>
