@@ -5,7 +5,7 @@ import { Tabs, Tab } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
 import CloseIcon from '@mui/icons-material/Close';
 
-interface TabProps {
+export interface TabProps {
   /**
    * Tab's name. Initially the module's name
    */
