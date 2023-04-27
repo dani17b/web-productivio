@@ -65,12 +65,14 @@ export const Editor = () => {
   if (code != [] && code != undefined && code != '') {
     console.log('code', code);
     console.log(parseTsxToJson(code));
+  } else {
+    //TODO plantilla nuevo módulo
   }
 
   useEffect(() => {
     dispatch(
       getFiles(
-        'C:\\Users\\paula.alba\\Desktop\\workspace\\dev\\web-productivio'
+        'C:\\Users\\paula.seoane\\Documents\\Productivio\\web-productivio'
       )
       // 'C:\\Users\\paula.alba\\Desktop\\workspace\\dev\\web-productivio'
       // 'C:\\Users\\enrique.jimenez\\Documents\\formaciónDani\\productivio\\web-productivio'
