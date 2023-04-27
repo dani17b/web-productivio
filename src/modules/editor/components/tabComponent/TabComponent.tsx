@@ -4,6 +4,9 @@ import { useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
 import CloseIcon from '@mui/icons-material/Close';
+import { useSelector } from 'react-redux';
+import { parseTsxToJson } from 'src/utils/parser/TsxToJson';
+import { ComponentsList } from '../componentList/ComponentList';
 
 export interface TabProps {
   /**
@@ -18,6 +21,25 @@ export interface TabProps {
 
 export const TabComponent = (props: TabProps) => {
   const [tabs, setTabs] = useState<TabProps[]>([props]);
+  const { code } = useSelector((state: any) => state.code);
+
+  const addPage = () => {
+    if (code != undefined && code != '') {
+      console.log('code', code);
+      console.log(parseTsxToJson(code));
+    }
+
+    const newTabs = [
+      ...tabs,
+      {
+        tabLabel: parseTsxToJson(code).component.name,
+        tabContent: 'hola',
+      },
+    ];
+
+    setTabs(newTabs);
+    setTabIndex(newTabs.length - 1);
+  };
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -66,6 +88,8 @@ export const TabComponent = (props: TabProps) => {
   return (
     <div className="tab-container">
       <div className="tab-container__trial-button-container">
+        <button className="tab-container__trial-button" onClick={addPage}>
+          Add Page
         <button className="tab-container__trial-button" onClick={addNewPage}>
           New Page
         </button>
