@@ -44,7 +44,7 @@ export const Column = ({ children, className, title }) => {
   );
 };
 
-export const MovableItem = ({ children }) => {
+export const MovableItem = ({ children, onClick }) => {
   const [{ isDragging }, drag] = useDrag({
     item: { name: 'Any custom name' },
     type: 'TYPE',
@@ -56,7 +56,12 @@ export const MovableItem = ({ children }) => {
   const opacity = isDragging ? 0.4 : 1;
 
   return (
-    <div ref={drag} className="movable-item" style={{ opacity }}>
+    <div
+      ref={drag}
+      className="movable-item"
+      style={{ opacity }}
+      onClick={onClick}
+    >
       {children}
     </div>
   );
@@ -68,6 +73,7 @@ export const Editor = () => {
   const { files } = useSelector((state) => state.editor);
   const { code } = useSelector((state) => state.code);
   const objectNames = files.map((file) => file.name);
+  const [componentCodeList, setComponentCodeList] = useState([]);
 
   console.log('code', code);
 
@@ -79,13 +85,39 @@ export const Editor = () => {
     );
   }, [dispatch]);
 
+  const codeList = useSelector((state) => state.code.code);
+
   useEffect(() => {
-    if (files.length > 0) {
-      let path = files.map((file) => file.path);
-      let name = files.map((file) => file.name);
-      dispatch(getCode(path[0], name[0] + '.tsx'));
+    async function fetchAndSetComponentCode(codeList) {
+      await Promise.all(
+        files.map(async (file) => {
+          const filePath = file.path;
+          const fileName = file.name + '.tsx';
+          await dispatch(getCode(filePath, fileName));
+        })
+      );
+
+      // Filtra los elementos vacíos en `codeList`
+      const filteredCodeList = codeList.filter((code) => code);
+
+      // Establece el estado `componentCodeList` con el código filtrado de cada componente
+      setComponentCodeList(filteredCodeList);
     }
-  }, [dispatch, files]);
+
+    if (files.length > 0) {
+      fetchAndSetComponentCode(codeList);
+    }
+  }, [dispatch, files, codeList]);
+
+  function createComponentFromCode(code) {
+    try {
+      const component = eval(code);
+      return component.default || component;
+    } catch (error) {
+      console.error('Error al crear el componente a partir del código', error);
+      return null;
+    }
+  }
 
   const componentDef = parse(`export const ScreenSample = () => {
         return (
@@ -111,7 +143,7 @@ export const Editor = () => {
     w: number;
     h: number;
   }
-  const AddGridItem = (component: JSX.Element) => {
+  const AddGridItem = (component: JSX.Element, componentName: string) => {
     const newItemUUID = uuid();
 
     setLayout((prevLayout) => [
@@ -119,7 +151,10 @@ export const Editor = () => {
       { i: newItemUUID, x: 0, y: 0, w: 1.5, h: 1, static: false, maxH: 30 },
     ]);
 
-    setLists((prevLists) => [...prevLists, { i: newItemUUID, component }]);
+    setLists((prevLists) => [
+      ...prevLists,
+      { i: newItemUUID, component, componentName },
+    ]);
   };
 
   const [layout, setLayout] = useState([
@@ -142,10 +177,18 @@ export const Editor = () => {
         <div className="editor__components">
           <Column>
             {objectNames.map((objectName, index) => (
-              <MovableItem key={index}>{objectName}</MovableItem>
+              <MovableItem
+                key={index}
+                onClick={() =>
+                  AddGridItem(
+                    createComponentFromCode(componentCodeList[index]),
+                    objectName
+                  )
+                }
+              >
+                {objectName}
+              </MovableItem>
             ))}
-          </Column>
-          <Column children={undefined} className={undefined} title={undefined}>
           </Column>
         </div>
         <Column
@@ -205,7 +248,10 @@ export const Editor = () => {
                     boxSizing: 'border-box',
                   }}
                 >
-                  {lists.find((component) => lay.i === component.i)?.component}
+                  <div>
+                    {lists.find((item) => lay.i === item.i)?.componentName}
+                  </div>
+                  {lists.find((item) => lay.i === item.i)?.component}
                 </div>
               ))}
             </ResponsiveGridLayout>
