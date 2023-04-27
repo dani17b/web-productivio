@@ -23,14 +23,11 @@ export const TabComponent = (props: TabProps) => {
   /**
    * Tab and tabIndex state
    */
-  const [tabs, setTabs] = useState<TabProps[]>([
-    // { tabLabel: 'Generada', tabContent: 'Contenido de la pestaña generada' },
-    props,
-  ]);
+  const [tabs, setTabs] = useState<TabProps[]>([props]);
   const [tabIndex, setTabIndex] = useState(0);
 
   /**
-   * Get code from back
+   * Gets code from back
    */
   const dispatch = useDispatch();
   const { code } = useSelector((state: any) => state.code);
@@ -39,12 +36,11 @@ export const TabComponent = (props: TabProps) => {
   useEffect(() => {
     if (addPageClick) {
       dispatch(getCode('modules/notFound', 'NotFound.tsx'));
-    } else {
     }
   }, [addPageClick]);
 
   /**
-   * Add tab with existing component
+   * Adds tab for existing component
    */
   const addPage = () => {
     setAddPageClick(true);
@@ -66,24 +62,30 @@ export const TabComponent = (props: TabProps) => {
   };
 
   /**
-   * Add tab with new component
+   * Adds tab for new component
    */
-  const addNewPage: React.MouseEventHandler<HTMLButtonElement> = () => {
-    const newTabIndex = tabs.length.toString();
-    const newTabs = [
-      ...tabs,
-      {
-        tabLabel: 'Pruebita',
-        tabContent: props.tabContent,
-      },
-    ];
+  const addNewPage: React.MouseEventHandler<HTMLButtonElement> = async () => {
+    try {
+      const code = await dispatch(
+        getCode('modules/blankModule', 'BlankModule.tsx')
+      );
+      const newTabs = [
+        ...tabs,
+        {
+          tabLabel: 'Pruebita',
+          tabContent: code,
+        },
+      ];
 
-    setTabs(newTabs);
-    setTabIndex(newTabs.length - 1);
+      setTabs(newTabs);
+      setTabIndex(newTabs.length - 1);
+    } catch (error) {
+      console.log('Error fetching code', error);
+    }
   };
 
   /**
-   *
+   * Sets a new tab index when the parent component changes a new tab is added
    */
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
@@ -91,6 +93,14 @@ export const TabComponent = (props: TabProps) => {
 
   const contentRefs = useRef<Array<HTMLDivElement | null>>([]);
 
+  const handleContentRef =
+    (index: number) => (element: HTMLDivElement | null) => {
+      contentRefs.current[index] = element;
+    };
+
+  /**
+   * Sets the focus on the previous tab's content
+   */
   const closeTab = (index: number) => {
     const newTabs = [...tabs];
     newTabs.splice(index, 1);
@@ -108,11 +118,6 @@ export const TabComponent = (props: TabProps) => {
       focusedElement.focus();
     }
   };
-
-  const handleContentRef =
-    (index: number) => (element: HTMLDivElement | null) => {
-      contentRefs.current[index] = element;
-    };
 
   return (
     <div className="tab-container">
