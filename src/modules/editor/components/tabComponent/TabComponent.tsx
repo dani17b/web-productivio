@@ -4,6 +4,9 @@ import { useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
 import CloseIcon from '@mui/icons-material/Close';
+import { useSelector } from 'react-redux';
+import { parseTsxToJson } from 'src/utils/parser/TsxToJson';
+import { ComponentsList } from '../componentList/ComponentList';
 
 export interface TabProps {
   /**
@@ -17,10 +20,29 @@ export interface TabProps {
 }
 
 export const TabComponent = (props: TabProps) => {
+  const { code } = useSelector((state: any) => state.code);
   const [tabs, setTabs] = useState<TabProps[]>([
     // { tabLabel: 'Generada', tabContent: 'Contenido de la pestaña generada' },
     props,
   ]);
+
+  const addPage = () => {
+    if (code != undefined && code != '') {
+      console.log('code', code);
+      console.log(parseTsxToJson(code));
+    }
+
+    const newTabs = [
+      ...tabs,
+      {
+        tabLabel: parseTsxToJson(code).component.name,
+        tabContent: 'hola',
+      },
+    ];
+
+    setTabs(newTabs);
+    setTabIndex(newTabs.length - 1);
+  };
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -71,7 +93,10 @@ export const TabComponent = (props: TabProps) => {
     <div className="tab-container">
       <div className="tab-container__trial-button-container">
         <button className="tab-container__trial-button" onClick={addTab}>
-          Add
+          Add New
+        </button>
+        <button className="tab-container__trial-button" onClick={addPage}>
+          Add Page
         </button>
       </div>
       <TabContext value={tabIndex.toString()}>
