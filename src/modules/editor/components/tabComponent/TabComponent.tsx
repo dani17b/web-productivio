@@ -17,10 +17,7 @@ export interface TabProps {
 }
 
 export const TabComponent = (props: TabProps) => {
-  const [tabs, setTabs] = useState<TabProps[]>([
-    // { tabLabel: 'Generada', tabContent: 'Contenido de la pestaña generada' },
-    props,
-  ]);
+  const [tabs, setTabs] = useState<TabProps[]>([props]);
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -28,13 +25,12 @@ export const TabComponent = (props: TabProps) => {
     setTabIndex(newValue);
   };
 
-  const addTab: React.MouseEventHandler<HTMLButtonElement> = () => {
-    const newTabIndex = tabs.length.toString();
+  const addNewPage: React.MouseEventHandler<HTMLButtonElement> = () => {
     const newTabs = [
       ...tabs,
       {
-        tabLabel: `Tab ${newTabIndex}`,
-        tabContent: `Contenido de la pestaña ${newTabIndex}`,
+        tabLabel: 'Pruebita',
+        tabContent: props.tabContent,
       },
     ];
 
@@ -70,8 +66,8 @@ export const TabComponent = (props: TabProps) => {
   return (
     <div className="tab-container">
       <div className="tab-container__trial-button-container">
-        <button className="tab-container__trial-button" onClick={addTab}>
-          Add
+        <button className="tab-container__trial-button" onClick={addNewPage}>
+          New Page
         </button>
       </div>
       <TabContext value={tabIndex.toString()}>

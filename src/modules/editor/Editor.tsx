@@ -65,8 +65,6 @@ export const Editor = () => {
   if (code != [] && code != undefined && code != '') {
     console.log('code', code);
     console.log(parseTsxToJson(code));
-  } else {
-    //TODO plantilla nuevo módulo
   }
 
   useEffect(() => {
