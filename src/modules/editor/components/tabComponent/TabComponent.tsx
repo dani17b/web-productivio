@@ -1,12 +1,12 @@
 import './tabComponent.scss';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
 import CloseIcon from '@mui/icons-material/Close';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { parseTsxToJson } from 'src/utils/parser/TsxToJson';
-import { ComponentsList } from '../componentList/ComponentList';
+import { getCode } from '../../actions';
 
 export interface TabProps {
   /**
@@ -20,13 +20,34 @@ export interface TabProps {
 }
 
 export const TabComponent = (props: TabProps) => {
-  const { code } = useSelector((state: any) => state.code);
+  /**
+   * Tab and tabIndex state
+   */
   const [tabs, setTabs] = useState<TabProps[]>([
     // { tabLabel: 'Generada', tabContent: 'Contenido de la pestaña generada' },
     props,
   ]);
+  const [tabIndex, setTabIndex] = useState(0);
 
+  /**
+   * Get code from back
+   */
+  const dispatch = useDispatch();
+  const { code } = useSelector((state: any) => state.code);
+  const [addPageClick, setAddPageClick] = useState(false);
+
+  useEffect(() => {
+    if (addPageClick) {
+      dispatch(getCode('modules/notFound', 'NotFound.tsx'));
+    } else {
+    }
+  }, [addPageClick]);
+
+  /**
+   * Add tab with existing component
+   */
   const addPage = () => {
+    setAddPageClick(true);
     if (code != undefined && code != '') {
       console.log('code', code);
       console.log(parseTsxToJson(code));
@@ -36,7 +57,7 @@ export const TabComponent = (props: TabProps) => {
       ...tabs,
       {
         tabLabel: parseTsxToJson(code).component.name,
-        tabContent: 'hola',
+        tabContent: 'Not found ',
       },
     ];
 
@@ -44,12 +65,9 @@ export const TabComponent = (props: TabProps) => {
     setTabIndex(newTabs.length - 1);
   };
 
-  const [tabIndex, setTabIndex] = useState(0);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTabIndex(newValue);
-  };
-
+  /**
+   * Add tab with new component
+   */
   const addTab: React.MouseEventHandler<HTMLButtonElement> = () => {
     const newTabIndex = tabs.length.toString();
     const newTabs = [
@@ -62,6 +80,13 @@ export const TabComponent = (props: TabProps) => {
 
     setTabs(newTabs);
     setTabIndex(newTabs.length - 1);
+  };
+
+  /**
+   *
+   */
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabIndex(newValue);
   };
 
   const contentRefs = useRef<Array<HTMLDivElement | null>>([]);
