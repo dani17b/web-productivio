@@ -46,7 +46,6 @@
               "children": []
             }
           },
-          {
             "dom": {
               "type": "div",
               "attributes": [],
@@ -100,11 +99,7 @@
           {
             "dom": {
               "type": "WebNavBar",
-              "attributes": [
-                {
-                  "key": ""
-                }
-              ],
+              "attributes": [],
               "layout": {
                 "uuid": "sdpfosslsdlsdpldpsdflsdpfldsfp2309430493",
                 "x": 3,
@@ -112,6 +107,7 @@
                 "w": 2,
                 "h": 2
               },
+              "attributes": [],
               "children": []
             }
           }
@@ -120,6 +116,7 @@
     }
   }
 }
+
 /*
 
 Resultado de Parsear el componente NotFound del json
@@ -141,5 +138,4 @@ export const NotFound = () => {
     </div>
   );
 };
-
 */
