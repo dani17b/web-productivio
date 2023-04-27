@@ -68,13 +68,13 @@ export const TabComponent = (props: TabProps) => {
   /**
    * Add tab with new component
    */
-  const addTab: React.MouseEventHandler<HTMLButtonElement> = () => {
+  const addNewPage: React.MouseEventHandler<HTMLButtonElement> = () => {
     const newTabIndex = tabs.length.toString();
     const newTabs = [
       ...tabs,
       {
-        tabLabel: `Tab ${newTabIndex}`,
-        tabContent: `Contenido de la pestaña ${newTabIndex}`,
+        tabLabel: 'Pruebita',
+        tabContent: props.tabContent,
       },
     ];
 
@@ -117,11 +117,10 @@ export const TabComponent = (props: TabProps) => {
   return (
     <div className="tab-container">
       <div className="tab-container__trial-button-container">
-        <button className="tab-container__trial-button" onClick={addTab}>
-          Add New
-        </button>
         <button className="tab-container__trial-button" onClick={addPage}>
           Add Page
+        <button className="tab-container__trial-button" onClick={addNewPage}>
+          New Page
         </button>
       </div>
       <TabContext value={tabIndex.toString()}>
