@@ -7,7 +7,7 @@ import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { parse, buildJsx } from '../../lib/tsx-builder';
 import { InfoPanel } from './components/infoPanel/InfoPanel';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { getCode, getFiles } from './actions';
 import { useSelector } from 'react-redux';
@@ -85,29 +85,37 @@ export const Editor = () => {
     );
   }, [dispatch]);
 
-  const codeList = useSelector((state) => state.code.code);
+
+  const fetchAndSetComponentCode = useCallback(async () => {
+    if (files.length === 0) return;
+
+    try {
+      const codePromises = files.map(async (file) => {
+        const filePath = file.path;
+        const fileName = file.name + '.tsx';
+        try {
+          const code = await dispatch(getCode(filePath, fileName));
+          return code;
+        } catch (error) {
+          console.error(`Error al obtener el código para ${fileName}`, error);
+        }
+      });
+
+      const results = await Promise.all(codePromises);
+      const filteredCodeList = results.filter((code) => code);
+      setComponentCodeList(filteredCodeList);
+    } catch (error) {
+      console.error(
+        'Error al obtener el código para todos los componentes',
+        error
+      );
+    }
+  }, [dispatch, files]);
 
   useEffect(() => {
-    async function fetchAndSetComponentCode(codeList) {
-      await Promise.all(
-        files.map(async (file) => {
-          const filePath = file.path;
-          const fileName = file.name + '.tsx';
-          await dispatch(getCode(filePath, fileName));
-        })
-      );
+    fetchAndSetComponentCode();
+  }, [files, fetchAndSetComponentCode]);
 
-      // Filtra los elementos vacíos en `codeList`
-      const filteredCodeList = codeList.filter((code) => code);
-
-      // Establece el estado `componentCodeList` con el código filtrado de cada componente
-      setComponentCodeList(filteredCodeList);
-    }
-
-    if (files.length > 0) {
-      fetchAndSetComponentCode(codeList);
-    }
-  }, [dispatch, files, codeList]);
 
   function createComponentFromCode(code) {
     try {
