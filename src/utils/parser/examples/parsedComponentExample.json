@@ -46,6 +46,7 @@
               "children": []
             }
           },
+          {
             "dom": {
               "type": "div",
               "attributes": [],
@@ -107,7 +108,6 @@
                 "w": 2,
                 "h": 2
               },
-              "attributes": [],
               "children": []
             }
           }
@@ -116,7 +116,6 @@
     }
   }
 }
-
 /*
 
 Resultado de Parsear el componente NotFound del json
