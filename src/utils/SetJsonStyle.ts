@@ -18,7 +18,7 @@ export const jsonRedux = {
   ],
   component: {
     name: 'NotFound',
-    args: [{ name: '', optional: false }],
+    args: [],
     returnedContent: {
       dom: {
         type: 'div',
@@ -54,7 +54,7 @@ export const jsonRedux = {
           {
             dom: {
               type: 'WebNavBar',
-              attributes: [{ key: '' }],
+              attributes: [],
               children: [],
             },
           },
