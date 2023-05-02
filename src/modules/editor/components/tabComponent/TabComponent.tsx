@@ -31,19 +31,50 @@ export const TabComponent = (props: TabProps) => {
    */
   const dispatch = useDispatch();
   const { code } = useSelector((state: any) => state.code);
+
   const [addPageClick, setAddPageClick] = useState(false);
+  const [newPageClick, setNewPageClick] = useState(false);
+
+  // useEffect(() => {
+  //   dispatch(getCode('modules/notFound', 'NotFound.tsx'));
+  // }, []);
 
   useEffect(() => {
-    if (addPageClick) {
+    if (!newPageClick && addPageClick) {
       dispatch(getCode('modules/notFound', 'NotFound.tsx'));
+    } else if (!addPageClick && newPageClick) {
+      dispatch(getCode('modules/blankModule', 'BlankModule.tsx'));
     }
-  }, [addPageClick]);
+  }, [addPageClick, newPageClick]);
 
   /**
    * Adds tab for existing component
    */
   const addPage = () => {
+    setNewPageClick(false);
     setAddPageClick(true);
+    // console.log(code);
+    if (code != '' && code != undefined) {
+      const newTabs = [
+        ...tabs,
+        {
+          //tabLabel: 'NotFound',
+          tabLabel: parseTsxToJson(code).component.name,
+          tabContent: 'Not found ',
+        },
+      ];
+
+      setTabs(newTabs);
+      setTabIndex(newTabs.length - 1);
+    }
+  };
+
+  /**
+   * Adds tab for new component
+   */
+  const addNewPage = () => {
+    setAddPageClick(false);
+    setNewPageClick(true);
     if (code != undefined && code != '') {
       console.log('code', code);
       console.log(parseTsxToJson(code));
@@ -53,7 +84,8 @@ export const TabComponent = (props: TabProps) => {
       ...tabs,
       {
         tabLabel: parseTsxToJson(code).component.name,
-        tabContent: 'Not found ',
+        // tabLabel: parseTsxToJson(code).component.name,
+        tabContent: 'New Page ',
       },
     ];
 
@@ -61,28 +93,25 @@ export const TabComponent = (props: TabProps) => {
     setTabIndex(newTabs.length - 1);
   };
 
-  /**
-   * Adds tab for new component
-   */
-  const addNewPage: React.MouseEventHandler<HTMLButtonElement> = async () => {
-    try {
-      const code = await dispatch(
-        getCode('modules/blankModule', 'BlankModule.tsx')
-      );
-      const newTabs = [
-        ...tabs,
-        {
-          tabLabel: 'Pruebita',
-          tabContent: code,
-        },
-      ];
+  // const addNewPage: React.MouseEventHandler<HTMLButtonElement> = async () => {
+  //   try {
+  //     const code = await dispatch(
+  //       getCode('modules/blankModule', 'BlankModule.tsx')
+  //     );
+  //     const newTabs = [
+  //       ...tabs,
+  //       {
+  //         tabLabel: 'Pruebita',
+  //         tabContent: code,
+  //       },
+  //     ];
 
-      setTabs(newTabs);
-      setTabIndex(newTabs.length - 1);
-    } catch (error) {
-      console.log('Error fetching code', error);
-    }
-  };
+  //     setTabs(newTabs);
+  //     setTabIndex(newTabs.length - 1);
+  //   } catch (error) {
+  //     console.log('Error fetching code', error);
+  //   }
+  // };
 
   /**
    * Sets a new tab index when the parent component changes a new tab is added
@@ -123,7 +152,7 @@ export const TabComponent = (props: TabProps) => {
     <div className="tab-container">
       <div className="tab-container__trial-button-container">
         <button className="tab-container__trial-button" onClick={addPage}>
-          Add Page
+          Open Page
         </button>
         <button className="tab-container__trial-button" onClick={addNewPage}>
           New Page
