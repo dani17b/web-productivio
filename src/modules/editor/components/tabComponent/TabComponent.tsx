@@ -30,89 +30,40 @@ export const TabComponent = (props: TabProps) => {
    * Gets code from back
    */
   const dispatch = useDispatch();
-  const { code, isLoading } = useSelector((state: any) => state.code);
-  const [addPageClick, setAddPageClick] = useState(false);
-  const [newPageClick, setNewPageClick] = useState(false);
+
+  const { code } = useSelector((state: any) => state.code);
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (addPageClick) {
-        await dispatch(getCode('modules/notFound', 'NotFound.tsx'));
-      } else if (newPageClick) {
-        await dispatch(getCode('modules/blankModule', 'BlankModule.tsx'));
-      }
-    };
-    fetchData();
-  }, [addPageClick, newPageClick]);
+    if (code != undefined && code != '') {
+      console.log('code', code);
+      console.log(parseTsxToJson(code));
 
-  // useEffect(() => {
-  //   if (!newPageClick && addPageClick) {
-  //     dispatch(getCode('modules/notFound', 'NotFound.tsx'));
-  //   } else if (!addPageClick && newPageClick) {
-  //     dispatch(getCode('modules/blankModule', 'BlankModule.tsx'));
-  //   }
-  // }, [addPageClick, newPageClick]);
+      const newTabs = [
+        ...tabs,
+        {
+          tabLabel: parseTsxToJson(code).component.name,
+          tabContent: 'New Page ',
+        },
+      ];
+
+      setTabs(newTabs);
+      setTabIndex(newTabs.length - 1);
+    }
+  }, [code]);
 
   /**
    * Adds tab for existing component
    */
-  const addPage = async () => {
-    setNewPageClick(false);
-    setAddPageClick(true);
-    if (code != '' && code != undefined) {
-      const parsedCode = await parseTsxToJson(code);
-      const newTabs = [
-        ...tabs,
-        {
-          tabLabel: parsedCode.component.name,
-          tabContent: 'Not found',
-        },
-      ];
-      setTabs(newTabs);
-      setTabIndex(newTabs.length - 1);
-    }
+  const addPage = () => {
+    dispatch(getCode('modules/notFound', 'NotFound.tsx'));
   };
 
   /**
    * Adds tab for new component
    */
-  const addNewPage = async () => {
-    setAddPageClick(false);
-    setNewPageClick(true);
-    if (code != undefined && code != '') {
-      const parsedCode = await parseTsxToJson(code);
-      const newTabs = [
-        ...tabs,
-        {
-          tabLabel: parsedCode.component.name,
-          tabContent: 'Blank page',
-        },
-      ];
-
-      setTabs(newTabs);
-      setTabIndex(newTabs.length - 1);
-    }
+  const addNewPage = () => {
+    dispatch(getCode('modules/blankModule', 'BlankModule.tsx'));
   };
-
-  // const addNewPage: React.MouseEventHandler<HTMLButtonElement> = async () => {
-  //   try {
-  //     const code = await dispatch(
-  //       getCode('modules/blankModule', 'BlankModule.tsx')
-  //     );
-  //     const newTabs = [
-  //       ...tabs,
-  //       {
-  //         tabLabel: 'Pruebita',
-  //         tabContent: code,
-  //       },
-  //     ];
-
-  //     setTabs(newTabs);
-  //     setTabIndex(newTabs.length - 1);
-  //   } catch (error) {
-  //     console.log('Error fetching code', error);
-  //   }
-  // };
 
   /**
    * Sets a new tab index when the parent component changes a new tab is added
