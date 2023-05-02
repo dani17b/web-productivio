@@ -1,7 +1,7 @@
 // Esta versión de eslint tiene un bug para typescript: dice que DomElementType no se utiliza.
 /* eslint-disable*/
 //TYPES
-type TsxObj = {
+export type TsxObj = {
   imports: string[];
   component: FunctionObj;
   functions?: FunctionObj[];
@@ -23,7 +23,7 @@ type TextObj = {
   text: string;
 };
 
-type TagObj = {
+export type TagObj = {
   dom: {
     type: string;
     attributes?: KeyValue[];
@@ -32,7 +32,7 @@ type TagObj = {
   };
 };
 
-type Layout = {
+export type Layout = {
   uuid: string;
   x: number;
   y: number;
