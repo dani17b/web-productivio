@@ -30,40 +30,44 @@ export const TabComponent = (props: TabProps) => {
    * Gets code from back
    */
   const dispatch = useDispatch();
-  const { code } = useSelector((state: any) => state.code);
-
+  const { code, isLoading } = useSelector((state: any) => state.code);
   const [addPageClick, setAddPageClick] = useState(false);
   const [newPageClick, setNewPageClick] = useState(false);
 
-  // useEffect(() => {
-  //   dispatch(getCode('modules/notFound', 'NotFound.tsx'));
-  // }, []);
-
   useEffect(() => {
-    if (!newPageClick && addPageClick) {
-      dispatch(getCode('modules/notFound', 'NotFound.tsx'));
-    } else if (!addPageClick && newPageClick) {
-      dispatch(getCode('modules/blankModule', 'BlankModule.tsx'));
-    }
+    const fetchData = async () => {
+      if (addPageClick) {
+        await dispatch(getCode('modules/notFound', 'NotFound.tsx'));
+      } else if (newPageClick) {
+        await dispatch(getCode('modules/blankModule', 'BlankModule.tsx'));
+      }
+    };
+    fetchData();
   }, [addPageClick, newPageClick]);
+
+  // useEffect(() => {
+  //   if (!newPageClick && addPageClick) {
+  //     dispatch(getCode('modules/notFound', 'NotFound.tsx'));
+  //   } else if (!addPageClick && newPageClick) {
+  //     dispatch(getCode('modules/blankModule', 'BlankModule.tsx'));
+  //   }
+  // }, [addPageClick, newPageClick]);
 
   /**
    * Adds tab for existing component
    */
-  const addPage = () => {
+  const addPage = async () => {
     setNewPageClick(false);
     setAddPageClick(true);
-    // console.log(code);
     if (code != '' && code != undefined) {
+      const parsedCode = await parseTsxToJson(code);
       const newTabs = [
         ...tabs,
         {
-          //tabLabel: 'NotFound',
-          tabLabel: parseTsxToJson(code).component.name,
-          tabContent: 'Not found ',
+          tabLabel: parsedCode.component.name,
+          tabContent: 'Not found',
         },
       ];
-
       setTabs(newTabs);
       setTabIndex(newTabs.length - 1);
     }
@@ -72,25 +76,22 @@ export const TabComponent = (props: TabProps) => {
   /**
    * Adds tab for new component
    */
-  const addNewPage = () => {
+  const addNewPage = async () => {
     setAddPageClick(false);
     setNewPageClick(true);
     if (code != undefined && code != '') {
-      console.log('code', code);
-      console.log(parseTsxToJson(code));
+      const parsedCode = await parseTsxToJson(code);
+      const newTabs = [
+        ...tabs,
+        {
+          tabLabel: parsedCode.component.name,
+          tabContent: 'Blank page',
+        },
+      ];
+
+      setTabs(newTabs);
+      setTabIndex(newTabs.length - 1);
     }
-
-    const newTabs = [
-      ...tabs,
-      {
-        tabLabel: parseTsxToJson(code).component.name,
-        // tabLabel: parseTsxToJson(code).component.name,
-        tabContent: 'New Page ',
-      },
-    ];
-
-    setTabs(newTabs);
-    setTabIndex(newTabs.length - 1);
   };
 
   // const addNewPage: React.MouseEventHandler<HTMLButtonElement> = async () => {
