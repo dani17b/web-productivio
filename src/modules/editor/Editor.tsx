@@ -21,6 +21,8 @@ import { WidthProvider, Responsive } from 'react-grid-layout';
 import uuid from 'react-uuid';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
+import { ComponentListItem, componentList } from './componentList';
+
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -72,8 +74,7 @@ export const Editor = () => {
   const dispatch = useDispatch();
   const { files } = useSelector((state) => state.editor);
   const { code } = useSelector((state) => state.code);
-  const objectNames = files.map((file) => file.name);
-  const [componentCodeList, setComponentCodeList] = useState([]);
+  const [ setComponentCodeList] = useState([]);
 
   console.log('code', code);
 
@@ -84,7 +85,6 @@ export const Editor = () => {
       )
     );
   }, [dispatch]);
-
 
   const fetchAndSetComponentCode = useCallback(async () => {
     if (files.length === 0) return;
@@ -116,17 +116,6 @@ export const Editor = () => {
     fetchAndSetComponentCode();
   }, [files, fetchAndSetComponentCode]);
 
-
-  function createComponentFromCode(code) {
-    try {
-      const component = eval(code);
-      return component.default || component;
-    } catch (error) {
-      console.error('Error al crear el componente a partir del código', error);
-      return null;
-    }
-  }
-
   const componentDef = parse(`export const ScreenSample = () => {
         return (
             <div>Hola mundo</div>
@@ -151,7 +140,7 @@ export const Editor = () => {
     w: number;
     h: number;
   }
-  const AddGridItem = (component: JSX.Element, componentName: string) => {
+  const AddGridItem = (component: JSX.Element) => {
     const newItemUUID = uuid();
 
     setLayout((prevLayout) => [
@@ -161,7 +150,7 @@ export const Editor = () => {
 
     setLists((prevLists) => [
       ...prevLists,
-      { i: newItemUUID, component, componentName },
+      { i: newItemUUID, component },
     ]);
   };
 
@@ -184,21 +173,19 @@ export const Editor = () => {
       <div className="editor">
         <div className="editor__components">
           <Column>
-            {objectNames.map((objectName, index) => (
-              <MovableItem
-                key={index}
-                onClick={() =>
-                  AddGridItem(
-                    createComponentFromCode(componentCodeList[index]),
-                    objectName
-                  )
-                }
-              >
-                {objectName}
-              </MovableItem>
-            ))}
+            {componentList.map(
+              ({ name, component }: ComponentListItem, index) => (
+                <MovableItem
+                  key={index}
+                  onClick={() => AddGridItem(component, name)}
+                >
+                  {name}
+                </MovableItem>
+              )
+            )}
           </Column>
         </div>
+
         <Column
           className="editor__canvas"
           children={undefined}
