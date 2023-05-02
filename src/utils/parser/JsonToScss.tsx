@@ -39,6 +39,8 @@ export function parseJsonToScss(input: TsxObj): string {
     );
   }
 
+  // Ajustado a los valores por defecto del grid de drag-and-drop:
+  // (12 columnas y filas de 30px)
   let result = `.${parentClass} {
       display: grid;
       grid-template-columns: repeat(12, 1fr);

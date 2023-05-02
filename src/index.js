@@ -26,4 +26,4 @@ reportWebVitals();
 
 console.log('setter json', parseJsonToTsx(SetJsonStyle({ color: 'red' })));
 
-console.log('Sass parseado:', parseJsonToScss(testJson));
+console.log('Sass parseado:\n', parseJsonToScss(testJson));
