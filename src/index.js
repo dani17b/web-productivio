@@ -10,6 +10,7 @@ import { IndexedDB } from './lib/axios/indexeddb/IndexedDB';
 import apiDefinitionYml from './config/api.json';
 import { SetJsonStyle } from './utils/SetJsonStyle';
 import { parseJsonToTsx } from './utils/parser/JsonToTsx';
+import { parseJsonToScss, testJson } from './utils/parser/JsonToScss';
 
 const store = configureAppStore({});
 
@@ -24,3 +25,5 @@ root.render(<Provider store={store}>{<App />}</Provider>);
 reportWebVitals();
 
 console.log('setter json', parseJsonToTsx(SetJsonStyle({ color: 'red' })));
+
+console.log('Sass parseado:', parseJsonToScss(testJson));
