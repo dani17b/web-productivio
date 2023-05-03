@@ -24,6 +24,41 @@ export const getFiles = (projectPath: string): any => {
   });
 };
 
+export const getComponents = (projectPath: string): any => {
+  return new Promise((resolve, reject) => {
+    axios
+      .request({
+        url: `/components?path=${projectPath}`,
+        method: 'GET',
+        baseURL: SERVER_BASE_URL,
+      })
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export const getPath = () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .request({
+        url: `/projectPath`,
+        method: 'GET',
+        baseURL: SERVER_BASE_URL,
+      })
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+
 
 export const getCode = (path: string, file: string): any => {
   return (dispatch: (arg0: any) => void) => {
@@ -45,6 +80,7 @@ export const getCode = (path: string, file: string): any => {
       });
   };
 };
+
 
 export const postFile = (file: any): any => {
   return (dispatch: (arg0: any) => void) => {

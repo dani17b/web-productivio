@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { getFiles } = require('./utils/FileUtils');
+const { getFiles, getFilesComponents, getPath } = require('./utils/FileUtils');
 const fs = require('fs-extra');
 
 const app = express();
@@ -22,33 +22,6 @@ const getMock = (method, url) => {
   return mockData;
 };
 
-app.get('/modules', (req, res) => {
-  const moduleDir = path.join(__dirname, 'mocks');
-  const modules = [];
-
-  fs.readdirSync(moduleDir).forEach((moduleName) => {
-    const modulePath = path.join(moduleDir, moduleName);
-    const moduleStat = fs.statSync(modulePath);
-
-    if (moduleStat.isDirectory()) {
-      const moduleFiles = fs.readdirSync(modulePath);
-      moduleFiles.forEach((moduleFile) => {
-        const moduleFilePath = path.join(modulePath, moduleFile);
-        const moduleFileStat = fs.statSync(moduleFilePath);
-
-        if (path.extname(moduleFilePath) === '.json') {
-          modules.push({
-            name: `${moduleName}-${path.basename(moduleFilePath, '.json')}`,
-            path: `/${moduleName}/${path.basename(moduleFilePath, '.json')}`,
-            type: 'screen',
-          });
-        }
-      });
-    }
-  });
-
-  res.json(modules);
-});
 
 app.get('/project', (req, res) => {
   // Leer el path pasado como parametro y devolver una respuesta
@@ -57,6 +30,19 @@ app.get('/project', (req, res) => {
   res.header('Content-Type', 'application/json');
   res.end(JSON.stringify(files));
 });
+
+app.get('/components', (req, res) => {
+  // Leer el path pasado como parametro y devolver una respuesta
+  const files = getFilesComponents(path.join(req.query.path, 'src'), 'components');
+
+  res.header('Content-Type', 'application/json');
+  res.end(JSON.stringify(files));
+});
+
+app.get('/projectPath', (req, res) => {
+  const path = getPath();
+  res.send(path);
+})
 
 // Nueva ruta para leer el contenido de un archivo en particular
 // Nueva ruta para leer el contenido de un archivo en particular
