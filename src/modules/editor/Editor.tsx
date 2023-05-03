@@ -6,7 +6,7 @@ import { parse, buildJsx } from '../../lib/tsx-builder';
 import { InfoPanel } from './components/infoPanel/InfoPanel';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getCode, getFiles } from './actions';
+import { getFiles } from './actions';
 import { useSelector } from 'react-redux';
 import { ComponentsList } from './components/componentList/ComponentList';
 import {
@@ -14,7 +14,6 @@ import {
   TestComponentProps,
 } from 'src/components/propsEditor/TestComponent';
 import { TabComponent } from './components/tabComponent/TabComponent';
-import { parseTsxToJson } from './../../utils/parser/TsxToJson';
 
 export const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -60,17 +59,17 @@ export const Editor = () => {
   const dispatch = useDispatch();
 
   const { files } = useSelector((state) => state.editor);
-  const { code } = useSelector((state) => state.code);
+  // const { code } = useSelector((state) => state.code);
 
-  if (code != [] && code != undefined && code != '') {
-    console.log('code', code);
-    console.log(parseTsxToJson(code));
-  }
+  // if (code != [] && code != undefined && code != '') {
+  //   console.log('code', code);
+  //   console.log(parseTsxToJson(code));
+  // }
 
   useEffect(() => {
     dispatch(
       getFiles(
-        'C:\\Users\\paula.seoane\\Documents\\Productivio\\web-productivio'
+        'C:\\Users\\paula.alba\\Desktop\\workspace\\dev\\web-productivio'
       )
       // 'C:\\Users\\paula.alba\\Desktop\\workspace\\dev\\web-productivio'
       // 'C:\\Users\\enrique.jimenez\\Documents\\formaciónDani\\productivio\\web-productivio'
@@ -81,7 +80,7 @@ export const Editor = () => {
     if (files.length > 0) {
       // let path = files.map((file) => file.path);
       // let name = files.map((file) => file.name);
-      dispatch(getCode('modules/notFound', 'NotFound.tsx'));
+      //dispatch(getCode('modules/notFound', 'NotFound.tsx'));
     }
   }, [files]);
 
@@ -121,7 +120,7 @@ export const Editor = () => {
           </Column>
         </div>
         <Column className="editor__canvas">
-          {buildJsx(componentDef.components[0].dom, {
+          {/* {buildJsx(componentDef.components[0].dom, {
             selectElement: (element) => {
               console.log('edit element', element);
               setSelectedElement(element);
@@ -129,9 +128,9 @@ export const Editor = () => {
             removeElement: (element) => {
               console.log('remove element', element);
               setSelectedElement(element);
-            },
-          })}
-          <TestComponent text={text} style={styles} />
+            }, */}
+          {/* })} */}
+          {/*  */}
           <TabComponent
             tabLabel="Hello World"
             tabContent={
@@ -146,6 +145,7 @@ export const Editor = () => {
                     setSelectedElement(element);
                   },
                 })}{' '}
+                <TestComponent text={text} style={styles} />
               </div>
             }
           />
