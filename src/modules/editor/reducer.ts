@@ -1,9 +1,10 @@
 import { responseType } from 'src/utils/ReduxUtils';
-import { GET_PROJECT_FILES } from './actions';
+import { GET_PROJECT_FILES, PUSH_JSON_TO_ARRAY } from './actions';
 
 const initialState = {
   loading: false,
   files: [],
+  modules: [],
 };
 
 const editor = (state = initialState, action: any) => {
@@ -13,6 +14,12 @@ const editor = (state = initialState, action: any) => {
         ...state,
         loading: false,
         files: action.files,
+      };
+    case responseType(PUSH_JSON_TO_ARRAY):
+      return {
+        ...state,
+        loading: false,
+        modules: action.modules,
       };
     default:
       return state;

@@ -1,8 +1,10 @@
 // Esta versión de eslint tiene un bug para typescript: dice que DomElementType no se utiliza.
 /* eslint-disable*/
 //TYPES
-type TsxObj = {
+import uuid from 'react-uuid';
+export type TsxObj = {
   imports: string[];
+  id: string;
   component: FunctionObj;
   functions?: FunctionObj[];
   //TODO más cosas
@@ -23,7 +25,7 @@ type TextObj = {
   text: string;
 };
 
-type TagObj = {
+export type TagObj = {
   dom: {
     type: string;
     attributes?: KeyValue[];
@@ -252,6 +254,7 @@ const trimFunctions = (input: any) => {
  */
 export function parseTsxToJson(input: string): TsxObj {
   return {
+    id: uuid(),
     imports: parseImports(input),
     component: parseFunction(
       trimFunctions(input.slice(input.indexOf('export const')))
