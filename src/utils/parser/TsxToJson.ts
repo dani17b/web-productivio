@@ -27,8 +27,17 @@ type TagObj = {
   dom: {
     type: string;
     attributes?: KeyValue[];
+    layout?: Layout;
     children: (TagObj | TextObj)[];
   };
+};
+
+type Layout = {
+  uuid: string;
+  x: number;
+  y: number;
+  h: number;
+  w: number;
 };
 
 type KeyValue = {
