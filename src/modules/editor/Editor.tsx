@@ -1,6 +1,5 @@
 //@ts-nocheck
 /* eslint-disable max-len */
-//@ts-nocheck
 import React from 'react';
 import './editor.scss';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
@@ -21,10 +20,11 @@ import { WidthProvider, Responsive } from 'react-grid-layout';
 import uuid from 'react-uuid';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import { ComponentListItem, componentList } from './componentList';
-
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
+
+const BASE_URL =
+  'C:\\Users\\iris.mckirdy\\Desktop\\workspace\\productivio\\web-productivio';
 
 export const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -74,16 +74,13 @@ export const Editor = () => {
   const dispatch = useDispatch();
   const { files } = useSelector((state) => state.editor);
   const { code } = useSelector((state) => state.code);
-  const [ setComponentCodeList] = useState([]);
+  const [setComponentCodeList] = useState([]);
+  /*const objectNames = files.map((file) => file.name);*/
 
   console.log('code', code);
 
   useEffect(() => {
-    dispatch(
-      getFiles(
-        'C:\\Users\\fernando.valerio\\Desktop\\workspace\\dev\\web-productivio'
-      )
-    );
+    dispatch(getFiles(BASE_URL));
   }, [dispatch]);
 
   const fetchAndSetComponentCode = useCallback(async () => {
@@ -148,10 +145,7 @@ export const Editor = () => {
       { i: newItemUUID, x: 0, y: 0, w: 1.5, h: 1, static: false, maxH: 30 },
     ]);
 
-    setLists((prevLists) => [
-      ...prevLists,
-      { i: newItemUUID, component },
-    ]);
+    setLists((prevLists) => [...prevLists, { i: newItemUUID, component }]);
   };
 
   const [layout, setLayout] = useState([
@@ -173,16 +167,24 @@ export const Editor = () => {
       <div className="editor">
         <div className="editor__components">
           <Column>
-            {componentList.map(
-              ({ name, component }: ComponentListItem, index) => (
-                <MovableItem
-                  key={index}
-                  onClick={() => AddGridItem(component, name)}
-                >
-                  {name}
-                </MovableItem>
-              )
-            )}
+            {files.map((file, index) => (
+              <MovableItem
+                key={index}
+                onClick={(e) => {
+                  let path =
+                    file.path.slice(file.path.indexOf('/') + 1) +
+                    '/' +
+                    file.name +
+                    '.tsx';
+
+                  load(path).then((obj) => {
+                    console.log(obj);
+                  });
+                }}
+              >
+                {file.name}
+              </MovableItem>
+            ))}
           </Column>
         </div>
 
@@ -271,3 +273,8 @@ export const Editor = () => {
     </DndProvider>
   );
 };
+
+async function load(path) {
+  let component = await import(`../${path}`);
+  return component;
+}
