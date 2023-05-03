@@ -4,10 +4,10 @@ import React, { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
-import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
 import { parseTsxToJson } from 'src/utils/parser/TsxToJson';
 import { getCode } from '../../actions';
+import { IoIosClose } from 'react-icons/io';
 
 export interface TabProps {
   /**
@@ -41,7 +41,6 @@ export const TabComponent = (props: TabProps) => {
    * Gets code from back
    */
   const dispatch = useDispatch();
-
   const { code } = useSelector((state: any) => state.code);
 
   useEffect(() => {
@@ -134,7 +133,7 @@ export const TabComponent = (props: TabProps) => {
               label={tab.tabLabel}
               value={index.toString()}
               icon={
-                <CloseIcon
+                <IoIosClose
                   className="tab-container__tab-row__close"
                   onClick={() => closeTab(index)}
                 />

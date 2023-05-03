@@ -69,7 +69,7 @@ export const Editor = () => {
   useEffect(() => {
     dispatch(
       getFiles(
-        'C:\\Users\\paula.seoane\\Documents\\Productivio\\web-productivio'
+        'C:\\Users\\paula.alba\\Desktop\\workspace\\dev\\web-productivio'
       )
       // 'C:\\Users\\paula.alba\\Desktop\\workspace\\dev\\web-productivio'
       // 'C:\\Users\\enrique.jimenez\\Documents\\formaciónDani\\productivio\\web-productivio'
@@ -120,7 +120,7 @@ export const Editor = () => {
           </Column>
         </div>
         <Column className="editor__canvas">
-          {buildJsx(componentDef.components[0].dom, {
+          {/* {buildJsx(componentDef.components[0].dom, {
             selectElement: (element) => {
               console.log('edit element', element);
               setSelectedElement(element);
@@ -128,9 +128,9 @@ export const Editor = () => {
             removeElement: (element) => {
               console.log('remove element', element);
               setSelectedElement(element);
-            },
-          })}
-          <TestComponent text={text} style={styles} />
+            }, */}
+          {/* })} */}
+          {/*  */}
           <TabComponent
             tabLabel="Hello World"
             tabContent={
@@ -145,6 +145,7 @@ export const Editor = () => {
                     setSelectedElement(element);
                   },
                 })}{' '}
+                <TestComponent text={text} style={styles} />
               </div>
             }
           />
