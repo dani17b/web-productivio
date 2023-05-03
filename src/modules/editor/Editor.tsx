@@ -6,7 +6,7 @@ import { parse, buildJsx } from '../../lib/tsx-builder';
 import { InfoPanel } from './components/infoPanel/InfoPanel';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getFiles } from './actions';
+import { getFiles, pushJsonToArray, setJsonArray } from './actions';
 import { useSelector } from 'react-redux';
 import { ComponentsList } from './components/componentList/ComponentList';
 import {
@@ -14,6 +14,7 @@ import {
   TestComponentProps,
 } from 'src/components/propsEditor/TestComponent';
 import { TabComponent } from './components/tabComponent/TabComponent';
+import { TsxObj, exampleTsx } from 'src/utils/parser/TsxToJson';
 
 export const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -58,11 +59,16 @@ export const Editor = () => {
 
   const dispatch = useDispatch();
 
-  const { files } = useSelector((state) => state.editor);
+  const { files, modules } = useSelector((state) => state.editor);
 
   useEffect(() => {
-    dispatch(getFiles('C:\\workspace\\dev\\web-productivio'));
-  }, [dispatch]);
+    dispatch(
+      getFiles(
+        'C:\\Users\\hector.arias\\Desktop\\Archivos_git\\web-productivio'
+      )
+    );
+    dispatch(setJsonArray([...modules, exampleTsx]));
+  }, []);
 
   useEffect(() => {
     if (files.length > 0) {

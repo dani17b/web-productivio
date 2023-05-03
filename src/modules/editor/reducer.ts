@@ -1,8 +1,13 @@
-import { responseType } from 'src/utils/ReduxUtils';
-import { GET_PROJECT_FILES, PUSH_JSON_TO_ARRAY } from './actions';
+import { requestType, responseType } from 'src/utils/ReduxUtils';
+import { GET_PROJECT_FILES, SET_JSON_ARRAY_REQUEST } from './actions';
+import { TsxObj } from 'src/utils/parser/TsxToJson';
 
-const initialState = {
-  loading: false,
+export interface initialStateType {
+  files: any[];
+  modules: TsxObj[];
+}
+
+const initialState: initialStateType = {
   files: [],
   modules: [],
 };
@@ -12,13 +17,14 @@ const editor = (state = initialState, action: any) => {
     case responseType(GET_PROJECT_FILES):
       return {
         ...state,
-        loading: false,
+
         files: action.files,
       };
-    case responseType(PUSH_JSON_TO_ARRAY):
+    case SET_JSON_ARRAY_REQUEST:
+      debugger;
+      console.log('reducer holis :)');
       return {
         ...state,
-        loading: false,
         modules: action.modules,
       };
     default:

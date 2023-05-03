@@ -261,3 +261,116 @@ export function parseTsxToJson(input: string): TsxObj {
     ),
   };
 }
+
+export const exampleTsx = {
+  id: 'vdklsjflñmnv,nldmflñmdlfskjfewñf´f,ñ',
+  imports: [
+    "import React, { useState } from 'react'",
+    "import { Header } from 'src/components/header/Header'",
+    "import { WebNavBar } from 'src/components/webNavBar/WebNavBar'",
+    "import './notFound.scss'",
+  ],
+  component: {
+    path: './src/components/Component',
+    name: 'NotFound',
+    args: [
+      {
+        name: '',
+        optional: false,
+      },
+    ],
+    returnedContent: {
+      dom: {
+        type: 'div',
+        attributes: [
+          {
+            key: 'className',
+            value: "'notFound'",
+          },
+        ],
+        layout: {},
+        children: [
+          {
+            dom: {
+              type: 'Header',
+              layout: {
+                uuid: 'sdpfosslsdlsdpldpsdflsdpfldsfp2309430493',
+                x: 3,
+                y: 1,
+                w: 2,
+                h: 2,
+              },
+              attributes: [],
+              children: [],
+            },
+          },
+          {
+            dom: {
+              type: 'div',
+              attributes: [],
+              layout: {
+                uuid: 'sdpfosslsdlsdpldpsdflsdpfldsfp2309430493',
+                x: 3,
+                y: 1,
+                w: 2,
+                h: 2,
+              },
+              children: [
+                {
+                  dom: {
+                    type: 'h1',
+                    attributes: [],
+                    layout: {
+                      uuid: 'sdpfosslsdlsdpldpsdflsdpfldsfp2309430493',
+                      x: 3,
+                      y: 1,
+                      w: 2,
+                      h: 2,
+                    },
+                    children: [
+                      {
+                        text: '404 - Page Not Found',
+                      },
+                    ],
+                  },
+                },
+                {
+                  dom: {
+                    type: 'p',
+                    attributes: [],
+                    layout: {
+                      uuid: 'sdpfosslsdlsdpldpsdflsdpfldsfp2309430493',
+                      x: 3,
+                      y: 1,
+                      w: 2,
+                      h: 2,
+                    },
+                    children: [
+                      {
+                        text: 'Sorry, the page does not exist (by the moment)',
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            dom: {
+              type: 'WebNavBar',
+              attributes: [],
+              layout: {
+                uuid: 'sdpfosslsdlsdpldpsdflsdpfldsfp2309430493',
+                x: 3,
+                y: 1,
+                w: 2,
+                h: 2,
+              },
+              children: [],
+            },
+          },
+        ],
+      },
+    },
+  },
+};
