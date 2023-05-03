@@ -35,6 +35,7 @@
     "sass": "1.55.0",
     "typescript": "4.6.3",
     "universal-cookie": "4.0.4",
+    "uuid": "9.0.0",
     "web-vitals": "2.1.4"
   },
   "scripts": {
@@ -45,7 +46,6 @@
     "eject": "react-scripts eject",
     "prepare": "husky install",
     "generate-component-docs": "react-docgen \"../lib-productivio/src/components\" --pretty --extension tsx --out productivio-components.json"
-
   },
   "eslintConfig": {
     "extends": [
@@ -67,6 +67,7 @@
   },
   "devDependencies": {
     "@craco/craco": "7.1.0",
+    "@types/uuid": "9.0.1",
     "craco-alias": "3.0.1",
     "jest-canvas-mock": "2.5.0",
     "react-docgen": "^5.4.3"

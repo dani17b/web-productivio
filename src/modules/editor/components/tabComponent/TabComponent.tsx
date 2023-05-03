@@ -1,4 +1,5 @@
 import './tabComponent.scss';
+import { v4 as uuidv4 } from 'uuid';
 import React, { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
@@ -9,6 +10,10 @@ import { parseTsxToJson } from 'src/utils/parser/TsxToJson';
 import { getCode } from '../../actions';
 
 export interface TabProps {
+  /**
+   * Unique tab ID
+   */
+  tabId: number;
   /**
    * Tab's name. Initially the module's name
    */
@@ -23,7 +28,13 @@ export const TabComponent = (props: TabProps) => {
   /**
    * Tab and tabIndex state
    */
-  const [tabs, setTabs] = useState<TabProps[]>([props]);
+  const [tabs, setTabs] = useState<TabProps[]>([
+    {
+      tabId: 0,
+      tabLabel: props.tabLabel,
+      tabContent: props.tabContent,
+    },
+  ]);
   const [tabIndex, setTabIndex] = useState(0);
 
   /**
@@ -38,13 +49,14 @@ export const TabComponent = (props: TabProps) => {
       console.log('code', code);
       console.log(parseTsxToJson(code));
 
-      const newTabs = [
-        ...tabs,
-        {
-          tabLabel: parseTsxToJson(code).component.name,
-          tabContent: 'New Page ',
-        },
-      ];
+      const newTabId = parseInt(uuidv4());
+      const newTab = {
+        tabId: newTabId,
+        tabLabel: parseTsxToJson(code).component.name,
+        tabContent: code,
+      };
+
+      const newTabs = [...tabs, newTab];
 
       setTabs(newTabs);
       setTabIndex(newTabs.length - 1);
@@ -118,7 +130,7 @@ export const TabComponent = (props: TabProps) => {
         >
           {tabs.map((tab, index) => (
             <Tab
-              key={index}
+              key={tab.tabId}
               label={tab.tabLabel}
               value={index.toString()}
               icon={
@@ -132,7 +144,7 @@ export const TabComponent = (props: TabProps) => {
         </Tabs>
         <div className="tab-container__tab-content">
           {tabs.map((tab, index) => (
-            <TabPanel key={index} value={index.toString()}>
+            <TabPanel key={tab.tabId} value={index.toString()}>
               <div ref={handleContentRef(index)}>{tab.tabContent}</div>
             </TabPanel>
           ))}
