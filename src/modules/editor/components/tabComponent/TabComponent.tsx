@@ -8,12 +8,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { parseTsxToJson } from 'src/utils/parser/TsxToJson';
 import { getCode } from '../../actions';
 import { IoIosClose } from 'react-icons/io';
+import axios from 'axios';
+import { SERVER_BASE_URL } from 'src/config/Config';
 
 export interface TabProps {
   /**
    * Unique tab ID
    */
-  tabId: number;
+  tabId: string;
   /**
    * Tab's name. Initially the module's name
    */
@@ -30,7 +32,7 @@ export const TabComponent = (props: TabProps) => {
    */
   const [tabs, setTabs] = useState<TabProps[]>([
     {
-      tabId: 0,
+      tabId: '',
       tabLabel: props.tabLabel,
       tabContent: props.tabContent,
     },
@@ -43,37 +45,43 @@ export const TabComponent = (props: TabProps) => {
   const dispatch = useDispatch();
   const { code } = useSelector((state: any) => state.code);
 
-  useEffect(() => {
-    if (code != undefined && code != '') {
-      console.log('code', code);
-      console.log(parseTsxToJson(code));
-
-      const newTabId = parseInt(uuidv4());
-      const newTab = {
-        tabId: newTabId,
-        tabLabel: parseTsxToJson(code).component.name,
-        tabContent: code,
-      };
-
-      const newTabs = [...tabs, newTab];
-
-      setTabs(newTabs);
-      setTabIndex(newTabs.length - 1);
-    }
-  }, [code]);
-
   /**
    * Adds tab for existing component
    */
   const addPage = () => {
-    dispatch(getCode('modules/notFound', 'NotFound.tsx'));
+    getModule('modules/notFound/NotFound.tsx');
   };
 
   /**
    * Adds tab for new component
    */
   const addNewPage = () => {
-    dispatch(getCode('modules/blankModule', 'BlankModule.tsx'));
+    getModule('modules/blankModule/BlankModule.tsx');
+  };
+
+  const getModule = (path: string) => {
+    axios
+      .request({
+        url: `file/${path}`,
+        method: 'GET',
+        baseURL: SERVER_BASE_URL,
+      })
+      .then((response) => {
+        let code = response.data;
+        console.log(code);
+        const newTabId = uuidv4();
+        console.log(newTabId);
+        const newTab = {
+          tabId: newTabId,
+          tabLabel: parseTsxToJson(code).component.name,
+          tabContent: code,
+        };
+
+        const newTabs = [...tabs, newTab];
+
+        setTabs(newTabs);
+        setTabIndex(newTabs.length - 1);
+      });
   };
 
   /**
