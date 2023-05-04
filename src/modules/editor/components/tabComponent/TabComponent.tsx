@@ -1,12 +1,10 @@
 import './tabComponent.scss';
 import { v4 as uuidv4 } from 'uuid';
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
-import { useDispatch, useSelector } from 'react-redux';
 import { parseTsxToJson } from 'src/utils/parser/TsxToJson';
-import { getCode } from '../../actions';
 import { IoIosClose } from 'react-icons/io';
 import axios from 'axios';
 import { SERVER_BASE_URL } from 'src/config/Config';
@@ -38,12 +36,6 @@ export const TabComponent = (props: TabProps) => {
     },
   ]);
   const [tabIndex, setTabIndex] = useState(0);
-
-  /**
-   * Gets code from back
-   */
-  const dispatch = useDispatch();
-  const { code } = useSelector((state: any) => state.code);
 
   /**
    * Adds tab for existing component
