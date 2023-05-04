@@ -8,6 +8,8 @@ import { parseTsxToJson } from 'src/utils/parser/TsxToJson';
 import { IoIosClose } from 'react-icons/io';
 import axios from 'axios';
 import { SERVER_BASE_URL } from 'src/config/Config';
+import { useDispatch, useSelector } from 'react-redux';
+import { setJsonArray } from '../../actions';
 
 export interface TabProps {
   /**
@@ -37,6 +39,10 @@ export const TabComponent = (props: TabProps) => {
   ]);
   const [tabIndex, setTabIndex] = useState(0);
 
+  const dispatch = useDispatch();
+
+  const { modules } = useSelector((state: any) => state.editor);
+
   /**
    * Adds tab for existing component
    */
@@ -60,13 +66,12 @@ export const TabComponent = (props: TabProps) => {
       })
       .then((response) => {
         let code = response.data;
-        console.log(code);
+        dispatch(setJsonArray([...modules, parseTsxToJson(code)]));
         const newTabId = uuidv4();
-        console.log(newTabId);
         const newTab = {
           tabId: newTabId,
           tabLabel: parseTsxToJson(code).component.name,
-          tabContent: code,
+          tabContent: 'Holis',
         };
 
         const newTabs = [...tabs, newTab];
