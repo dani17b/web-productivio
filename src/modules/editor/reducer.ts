@@ -1,27 +1,24 @@
-
-import { requestType, responseType } from 'src/utils/ReduxUtils';
+import { responseType } from 'src/utils/ReduxUtils';
 import { TsxObj } from 'src/utils/parser/TsxToJson';
 import {
-  GET_PROJECT_FILES, 
-  SET_JSON_ARRAY_REQUEST,
   GET_PROJECT_FILES,
+  SET_JSON_ARRAY_REQUEST,
   GET_FILE_CODE,
   POST_FILE,
   UPDATE_FILE,
 } from './actions';
 
-
 export interface initialStateType {
   files: any[];
   modules: TsxObj[];
-  code: any[],
-  file: any[],
+  code: any[];
+  file: any[];
 }
 
 const initialState: initialStateType = {
   files: [],
   modules: [],
- code: [],
+  code: [],
   file: [],
 };
 

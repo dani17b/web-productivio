@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 import { SERVER_BASE_URL } from 'src/config/Config';
 import { requestType, responseType } from 'src/utils/ReduxUtils';
 import { TsxObj } from 'src/utils/parser/TsxToJson';
@@ -40,6 +39,8 @@ export const setJsonArray = (modules: TsxObj[]): any => {
       type: SET_JSON_ARRAY_REQUEST,
       modules,
     });
+  };
+};
 
 export const getCode = (path: string, file: string): any => {
   return (dispatch: (arg0: any) => void) => {

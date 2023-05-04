@@ -1,5 +1,3 @@
-import { useSelector } from 'react-redux';
-
 export const SetJsonStyle = (json: JSON) => {
   //TODO cambiarlo cuando haya el redux.
   //const jsonRedux = useSelector((state:any) => state.parse);
