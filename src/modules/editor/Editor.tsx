@@ -69,10 +69,10 @@ export const Editor = () => {
   useEffect(() => {
     dispatch(
       getFiles(
-        'C:\\Users\\paula.alba\\Desktop\\workspace\\dev\\web-productivio'
+        'C:\\Users\\paula.seoane\\Documents\\Productivio\\web-productivio'
       )
       // 'C:\\Users\\paula.alba\\Desktop\\workspace\\dev\\web-productivio'
-      // 'C:\\Users\\enrique.jimenez\\Documents\\formaciónDani\\productivio\\web-productivio'
+      // 'C:\\Users\\paula.seoane\\Documents\\Productivio\\web-productivio'
     );
   }, []);
 
