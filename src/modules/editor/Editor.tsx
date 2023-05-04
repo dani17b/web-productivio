@@ -5,18 +5,20 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { parse, buildJsx } from '../../lib/tsx-builder';
 import { InfoPanel } from './components/infoPanel/InfoPanel';
 import { useEffect, useState } from 'react';
+import {
+  getComponents,
+  getFiles,
+  getPath,
+  postFile,
+  updateFile,
+} from './actions';
 import { useDispatch } from 'react-redux';
-import { getFiles, setJsonArray } from './actions';
-import { getComponents, getFiles, getPath, postFile, updateFile } from './actions';
-import { useSelector, useDispatch } from 'react-redux';
 import { ComponentsList } from './components/componentList/ComponentList';
 import {
   TestComponent,
   TestComponentProps,
 } from 'src/components/propsEditor/TestComponent';
 import { TabComponent } from './components/tabComponent/TabComponent';
-import path from 'path-browserify';
-import { exampleTsx } from 'src/utils/parser/TsxToJson';
 
 export const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -59,12 +61,8 @@ export const MovableItem = ({ children }) => {
 export const Editor = () => {
   const dispatch = useDispatch();
   const [selectedElement, setSelectedElement] = useState(null);
-  const { code } = useSelector((state) => state.code);
-  console.log('code', code);
+  //const { code } = useSelector((state) => state.code);
   const [inputValue, setInputValue] = useState('');
-  const projectPath = path.join(__dirname, '..', '..', '..');
-  console.log(projectPath);
-  
 
   const handleSave = (file: any) => {
     getFiles(projectPath)
@@ -97,7 +95,6 @@ export const Editor = () => {
     fetchData();
   }, []);
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -110,7 +107,6 @@ export const Editor = () => {
     };
     fetchData();
   }, []);
-
 
   const componentDef = parse(`export const ScreenSample = () => {
         return (
