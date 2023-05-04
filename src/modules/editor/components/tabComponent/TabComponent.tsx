@@ -1,11 +1,21 @@
 import './tabComponent.scss';
+import { v4 as uuidv4 } from 'uuid';
 import React, { useRef } from 'react';
 import { useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
-import CloseIcon from '@mui/icons-material/Close';
+import { parseTsxToJson } from 'src/utils/parser/TsxToJson';
+import { IoIosClose } from 'react-icons/io';
+import axios from 'axios';
+import { SERVER_BASE_URL } from 'src/config/Config';
+import { useDispatch, useSelector } from 'react-redux';
+import { setJsonArray } from '../../actions';
 
-interface TabProps {
+export interface TabProps {
+  /**
+   * Unique tab ID
+   */
+  tabId: string;
   /**
    * Tab's name. Initially the module's name
    */
@@ -17,33 +27,77 @@ interface TabProps {
 }
 
 export const TabComponent = (props: TabProps) => {
+  /**
+   * Tab and tabIndex state
+   */
   const [tabs, setTabs] = useState<TabProps[]>([
-    // { tabLabel: 'Generada', tabContent: 'Contenido de la pestaña generada' },
-    props,
+    {
+      tabId: '',
+      tabLabel: props.tabLabel,
+      tabContent: props.tabContent,
+    },
   ]);
-
   const [tabIndex, setTabIndex] = useState(0);
 
+  const dispatch = useDispatch();
+
+  const { modules } = useSelector((state: any) => state.editor);
+
+  /**
+   * Adds tab for existing component
+   */
+  const addPage = () => {
+    getModule('modules/notFound/NotFound.tsx');
+  };
+
+  /**
+   * Adds tab for new component
+   */
+  const addNewPage = () => {
+    getModule('modules/blankModule/BlankModule.tsx');
+  };
+
+  const getModule = (path: string) => {
+    axios
+      .request({
+        url: `file/${path}`,
+        method: 'GET',
+        baseURL: SERVER_BASE_URL,
+      })
+      .then((response) => {
+        let code = response.data;
+        dispatch(setJsonArray([...modules, parseTsxToJson(code)]));
+        const newTabId = uuidv4();
+        const newTab = {
+          tabId: newTabId,
+          tabLabel: parseTsxToJson(code).component.name,
+          tabContent: 'Holis',
+        };
+
+        const newTabs = [...tabs, newTab];
+
+        setTabs(newTabs);
+        setTabIndex(newTabs.length - 1);
+      });
+  };
+
+  /**
+   * Sets a new tab index when the parent component changes a new tab is added
+   */
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
   };
 
-  const addTab: React.MouseEventHandler<HTMLButtonElement> = () => {
-    const newTabIndex = tabs.length.toString();
-    const newTabs = [
-      ...tabs,
-      {
-        tabLabel: `Tab ${newTabIndex}`,
-        tabContent: `Contenido de la pestaña ${newTabIndex}`,
-      },
-    ];
-
-    setTabs(newTabs);
-    setTabIndex(newTabs.length - 1);
-  };
-
   const contentRefs = useRef<Array<HTMLDivElement | null>>([]);
 
+  const handleContentRef =
+    (index: number) => (element: HTMLDivElement | null) => {
+      contentRefs.current[index] = element;
+    };
+
+  /**
+   * Sets the focus on the previous tab's content
+   */
   const closeTab = (index: number) => {
     const newTabs = [...tabs];
     newTabs.splice(index, 1);
@@ -62,16 +116,14 @@ export const TabComponent = (props: TabProps) => {
     }
   };
 
-  const handleContentRef =
-    (index: number) => (element: HTMLDivElement | null) => {
-      contentRefs.current[index] = element;
-    };
-
   return (
     <div className="tab-container">
       <div className="tab-container__trial-button-container">
-        <button className="tab-container__trial-button" onClick={addTab}>
-          Add
+        <button className="tab-container__trial-button" onClick={addPage}>
+          Open Page
+        </button>
+        <button className="tab-container__trial-button" onClick={addNewPage}>
+          New Page
         </button>
       </div>
       <TabContext value={tabIndex.toString()}>
@@ -82,11 +134,11 @@ export const TabComponent = (props: TabProps) => {
         >
           {tabs.map((tab, index) => (
             <Tab
-              key={index}
+              key={tab.tabId}
               label={tab.tabLabel}
               value={index.toString()}
               icon={
-                <CloseIcon
+                <IoIosClose
                   className="tab-container__tab-row__close"
                   onClick={() => closeTab(index)}
                 />
@@ -96,7 +148,7 @@ export const TabComponent = (props: TabProps) => {
         </Tabs>
         <div className="tab-container__tab-content">
           {tabs.map((tab, index) => (
-            <TabPanel key={index} value={index.toString()}>
+            <TabPanel key={tab.tabId} value={index.toString()}>
               <div ref={handleContentRef(index)}>{tab.tabContent}</div>
             </TabPanel>
           ))}

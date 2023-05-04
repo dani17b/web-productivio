@@ -1,5 +1,6 @@
 // Json modelo del parseo del componente NotFound, que está en: web-productivio\src\modules\notFound
 {
+  "id": "vdklsjflñmnv,nldmflñmdlfskjfewñf´f,ñ",
   "imports": [
     "import React, { useState } from 'react'",
     "import { Header } from 'src/components/header/Header'",
@@ -24,13 +25,7 @@
             "value": "'notFound'"
           }
         ],
-        "layout": {
-          "uuid": "sdpfosslsdlsdpldpsdflsdpfldsfp2309430493",
-          "x": 3,
-          "y": 1,
-          "w": 2,
-          "h": 2
-        },
+        "layout": {},
         "children": [
           {
             "dom": {

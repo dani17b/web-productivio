@@ -5,6 +5,8 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { parse, buildJsx } from '../../lib/tsx-builder';
 import { InfoPanel } from './components/infoPanel/InfoPanel';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { getFiles, setJsonArray } from './actions';
 import { getComponents, getFiles, getPath, postFile, updateFile } from './actions';
 import { useSelector, useDispatch } from 'react-redux';
 import { ComponentsList } from './components/componentList/ComponentList';
@@ -14,6 +16,7 @@ import {
 } from 'src/components/propsEditor/TestComponent';
 import { TabComponent } from './components/tabComponent/TabComponent';
 import path from 'path-browserify';
+import { exampleTsx } from 'src/utils/parser/TsxToJson';
 
 export const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -136,7 +139,7 @@ export const Editor = () => {
           </Column>
         </div>
         <Column className="editor__canvas">
-          {buildJsx(componentDef.components[0].dom, {
+          {/* {buildJsx(componentDef.components[0].dom, {
             selectElement: (element) => {
               console.log('edit element', element);
               setSelectedElement(element);
@@ -144,9 +147,9 @@ export const Editor = () => {
             removeElement: (element) => {
               console.log('remove element', element);
               setSelectedElement(element);
-            },
-          })}
-          <TestComponent text={text} style={styles} />
+            }, */}
+          {/* })} */}
+          {/*  */}
           <TabComponent
             tabLabel="Hello World"
             tabContent={
@@ -161,6 +164,7 @@ export const Editor = () => {
                     setSelectedElement(element);
                   },
                 })}{' '}
+                <TestComponent text={text} style={styles} />
               </div>
             }
           />
