@@ -1,8 +1,10 @@
 // Esta versión de eslint tiene un bug para typescript: dice que DomElementType no se utiliza.
 /* eslint-disable*/
 //TYPES
-type TsxObj = {
+import uuid from 'react-uuid';
+export type TsxObj = {
   imports: string[];
+  id: string;
   component: FunctionObj;
   functions?: FunctionObj[];
   //TODO más cosas
@@ -23,12 +25,21 @@ type TextObj = {
   text: string;
 };
 
-type TagObj = {
+export type TagObj = {
   dom: {
     type: string;
     attributes?: KeyValue[];
+    layout?: Layout;
     children: (TagObj | TextObj)[];
   };
+};
+
+type Layout = {
+  uuid: string;
+  x: number;
+  y: number;
+  h: number;
+  w: number;
 };
 
 type KeyValue = {
@@ -243,9 +254,123 @@ const trimFunctions = (input: any) => {
  */
 export function parseTsxToJson(input: string): TsxObj {
   return {
+    id: uuid(),
     imports: parseImports(input),
     component: parseFunction(
       trimFunctions(input.slice(input.indexOf('export const')))
     ),
   };
 }
+
+export const exampleTsx = {
+  id: 'vdklsjflñmnv,nldmflñmdlfskjfewñf´f,ñ',
+  imports: [
+    "import React, { useState } from 'react'",
+    "import { Header } from 'src/components/header/Header'",
+    "import { WebNavBar } from 'src/components/webNavBar/WebNavBar'",
+    "import './notFound.scss'",
+  ],
+  component: {
+    path: './src/components/Component',
+    name: 'NotFound',
+    args: [
+      {
+        name: '',
+        optional: false,
+      },
+    ],
+    returnedContent: {
+      dom: {
+        type: 'div',
+        attributes: [
+          {
+            key: 'className',
+            value: "'notFound'",
+          },
+        ],
+        layout: {},
+        children: [
+          {
+            dom: {
+              type: 'Header',
+              layout: {
+                uuid: 'sdpfosslsdlsdpldpsdflsdpfldsfp2309430493',
+                x: 3,
+                y: 1,
+                w: 2,
+                h: 2,
+              },
+              attributes: [],
+              children: [],
+            },
+          },
+          {
+            dom: {
+              type: 'div',
+              attributes: [],
+              layout: {
+                uuid: 'sdpfosslsdlsdpldpsdflsdpfldsfp2309430493',
+                x: 3,
+                y: 1,
+                w: 2,
+                h: 2,
+              },
+              children: [
+                {
+                  dom: {
+                    type: 'h1',
+                    attributes: [],
+                    layout: {
+                      uuid: 'sdpfosslsdlsdpldpsdflsdpfldsfp2309430493',
+                      x: 3,
+                      y: 1,
+                      w: 2,
+                      h: 2,
+                    },
+                    children: [
+                      {
+                        text: '404 - Page Not Found',
+                      },
+                    ],
+                  },
+                },
+                {
+                  dom: {
+                    type: 'p',
+                    attributes: [],
+                    layout: {
+                      uuid: 'sdpfosslsdlsdpldpsdflsdpfldsfp2309430493',
+                      x: 3,
+                      y: 1,
+                      w: 2,
+                      h: 2,
+                    },
+                    children: [
+                      {
+                        text: 'Sorry, the page does not exist (by the moment)',
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            dom: {
+              type: 'WebNavBar',
+              attributes: [],
+              layout: {
+                uuid: 'sdpfosslsdlsdpldpsdflsdpfldsfp2309430493',
+                x: 3,
+                y: 1,
+                w: 2,
+                h: 2,
+              },
+              children: [],
+            },
+          },
+        ],
+      },
+    },
+  },
+};

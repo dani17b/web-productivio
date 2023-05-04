@@ -1,5 +1,6 @@
 // Json modelo del parseo del componente NotFound, que está en: web-productivio\src\modules\notFound
 {
+  "id": "vdklsjflñmnv,nldmflñmdlfskjfewñf´f,ñ",
   "imports": [
     "import React, { useState } from 'react'",
     "import { Header } from 'src/components/header/Header'",
@@ -7,30 +8,80 @@
     "import './notFound.scss'"
   ],
   "component": {
+    "path": "./src/components/Component",
     "name": "NotFound",
-    "args": [{ "name": "", "optional": false }],
+    "args": [
+      {
+        "name": "",
+        "optional": false
+      }
+    ],
     "returnedContent": {
       "dom": {
         "type": "div",
-        "attributes": [{ "key": "className", "value": "'notFound'" }],
+        "attributes": [
+          {
+            "key": "className",
+            "value": "'notFound'"
+          }
+        ],
+        "layout": {},
         "children": [
-          { "dom": { "type": "Header", "attributes": [], "children": [] } },
+          {
+            "dom": {
+              "type": "Header",
+              "layout": {
+                "uuid": "sdpfosslsdlsdpldpsdflsdpfldsfp2309430493",
+                "x": 3,
+                "y": 1,
+                "w": 2,
+                "h": 2
+              },
+              "attributes": [],
+              "children": []
+            }
+          },
           {
             "dom": {
               "type": "div",
               "attributes": [],
+              "layout": {
+                "uuid": "sdpfosslsdlsdpldpsdflsdpfldsfp2309430493",
+                "x": 3,
+                "y": 1,
+                "w": 2,
+                "h": 2
+              },
               "children": [
                 {
                   "dom": {
                     "type": "h1",
                     "attributes": [],
-                    "children": [{ "text": "404 - Page Not Found" }]
+                    "layout": {
+                      "uuid": "sdpfosslsdlsdpldpsdflsdpfldsfp2309430493",
+                      "x": 3,
+                      "y": 1,
+                      "w": 2,
+                      "h": 2
+                    },
+                    "children": [
+                      {
+                        "text": "404 - Page Not Found"
+                      }
+                    ]
                   }
                 },
                 {
                   "dom": {
                     "type": "p",
                     "attributes": [],
+                    "layout": {
+                      "uuid": "sdpfosslsdlsdpldpsdflsdpfldsfp2309430493",
+                      "x": 3,
+                      "y": 1,
+                      "w": 2,
+                      "h": 2
+                    },
                     "children": [
                       {
                         "text": "Sorry, the page does not exist (by the moment)"
@@ -44,7 +95,14 @@
           {
             "dom": {
               "type": "WebNavBar",
-              "attributes": [{ "key": "" }],
+              "attributes": [],
+              "layout": {
+                "uuid": "sdpfosslsdlsdpldpsdflsdpfldsfp2309430493",
+                "x": 3,
+                "y": 1,
+                "w": 2,
+                "h": 2
+              },
               "children": []
             }
           }
@@ -53,7 +111,6 @@
     }
   }
 }
-
 /*
 
 Resultado de Parsear el componente NotFound del json
@@ -75,5 +132,4 @@ export const NotFound = () => {
     </div>
   );
 };
-
 */
