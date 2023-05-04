@@ -35,6 +35,29 @@ const getFiles = (directory, type) => {
     return components;
 }
 
+const getFilesComponents = (directory, type) => {
+    const components = [];
+    const baseDir = path.join(directory, type);
+    const dirContent = fs.readdirSync(baseDir);
+
+    for(let i = 0; i < dirContent.length; i++){
+        const dirItem = dirContent[i];
+        const componentName = dirItem.slice(0,1).toUpperCase() + dirItem.slice(1);
+
+        components.push(getComponent(path.join(baseDir, dirItem), dirItem, componentName, type));
+    }
+
+    return components;
+}
+
+const getPath = () => {
+    return projectPath = path.join(__dirname, '..', '..');
+}
+
+
+
 module.exports = {
-    getFiles
+    getFiles,
+    getFilesComponents,
+    getPath
 };

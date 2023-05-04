@@ -5,15 +5,15 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { parse, buildJsx } from '../../lib/tsx-builder';
 import { InfoPanel } from './components/infoPanel/InfoPanel';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { getFiles } from './actions';
-import { useSelector } from 'react-redux';
+import { getComponents, getFiles, getPath, postFile, updateFile } from './actions';
+import { useSelector, useDispatch } from 'react-redux';
 import { ComponentsList } from './components/componentList/ComponentList';
 import {
   TestComponent,
   TestComponentProps,
 } from 'src/components/propsEditor/TestComponent';
 import { TabComponent } from './components/tabComponent/TabComponent';
+import path from 'path-browserify';
 
 export const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -54,22 +54,60 @@ export const MovableItem = ({ children }) => {
 };
 
 export const Editor = () => {
-  const [selectedElement, setSelectedElement] = useState(null);
-
   const dispatch = useDispatch();
+  const [selectedElement, setSelectedElement] = useState(null);
+  const { code } = useSelector((state) => state.code);
+  console.log('code', code);
+  const [inputValue, setInputValue] = useState('');
+  const projectPath = path.join(__dirname, '..', '..', '..');
+  console.log(projectPath);
+  
 
-  const { files } = useSelector((state) => state.editor);
+  const handleSave = (file: any) => {
+    getFiles(projectPath)
+      .then((data: any) => {
+        const fileExists = data.find((obj: any) => obj.name === inputValue);
+        if (fileExists) {
+          console.log('El archivo existe');
+          dispatch(updateFile(file));
+        } else {
+          console.log('El archivo no existe');
+          dispatch(postFile(file));
+          return false;
+        }
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
-    dispatch(getFiles('C:\\workspace\\dev\\web-productivio'));
-  }, [dispatch]);
+    const fetchData = async () => {
+      try {
+        const path = await getPath();
+        const data = await getFiles(path);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
 
   useEffect(() => {
-    if (files.length > 0) {
-      // TODO cargar el componente en si, que sera el que se muestre en el editor abierto
-      //debugger;
-    }
-  }, [files]);
+    const fetchData = async () => {
+      try {
+        const path = await getPath();
+        const data = await getComponents(path);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
 
   const componentDef = parse(`export const ScreenSample = () => {
         return (
@@ -126,6 +164,13 @@ export const Editor = () => {
               </div>
             }
           />
+          <div className="editor-header">
+            <input
+              onChange={(e) => setInputValue(e.target.value)}
+              value={inputValue}
+            ></input>
+            <button onClick={handleSave}>Guardar</button>
+          </div>
         </Column>
         <div
           className="editor__element"
