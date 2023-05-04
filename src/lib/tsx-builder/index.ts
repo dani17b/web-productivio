@@ -3,7 +3,7 @@ import { ElementWrapper } from './components/elementWrapper/ElementWrapper';
 
 export const parse = (jsxFile: string) => {
   // Lee el fichero y devuelve lo que encuentre
-  console.log(jsxFile);
+  // console.log(jsxFile);
   return {
     imports: [],
     components: [

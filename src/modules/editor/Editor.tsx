@@ -64,16 +64,19 @@ export const Editor = () => {
   useEffect(() => {
     dispatch(
       getFiles(
-        'C:\\Users\\hector.arias\\Desktop\\Archivos_git\\web-productivio'
+'C:\\Users\\paula.seoane\\Documents\\Productivio\\web-productivio'
       )
+      // 'C:\\Users\\paula.alba\\Desktop\\workspace\\dev\\web-productivio'
+      // 'C:\\Users\\paula.seoane\\Documents\\Productivio\\web-productivio'
     );
     dispatch(setJsonArray([...modules, exampleTsx]));
   }, []);
 
   useEffect(() => {
     if (files.length > 0) {
-      // TODO cargar el componente en si, que sera el que se muestre en el editor abierto
-      //debugger;
+      // let path = files.map((file) => file.path);
+      // let name = files.map((file) => file.name);
+      // dispatch(getCode('modules/notFound', 'NotFound.tsx'));
     }
   }, [files]);
 
@@ -82,6 +85,15 @@ export const Editor = () => {
             <div>Hola mundo</div>
         );
     }`);
+
+  // const file = {
+  //   filename: 'Test.js',
+  //   content:
+  //     "console.log('Este es un archivo de ejemplo.');",
+  // };
+
+  //dispatch(postFile(file));
+  // dispatch(updateFile(file));
 
   //const componentStr = build(componentDef);
 
@@ -104,7 +116,7 @@ export const Editor = () => {
           </Column>
         </div>
         <Column className="editor__canvas">
-          {buildJsx(componentDef.components[0].dom, {
+          {/* {buildJsx(componentDef.components[0].dom, {
             selectElement: (element) => {
               console.log('edit element', element);
               setSelectedElement(element);
@@ -112,9 +124,9 @@ export const Editor = () => {
             removeElement: (element) => {
               console.log('remove element', element);
               setSelectedElement(element);
-            },
-          })}
-          <TestComponent text={text} style={styles} />
+            }, */}
+          {/* })} */}
+          {/*  */}
           <TabComponent
             tabLabel="Hello World"
             tabContent={
@@ -129,6 +141,7 @@ export const Editor = () => {
                     setSelectedElement(element);
                   },
                 })}{' '}
+                <TestComponent text={text} style={styles} />
               </div>
             }
           />
