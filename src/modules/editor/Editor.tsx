@@ -24,7 +24,7 @@ import 'react-resizable/css/styles.css';
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 const BASE_URL =
-  'C:\\Users\\iris.mckirdy\\Desktop\\workspace\\productivio\\web-productivio';
+  'C:\\Users\\fernando.valerio\\Desktop\\workspace\\dev\\web-productivio';
 
 export const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -167,24 +167,26 @@ export const Editor = () => {
       <div className="editor">
         <div className="editor__components">
           <Column>
-            {files.map((file, index) => (
-              <MovableItem
-                key={index}
-                onClick={(e) => {
-                  let path =
-                    file.path.slice(file.path.indexOf('/') + 1) +
-                    '/' +
-                    file.name +
-                    '.tsx';
+            {files.map((file, index) => {
+              console.log('file', file);
+              return (
+                <MovableItem
+                  key={index}
+                  onClick={async (e) => {
+                    let path =
+                      file.path.slice(file.path.indexOf('/') + 1) +
+                      '/' +
+                      file.name +
+                      '.tsx';
 
-                  load(path).then((obj) => {
-                    console.log(obj);
-                  });
-                }}
-              >
-                {file.name}
-              </MovableItem>
-            ))}
+                    const Component = await load(path, file.name);
+                    AddGridItem(<Component />);
+                  }}
+                >
+                  {file.name}
+                </MovableItem>
+              );
+            })}
           </Column>
         </div>
 
@@ -274,7 +276,8 @@ export const Editor = () => {
   );
 };
 
-async function load(path) {
-  let component = await import(`../${path}`);
+async function load(path, componentName) {
+  let module = await import(`../${path}`);
+  const component = module[componentName];
   return component;
 }
