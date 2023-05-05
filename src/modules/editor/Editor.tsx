@@ -1,20 +1,37 @@
 //@ts-nocheck
+/* eslint-disable max-len */
+import React from 'react';
 import './editor.scss';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { parse, buildJsx } from '../../lib/tsx-builder';
 import { InfoPanel } from './components/infoPanel/InfoPanel';
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { getFiles, setJsonArray } from './actions';
-import { useSelector } from 'react-redux';
-import { ComponentsList } from './components/componentList/ComponentList';
+import { useEffect, useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  getComponents,
+  postFile,
+  updateFile,
+  getCode,
+  getFiles,
+  getPath,
+} from './actions';
+
 import {
   TestComponent,
   TestComponentProps,
 } from 'src/components/propsEditor/TestComponent';
 import { TabComponent } from './components/tabComponent/TabComponent';
-import { exampleTsx } from 'src/utils/parser/TsxToJson';
+import { Likes, TaskProgressBar } from 'lib-productivio';
+import { WidthProvider, Responsive } from 'react-grid-layout';
+import uuid from 'react-uuid';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
+
+const ResponsiveGridLayout = WidthProvider(Responsive);
+
+const BASE_URL =
+  'C:\\Users\\fernando.valerio\\Desktop\\workspace\\dev\\web-productivio';
 
 export const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -36,7 +53,7 @@ export const Column = ({ children, className, title }) => {
   );
 };
 
-export const MovableItem = ({ children }) => {
+export const MovableItem = ({ children, onClick }) => {
   const [{ isDragging }, drag] = useDrag({
     item: { name: 'Any custom name' },
     type: 'TYPE',
@@ -48,7 +65,12 @@ export const MovableItem = ({ children }) => {
   const opacity = isDragging ? 0.4 : 1;
 
   return (
-    <div ref={drag} className="movable-item" style={{ opacity }}>
+    <div
+      ref={drag}
+      className="movable-item"
+      style={{ opacity }}
+      onClick={onClick}
+    >
       {children}
     </div>
   );
@@ -56,46 +78,98 @@ export const MovableItem = ({ children }) => {
 
 export const Editor = () => {
   const [selectedElement, setSelectedElement] = useState(null);
-
   const dispatch = useDispatch();
+  const { files } = useSelector((state) => state.editor);
+  const { code } = useSelector((state) => state.code);
+  const [setComponentCodeList] = useState([]);
+  /*const objectNames = files.map((file) => file.name);*/
 
-  const { files, modules } = useSelector((state) => state.editor);
+  console.log('code', code);
+  /*
+  useEffect(() => {
+    dispatch(getFiles(BASE_URL));
+  }, [dispatch]);
+*/
+  const fetchAndSetComponentCode = useCallback(async () => {
+    if (files.length === 0) return;
+
+    try {
+      const codePromises = files.map(async (file) => {
+        const filePath = file.path;
+        const fileName = file.name + '.tsx';
+        try {
+          const code = await dispatch(getCode(filePath, fileName));
+          return code;
+        } catch (error) {
+          console.error(`Error al obtener el código para ${fileName}`, error);
+        }
+      });
+
+      const results = await Promise.all(codePromises);
+      const filteredCodeList = results.filter((code) => code);
+      setComponentCodeList(filteredCodeList);
+    } catch (error) {
+      console.error(
+        'Error al obtener el código para todos los componentes',
+        error
+      );
+    }
+  }, [dispatch, files]);
 
   useEffect(() => {
-    dispatch(
-      getFiles(
-        'C:\\Users\\paula.seoane\\Documents\\Productivio\\web-productivio'
-      )
-      // 'C:\\Users\\paula.alba\\Desktop\\workspace\\dev\\web-productivio'
-      // 'C:\\Users\\paula.seoane\\Documents\\Productivio\\web-productivio'
-    );
-    dispatch(setJsonArray([...modules, exampleTsx]));
+    fetchAndSetComponentCode();
+  }, [files, fetchAndSetComponentCode]);
+
+  const handleSave = (file: any) => {
+    getFiles(projectPath)
+      .then((data: any) => {
+        const fileExists = data.find((obj: any) => obj.name === inputValue);
+        if (fileExists) {
+          console.log('El archivo existe');
+          dispatch(updateFile(file));
+        } else {
+          console.log('El archivo no existe');
+          dispatch(postFile(file));
+          return false;
+        }
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const path = await getPath();
+        const data = await getFiles(path);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
   }, []);
 
   useEffect(() => {
-    if (files.length > 0) {
-      // let path = files.map((file) => file.path);
-      // let name = files.map((file) => file.name);
-      // dispatch(getCode('modules/notFound', 'NotFound.tsx'));
-    }
-  }, [files]);
+    const fetchData = async () => {
+      try {
+        const path = await getPath();
+        const data = await getComponents(path);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+  const [inputValue, setInputValue] = useState('');
 
   const componentDef = parse(`export const ScreenSample = () => {
         return (
             <div>Hola mundo</div>
         );
     }`);
-
-  // const file = {
-  //   filename: 'Test.js',
-  //   content:
-  //     "console.log('Este es un archivo de ejemplo.');",
-  // };
-
-  //dispatch(postFile(file));
-  // dispatch(updateFile(file));
-
-  //const componentStr = build(componentDef);
 
   console.log(componentDef);
   const [styles, setStyles] = useState<TestComponentProps['style']>([
@@ -107,15 +181,71 @@ export const Editor = () => {
     },
   ]);
   const [text, setText] = useState<TestComponentProps['text']>('Hello World!');
+
+  interface Item {
+    i: string;
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+  }
+  const AddGridItem = (component: JSX.Element) => {
+    const newItemUUID = uuid();
+
+    setLayout((prevLayout) => [
+      ...prevLayout,
+      { i: newItemUUID, x: 0, y: 0, w: 1.5, h: 1, static: false, maxH: 30 },
+    ]);
+
+    setLists((prevLists) => [...prevLists, { i: newItemUUID, component }]);
+  };
+
+  const [layout, setLayout] = useState([
+    { i: uuid(), x: 0, y: 0, w: 1.5, h: 1, static: false, maxH: 30 },
+    { i: uuid(), x: 0, y: 0, w: 3, h: 3, static: false, maxH: 30 },
+  ]);
+
+  const [lists, setLists] = useState([
+    { i: layout[0].i, component: <Likes totalLikes={100} likedByMe={false} /> },
+    { i: layout[1].i, component: <TaskProgressBar /> },
+  ]);
+
+  const onLayoutChange = (newLayout: Item[]) => {
+    setLayout(newLayout);
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="editor">
         <div className="editor__components">
           <Column>
-            <ComponentsList />
+            {files.map((file, index) => {
+              console.log('file', file);
+              return (
+                <MovableItem
+                  key={index}
+                  onClick={async (e) => {
+                    let path =
+                      file.path.slice(file.path.indexOf('/') + 1) +
+                      '/' +
+                      file.name +
+                      '.tsx';
+
+                    const Component = await load(path, file.name);
+                    AddGridItem(<Component />);
+                  }}
+                >
+                  {file.name}
+                </MovableItem>
+              );
+            })}
           </Column>
         </div>
-        <Column className="editor__canvas">
+        <Column
+          className="editor__canvas"
+          children={undefined}
+          title={undefined}
+        >
           {/* {buildJsx(componentDef.components[0].dom, {
             selectElement: (element) => {
               console.log('edit element', element);
@@ -145,6 +275,46 @@ export const Editor = () => {
               </div>
             }
           />
+          <div className="layout-grid">
+            <ResponsiveGridLayout
+              className="layout"
+              autoSize={false}
+              layouts={{ lg: layout }}
+              onLayoutChange={onLayoutChange}
+              margin={[0, 0]}
+              containerPadding={[0, 0]}
+              isBounded={true}
+              rowHeight={30}
+              isResizable={true}
+            >
+              {layout.map((lay) => (
+                <div
+                  key={lay.i}
+                  id={lay.i}
+                  className="movable-item"
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    boxSizing: 'border-box',
+                  }}
+                >
+                  <div>
+                    {lists.find((item) => lay.i === item.i)?.componentName}
+                  </div>
+                  {lists.find((item) => lay.i === item.i)?.component}
+                </div>
+              ))}
+            </ResponsiveGridLayout>
+          </div>
+
+          <div className="editor-header">
+            <input
+              onChange={(e) => setInputValue(e.target.value)}
+              value={inputValue}
+            ></input>
+            <button onClick={handleSave}>Guardar</button>
+          </div>
         </Column>
         <div
           className="editor__element"
@@ -165,3 +335,9 @@ export const Editor = () => {
     </DndProvider>
   );
 };
+
+async function load(path, componentName) {
+  let module = await import(`../${path}`);
+  const component = module[componentName];
+  return component;
+}

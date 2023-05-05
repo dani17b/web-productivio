@@ -42,6 +42,8 @@ export const editor = (state = initialState, action: any) => {
   }
 };
 
+
+
 export const code = (state = initialState, action: any) => {
   switch (action.type) {
     case responseType(GET_FILE_CODE):
