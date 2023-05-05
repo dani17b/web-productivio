@@ -7,9 +7,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { parse, buildJsx } from '../../lib/tsx-builder';
 import { InfoPanel } from './components/infoPanel/InfoPanel';
 import { useEffect, useState, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { ComponentsList } from './components/componentList/ComponentList';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   getComponents,
   postFile,
@@ -17,7 +15,7 @@ import {
   getCode,
   getFiles,
   getPath,
-  } from './actions';
+} from './actions';
 
 import {
   TestComponent,
@@ -87,11 +85,11 @@ export const Editor = () => {
   /*const objectNames = files.map((file) => file.name);*/
 
   console.log('code', code);
-
+  /*
   useEffect(() => {
     dispatch(getFiles(BASE_URL));
   }, [dispatch]);
-
+*/
   const fetchAndSetComponentCode = useCallback(async () => {
     if (files.length === 0) return;
 
@@ -121,7 +119,7 @@ export const Editor = () => {
   useEffect(() => {
     fetchAndSetComponentCode();
   }, [files, fetchAndSetComponentCode]);
-  
+
   const handleSave = (file: any) => {
     getFiles(projectPath)
       .then((data: any) => {
@@ -166,7 +164,6 @@ export const Editor = () => {
     fetchData();
   }, []);
   const [inputValue, setInputValue] = useState('');
-
 
   const componentDef = parse(`export const ScreenSample = () => {
         return (
@@ -244,10 +241,10 @@ export const Editor = () => {
             })}
           </Column>
         </div>
-        <Column 
-        className="editor__canvas"
-        children={undefined}
-        title={undefined}
+        <Column
+          className="editor__canvas"
+          children={undefined}
+          title={undefined}
         >
           {/* {buildJsx(componentDef.components[0].dom, {
             selectElement: (element) => {
@@ -309,6 +306,14 @@ export const Editor = () => {
                 </div>
               ))}
             </ResponsiveGridLayout>
+          </div>
+
+          <div className="editor-header">
+            <input
+              onChange={(e) => setInputValue(e.target.value)}
+              value={inputValue}
+            ></input>
+            <button onClick={handleSave}>Guardar</button>
           </div>
         </Column>
         <div

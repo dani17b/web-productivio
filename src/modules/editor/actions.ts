@@ -11,7 +11,6 @@ export const UPDATE_FILE = 'UPDATE_FILE';
 export const CREATE_JSON = 'CREATE_JSON';
 
 export const SET_JSON_ARRAY_REQUEST = 'SET_JSON_ARRAY_REQUEST';
-
 export const getFiles = (projectPath: string): any => {
   return new Promise((resolve, reject) => {
     axios
@@ -59,7 +58,7 @@ export const getPath = () => {
   return new Promise((resolve, reject) => {
     axios
       .request({
-        url: `/projectPath`,
+        url: '/projectPath',
         method: 'GET',
         baseURL: SERVER_BASE_URL,
       })
@@ -71,8 +70,6 @@ export const getPath = () => {
       });
   });
 };
-
-
 
 export const getCode = (path: string, file: string): any => {
   return (dispatch: (arg0: any) => void) => {
@@ -94,7 +91,6 @@ export const getCode = (path: string, file: string): any => {
       });
   };
 };
-
 
 export const postFile = (file: any): any => {
   return (dispatch: (arg0: any) => void) => {
