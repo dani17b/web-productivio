@@ -249,12 +249,13 @@ const trimFunctions = (input: any) => {
  *
  *
  * @param input - String con todo el código de un archivo tsx y devuelve
+ * @param id - Tab id
  * @returns JSON/objeto de tipo TsxObj
  *
  */
-export function parseTsxToJson(input: string): TsxObj {
+export function parseTsxToJson(input: string, id: string): TsxObj {
   return {
-    id: uuid(),
+    id: id,
     imports: parseImports(input),
     component: parseFunction(
       trimFunctions(input.slice(input.indexOf('export const')))

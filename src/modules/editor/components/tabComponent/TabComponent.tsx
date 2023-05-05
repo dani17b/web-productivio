@@ -66,11 +66,12 @@ export const TabComponent = (props: TabProps) => {
       })
       .then((response) => {
         let code = response.data;
-        dispatch(setJsonArray([...modules, parseTsxToJson(code)]));
         const newTabId = uuidv4();
+        const jsonTab = parseTsxToJson(code, newTabId);
+        dispatch(setJsonArray([...modules, jsonTab]));
         const newTab = {
           tabId: newTabId,
-          tabLabel: parseTsxToJson(code).component.name,
+          tabLabel: jsonTab.component.name,
           tabContent: 'Holis',
         };
 
