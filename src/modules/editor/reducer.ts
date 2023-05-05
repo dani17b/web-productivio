@@ -7,6 +7,7 @@ import {
   POST_FILE,
   UPDATE_FILE,
   PUSH_JSON_TO_ARRAY,
+  UPDATE_JSON_IN_ARRAY,
   DELETE_JSON_FROM_ARRAY,
 } from './actions';
 
@@ -36,6 +37,13 @@ export const editor = (state = initialState, action: any) => {
       return {
         ...state,
         modules: action.modules,
+      };
+    case UPDATE_JSON_IN_ARRAY:
+      return {
+        ...state,
+        modules: state.modules.map((module) =>
+          module.id === action.module.id ? action.module : module
+        ),
       };
     case PUSH_JSON_TO_ARRAY:
       return {
