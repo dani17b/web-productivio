@@ -12,13 +12,14 @@ import {
   postFile,
   updateFile,
 } from './actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ComponentsList } from './components/componentList/ComponentList';
 import {
   TestComponent,
   TestComponentProps,
 } from 'src/components/propsEditor/TestComponent';
 import { TabComponent } from './components/tabComponent/TabComponent';
+import { parseJsonToTsx } from 'src/utils/parser/JsonToTsx';
 
 export const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -63,24 +64,64 @@ export const Editor = () => {
   const [selectedElement, setSelectedElement] = useState(null);
   //const { code } = useSelector((state) => state.code);
   const [inputValue, setInputValue] = useState('');
+  const {modules} = useSelector((state) => state.editor);
+  const [ path, setPath ] = useState(null);
 
-  const handleSave = (file: any) => {
-    getFiles(projectPath)
-      .then((data: any) => {
-        const fileExists = data.find((obj: any) => obj.name === inputValue);
-        if (fileExists) {
-          console.log('El archivo existe');
-          dispatch(updateFile(file));
-        } else {
-          console.log('El archivo no existe');
-          dispatch(postFile(file));
-          return false;
-        }
-      })
-      .catch((error: any) => {
+
+  
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getPath();
+        setPath(response);
+      } catch (error) {
         console.log(error);
-      });
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  
+
+ 
+  const handleSave = () => {
+      const buildTsxJsonToSave = {
+       filename: inputValue + '.scss',
+       content: parseJsonToTsx(modules[0])   
+   }
+   saveOrUpdate(buildTsxJsonToSave);
+   console.log(buildTsxJsonToSave);
+
+//   const buildScssJsonToSave = {
+//     filename: {inputValue} + '.scss',
+//     content: parseJsonToTsx(modules)   
+// }  
   };
+
+  const saveOrUpdate = (build) => {
+    const {filename, content} = build;
+    getFiles(path)
+    .then((data: any) => {
+      const fileExists = data.find((obj: any) => obj.name === filename);
+      if (fileExists) {
+        console.log('El archivo existe');
+        dispatch(updateFile(build));
+      } else {
+        console.log('El archivo no existe');
+        dispatch(postFile(build));
+        return false;
+      }
+    })
+    .catch((error: any) => {
+      console.log(error);
+    });
+  }
+  
+
+  
 
   useEffect(() => {
     const fetchData = async () => {

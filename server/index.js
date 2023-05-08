@@ -62,7 +62,7 @@ app.get('/file/:type/:component/:file', (req, res) => {
 // Nueva ruta para guardar un archivo
 app.post('/save-file', (req, res) => {
   const { filename, content } = req.body;
-  const validExtensions = ['.js', '.tsx', '.ts', '.json'];
+  const validExtensions = ['.js', '.tsx', '.ts', '.json', '.scss'];
   const fileExtension = path.extname(filename);
 
   if (!validExtensions.includes(fileExtension)) {
@@ -94,7 +94,7 @@ app.post('/save-file', (req, res) => {
 //Actualizar archivo
 app.post('/update-file', (req, res) => {
   const { filename, content } = req.body;
-  const validExtensions = ['.js', '.tsx', '.ts', '.json'];
+  const validExtensions = ['.js', '.tsx', '.ts', '.json', '.scss'];
   const fileExtension = path.extname(filename);
 
   if (!validExtensions.includes(fileExtension)) {
