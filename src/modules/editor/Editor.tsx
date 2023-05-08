@@ -4,7 +4,7 @@ import React from 'react';
 import './editor.scss';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { parse, buildJsx } from '../../lib/tsx-builder';
+import { parse /* buildJsx */ } from '../../lib/tsx-builder';
 import { InfoPanel } from './components/infoPanel/InfoPanel';
 import { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,10 +15,11 @@ import {
   getCode,
   getFiles,
   getPath,
+  setJsonArray,
 } from './actions';
 
 import {
-  TestComponent,
+  // TestComponent,
   TestComponentProps,
 } from 'src/components/propsEditor/TestComponent';
 import { TabComponent } from './components/tabComponent/TabComponent';
@@ -27,9 +28,12 @@ import { WidthProvider, Responsive } from 'react-grid-layout';
 import uuid from 'react-uuid';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
+import axios from 'src/lib/axios';
+import { SERVER_BASE_URL } from 'src/config/Config';
+import { parseTsxToJson } from 'src/utils/parser/TsxToJson';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
-
+const DEFAULT_TAB_PATH = 'modules/blankModule/BlankModule.tsx';
 const BASE_URL =
   'C:\\Users\\fernando.valerio\\Desktop\\workspace\\dev\\web-productivio';
 
@@ -214,6 +218,26 @@ export const Editor = () => {
     setLayout(newLayout);
   };
 
+  const setDefaultModule = (path: string) => {
+    axios
+      .request({
+        url: `file/${DEFAULT_TAB_PATH}`,
+        method: 'GET',
+        baseURL: SERVER_BASE_URL,
+      })
+      .then((response) => {
+        const defaultModuleCode = response.data;
+        // const defaultTabId = uuidv4();
+        const defaultTab = parseTsxToJson(defaultModuleCode);
+        dispatch(setJsonArray([...modules, defaultTab]));
+        // const newDefaultTab = {
+        //   tabId: defaultTabId,
+        //   tabLabel: defaultTab.component.name,
+        //   tabContent: defaultTab.component.content,
+        // };
+      });
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="editor">
@@ -258,23 +282,25 @@ export const Editor = () => {
           {/* })} */}
           {/*  */}
           <TabComponent
-            tabLabel="Hello World"
+            tabLabel="Default"
             tabContent={
-              <div className="editor__canvas__wrapper">
-                {buildJsx(componentDef.components[0].dom, {
-                  selectElement: (element) => {
-                    console.log('edit element', element);
-                    setSelectedElement(element);
-                  },
-                  removeElement: (element) => {
-                    console.log('remove element', element);
-                    setSelectedElement(element);
-                  },
-                })}{' '}
-                <TestComponent text={text} style={styles} />
-              </div>
+              setDefaultModule()
+              // <div className="editor__canvas__wrapper">
+              //   {buildJsx(componentDef.components[0].dom, {
+              //     selectElement: (element) => {
+              //       console.log('edit element', element);
+              //       setSelectedElement(element);
+              //     },
+              //     removeElement: (element) => {
+              //       console.log('remove element', element);
+              //       setSelectedElement(element);
+              //     },
+              //   })}{' '}
+              //   <TestComponent text={text} style={styles} />
+              // </div>
             }
           />
+
           <div className="layout-grid">
             <ResponsiveGridLayout
               className="layout"
