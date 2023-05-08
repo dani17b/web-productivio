@@ -144,7 +144,7 @@ export const Editor = () => {
         const path = await getPath();
         const data = await getFiles(path);
 
-        setModules([data]);
+        setModules(data);
         console.log(data);
       } catch (error) {
         console.log(error);
@@ -159,7 +159,7 @@ export const Editor = () => {
       try {
         const path = await getPath();
         const data = await getComponents(path);
-        setFiles([data]);
+        setFiles(data);
         console.log(data);
       } catch (error) {
         console.log(error);
@@ -224,7 +224,7 @@ export const Editor = () => {
     return (
       <div>
         {files.length > 0 &&
-          files[0].map((file, index) => {
+          files.map((file, index) => {
             return (
               <MovableItem
                 key={index}
@@ -254,7 +254,7 @@ export const Editor = () => {
     return (
       <div>
         {modules.length > 0 &&
-          modules[0].map((module, index) => {
+          modules.map((module, index) => {
             return (
               <MovableItem
                 key={index}
