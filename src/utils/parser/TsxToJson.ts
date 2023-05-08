@@ -28,7 +28,8 @@ type TextObj = {
 export type TagObj = {
   dom: {
     type: string;
-    attributes?: KeyValue[];
+    path?: string;
+    attributes?: Attribute[];
     layout?: Layout;
     children: (TagObj | TextObj)[];
   };
@@ -42,9 +43,10 @@ type Layout = {
   w: number;
 };
 
-type KeyValue = {
+type Attribute = {
   key: string;
   value: string;
+  type?: string;
 };
 
 type Arg = {
@@ -115,7 +117,7 @@ function getTagName(tag: string): string {
   return innerString.split(' ')[0];
 }
 
-function getTagAttributes(tag: string): KeyValue[] {
+function getTagAttributes(tag: string): Attribute[] {
   let innerString = tag.replace('<', '').replace('>', '').replace('/', '');
   const keyValues = innerString.replaceAll('"', '').split(' ').slice(1);
   return keyValues
@@ -123,7 +125,7 @@ function getTagAttributes(tag: string): KeyValue[] {
       const [key, value] = attr.split('=');
       return { key, value };
     })
-    .filter((arg: KeyValue) => {
+    .filter((arg: Attribute) => {
       return arg.key.replace(' ', '') !== '';
     });
 }
@@ -245,6 +247,63 @@ const trimFunctions = (input: any) => {
 };
 
 /**
+ * Parsea el contenido de un .tsx a "dom" (para guardar en children)
+ * @param input - String con todo el código de un archivo tsx y devuelve
+ * @returns JSON/objeto de tipo TagObj ("dom" en el JSON)
+ */
+
+export const parseTsxToChild = (
+  name: string,
+  path: string,
+  code: string
+): TagObj => {
+  let result: TagObj = {
+    dom: {
+      type: name,
+      path,
+      layout: {
+        uuid: uuid(),
+        x: 0,
+        y: 0,
+        h: 0,
+        w: 0,
+      },
+      attributes: [],
+      children: [],
+    },
+  };
+
+  let indexInterface = code.indexOf('interface');
+  if (indexInterface !== -1) {
+    let keyIndex = code.indexOf('{', indexInterface);
+    let finishIndex = code.indexOf('const', keyIndex);
+
+    let interfaceString = code
+      .substring(keyIndex, finishIndex)
+      .replace('{', '')
+      .replace('}', '')
+      .replaceAll('\n', '')
+      .replaceAll('\r', '')
+      .replaceAll('export', '');
+
+    let split =
+      interfaceString.indexOf(',') !== -1
+        ? interfaceString.split(',')
+        : interfaceString.split(';');
+
+    split.forEach((splisito: string) => {
+      if (splisito.trim() == '') return;
+      let keyType = { key: '', type: '', value: '' };
+      keyType.key = splisito.split(':')[0].trim();
+      keyType.type = splisito.split(':')[1].trim();
+      result.dom.attributes?.push(keyType);
+    });
+  }
+
+  return result;
+};
+
+/**
  * Parsea el contenido de un .tsx a JSON.
  *
  *
@@ -263,7 +322,7 @@ export function parseTsxToJson(input: string): TsxObj {
 }
 
 export const exampleTsx = {
-  id: 'vdklsjflñmnv,nldmflñmdlfskjfewñf´f,ñ',
+  id: 'vdklsjflñmnvnldmflñmdlfskjfewñffñ',
   imports: [
     "import React, { useState } from 'react'",
     "import { Header } from 'src/components/header/Header'",
