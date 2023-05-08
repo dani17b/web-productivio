@@ -28,6 +28,7 @@ import uuid from 'react-uuid';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import { TabSelector } from './components/tabComponent/TabSelector';
+import { parseTsxToChild } from 'src/utils/parser/TsxToJson';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -219,7 +220,7 @@ export const Editor = () => {
                 key={index}
                 onClick={async (e) => {
                   let path = file.path + '/' + file.name + '.tsx';
-
+                  let code = await getCode(file.path, `${file.name}.tsx`);
                   const Component = await load(path, file.name);
                   AddGridItem(<Component />);
                 }}
@@ -239,19 +240,19 @@ export const Editor = () => {
     return (
       <div>
         {modules.length > 0 &&
-          modules.map((module, index) => {
+          modules.map((file, index) => {
             return (
               <MovableItem
                 key={index}
                 onClick={async (e) => {
-                  let path = module.path + '/' + module.name + '.tsx';
-
-                  const Component = await load(path, module.name);
+                  let path = file.path + '/' + file.name + '.tsx';
+                  let code = await getCode(file.path, `${file.name}.tsx`);
+                  const Component = await load(path, file.name);
                   AddGridItem(<Component />);
                 }}
               >
                 <div>
-                  <h5>{module.name}</h5>
+                  <h5>{file.name}</h5>
                 </div>
               </MovableItem>
             );
