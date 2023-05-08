@@ -34,7 +34,7 @@ export type TagObj = {
   };
 };
 
-type Layout = {
+export type Layout = {
   uuid: string;
   x: number;
   y: number;
