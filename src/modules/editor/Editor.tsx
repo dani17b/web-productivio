@@ -175,7 +175,6 @@ export const Editor = () => {
         );
     }`);
 
-  console.log(componentDef);
   const [styles, setStyles] = useState<TestComponentProps['style']>([
     {
       color: '#1b1918',
@@ -288,6 +287,37 @@ export const Editor = () => {
               {componentList()}
               {moduleList()}
             </TabSelector>
+            {modules.map((file, index) => {
+              return (
+                <MovableItem
+                  key={index}
+                  onClick={async (e) => {
+                    let path = file.path + '/' + file.name + '.tsx';
+
+                    const Component = await load(path, file.name);
+                    AddGridItem(<Component />);
+                  }}
+                >
+                  {file.name}
+                </MovableItem>
+              );
+            })}
+
+            {components.map((file, index) => {
+              return (
+                <MovableItem
+                  key={index}
+                  onClick={async (e) => {
+                    let path = file.path + '/' + file.name + '.tsx';
+
+                    const Component = await load(path, file.name);
+                    AddGridItem(<Component />);
+                  }}
+                >
+                  {file.name}
+                </MovableItem>
+              );
+            })}
           </Column>
         </div>
         <Column
@@ -303,9 +333,9 @@ export const Editor = () => {
             removeElement: (element) => {
               console.log('remove element', element);
               setSelectedElement(element);
-            }, */}
-          {/* })} */}
-          {/*  */}
+            }, 
+             })} */}
+
           <TabComponent
             tabLabel="Hello World"
             tabContent={
@@ -386,7 +416,50 @@ export const Editor = () => {
 };
 
 async function load(path, componentName) {
-  let module = await import(`../${path}`);
+  //let module = await import(`./../../components/header/Header.tsx`);
+
+  let module = await import(`./../../${path}`);
   const component = module[componentName];
   return component;
 }
+
+export const Column = ({ children, className, title }) => {
+  const [{ canDrop, isOver }, drop] = useDrop({
+    accept: 'TYPE',
+    drop: () => ({ name: 'Some name' }),
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+  });
+
+  return (
+    <div ref={drop} className={className}>
+      {title}
+      {children}
+    </div>
+  );
+};
+
+export const MovableItem = ({ children, onClick }) => {
+  const [{ isDragging }, drag] = useDrag({
+    item: { name: 'Any custom name' },
+    type: 'TYPE',
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
+  const opacity = isDragging ? 0.4 : 1;
+
+  return (
+    <div
+      ref={drag}
+      className="movable-item"
+      style={{ opacity }}
+      onClick={onClick}
+    >
+      {children}
+    </div>
+  );
+};
