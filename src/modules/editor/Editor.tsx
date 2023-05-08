@@ -214,11 +214,11 @@ export const Editor = () => {
     setLayout((prevLayout) => [
       ...prevLayout,
       {
-        i: layout.uuid || newItemUUID,
-        x: layout.x || 0,
-        y: layout.y || 0,
-        w: layout.w || 1,
-        h: layout.h || 1,
+        i: layout ? layout.uuid : newItemUUID,
+        x: layout ? layout.x : 0,
+        y: layout ? layout.y : 0,
+        w: layout ? layout.w : 1,
+        h: layout ? layout.h : 1,
         static: false,
         maxH: 30,
       },

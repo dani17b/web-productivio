@@ -17,7 +17,7 @@ import { EditTaskPage } from './modules/editTaskPage/EditTaskPage';
 
 import { NewTeam } from './modules/newTeam/NewTeam';
 import { Editor } from './modules/editor/Editor';
-
+import { parseJsonToTsx } from './utils/parser/JsonToTsx';
 const ROUTES = [
   {
     path: '/',
