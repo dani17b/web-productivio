@@ -9,7 +9,11 @@ import { IoIosClose } from 'react-icons/io';
 import axios from 'axios';
 import { SERVER_BASE_URL } from 'src/config/Config';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteJsonFromArray, pushJsonToArray } from '../../actions';
+import {
+  deleteJsonFromArray,
+  pushJsonToArray,
+  setActiveTabId,
+} from '../../actions';
 
 export interface TabProps {
   /**
@@ -141,6 +145,7 @@ export const TabComponent = (props: TabProps) => {
    **/
   const handleSelected = () => {
     let selectedTabId = getSelectedTabId();
+    dispatch(setActiveTabId(selectedTabId));
   };
 
   return (

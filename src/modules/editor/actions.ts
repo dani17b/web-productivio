@@ -14,6 +14,7 @@ export const SET_JSON_ARRAY_REQUEST = 'SET_JSON_ARRAY_REQUEST';
 export const PUSH_JSON_TO_ARRAY = 'PUSH_JSON_TO_ARRAY';
 export const UPDATE_JSON_IN_ARRAY = 'UPDATE_JSON_IN_ARRAY';
 export const DELETE_JSON_FROM_ARRAY = 'DELETE_JSON_FROM_ARRAY';
+export const SET_ACTIVE_TAB_ID = 'SET_ACTIVE_TAB_ID';
 
 export const getFiles = (projectPath: string): any => {
   return new Promise((resolve, reject) => {
@@ -64,6 +65,15 @@ export const deleteJsonFromArray = (module: TsxObj): any => {
     dispatch({
       type: DELETE_JSON_FROM_ARRAY,
       module,
+    });
+  };
+};
+
+export const setActiveTabId = (activeTabId: string): any => {
+  return (dispatch: (arg0: any) => void) => {
+    dispatch({
+      type: SET_ACTIVE_TAB_ID,
+      activeTabId,
     });
   };
 };

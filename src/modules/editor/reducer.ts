@@ -9,6 +9,7 @@ import {
   PUSH_JSON_TO_ARRAY,
   UPDATE_JSON_IN_ARRAY,
   DELETE_JSON_FROM_ARRAY,
+  SET_ACTIVE_TAB_ID,
 } from './actions';
 
 export interface initialStateType {
@@ -16,6 +17,7 @@ export interface initialStateType {
   modules: TsxObj[];
   code: any[];
   file: any[];
+  activeTabId: string;
 }
 
 const initialState: initialStateType = {
@@ -23,6 +25,7 @@ const initialState: initialStateType = {
   modules: [],
   code: [],
   file: [],
+  activeTabId: '',
 };
 
 export const editor = (state = initialState, action: any) => {
@@ -56,6 +59,11 @@ export const editor = (state = initialState, action: any) => {
         modules: state.modules.filter(
           (module) => module.id !== action.module.id
         ),
+      };
+    case SET_ACTIVE_TAB_ID:
+      return {
+        ...state,
+        activeTabId: action.activeTabId,
       };
     default:
       return state;

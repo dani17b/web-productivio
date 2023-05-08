@@ -16,6 +16,7 @@ import {
   getFiles,
   getPath,
   setJsonArray,
+  setActiveTabId,
 } from './actions';
 
 import {
@@ -234,6 +235,7 @@ export const Editor = () => {
         const defaultTabId = uuidv4();
         const defaultTab = parseTsxToJson(defaultModuleCode, defaultTabId);
         dispatch(setJsonArray([...modules, defaultTab]));
+        dispatch(setActiveTabId(defaultTabId));
         // const newDefaultTab = {
         //   tabId: defaultTabId,
         //   tabLabel: defaultTab.component.name,
