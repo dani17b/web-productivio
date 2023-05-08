@@ -98,7 +98,18 @@ export const TabComponent = (props: TabProps) => {
     };
 
   /**
-   * Sets the focus on the previous tab's content
+   * Obtains and returns the active tab id dynamically
+   */
+  const getSelectedTabId = (): string => {
+    let activeTabId = tabs[tabIndex].tabId;
+    console.log('Selected tabId: ', activeTabId);
+    return activeTabId;
+  };
+
+  getSelectedTabId();
+
+  /**
+   * Sets the focus on the previous tab's content & deletes the closed module from the Json array
    */
   const closeTab = (index: number) => {
     const tabToClose = tabs[index];
