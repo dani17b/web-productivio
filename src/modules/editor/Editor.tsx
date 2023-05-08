@@ -41,8 +41,6 @@ export const Column = ({ children, className, title }) => {
     }),
   });
 
-  console.log('options', { canDrop, isOver });
-
   return (
     <div ref={drop} className={className}>
       {title}
@@ -77,18 +75,10 @@ export const MovableItem = ({ children, onClick }) => {
 export const Editor = () => {
   const [selectedElement, setSelectedElement] = useState(null);
   const dispatch = useDispatch();
-  const { code } = useSelector((state) => state.code);
   const [files, setFiles] = useState([]);
   const [modules, setModules] = useState([]);
   const [setComponentCodeList] = useState([]);
-  /*const objectNames = files.map((file) => file.name);*/
 
-  console.log('code', code);
-  /*
-  useEffect(() => {
-    dispatch(getFiles(BASE_URL));
-  }, [dispatch]);
-*/
   const fetchAndSetComponentCode = useCallback(async () => {
     if (files.length === 0) return;
 
@@ -228,11 +218,7 @@ export const Editor = () => {
               <MovableItem
                 key={index}
                 onClick={async (e) => {
-                  let path =
-                    file.path.slice(file.path.indexOf('/') + 1) +
-                    '/' +
-                    file.name +
-                    '.tsx';
+                  let path = file.path + '/' + file.name + '.tsx';
 
                   const Component = await load(path, file.name);
                   AddGridItem(<Component />);
@@ -258,11 +244,7 @@ export const Editor = () => {
               <MovableItem
                 key={index}
                 onClick={async (e) => {
-                  let path =
-                    module.path.slice(module.path.indexOf('/') + 1) +
-                    '/' +
-                    module.name +
-                    '.tsx';
+                  let path = module.path + '/' + module.name + '.tsx';
 
                   const Component = await load(path, module.name);
                   AddGridItem(<Component />);
@@ -287,37 +269,6 @@ export const Editor = () => {
               {componentList()}
               {moduleList()}
             </TabSelector>
-            {modules.map((file, index) => {
-              return (
-                <MovableItem
-                  key={index}
-                  onClick={async (e) => {
-                    let path = file.path + '/' + file.name + '.tsx';
-
-                    const Component = await load(path, file.name);
-                    AddGridItem(<Component />);
-                  }}
-                >
-                  {file.name}
-                </MovableItem>
-              );
-            })}
-
-            {components.map((file, index) => {
-              return (
-                <MovableItem
-                  key={index}
-                  onClick={async (e) => {
-                    let path = file.path + '/' + file.name + '.tsx';
-
-                    const Component = await load(path, file.name);
-                    AddGridItem(<Component />);
-                  }}
-                >
-                  {file.name}
-                </MovableItem>
-              );
-            })}
           </Column>
         </div>
         <Column
@@ -422,44 +373,3 @@ async function load(path, componentName) {
   const component = module[componentName];
   return component;
 }
-
-export const Column = ({ children, className, title }) => {
-  const [{ canDrop, isOver }, drop] = useDrop({
-    accept: 'TYPE',
-    drop: () => ({ name: 'Some name' }),
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
-    }),
-  });
-
-  return (
-    <div ref={drop} className={className}>
-      {title}
-      {children}
-    </div>
-  );
-};
-
-export const MovableItem = ({ children, onClick }) => {
-  const [{ isDragging }, drag] = useDrag({
-    item: { name: 'Any custom name' },
-    type: 'TYPE',
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
-
-  const opacity = isDragging ? 0.4 : 1;
-
-  return (
-    <div
-      ref={drag}
-      className="movable-item"
-      style={{ opacity }}
-      onClick={onClick}
-    >
-      {children}
-    </div>
-  );
-};
