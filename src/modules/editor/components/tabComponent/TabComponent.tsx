@@ -111,8 +111,6 @@ export const TabComponent = (props: TabProps) => {
     return activeTabId;
   };
 
-  getSelectedTabId();
-
   /**
    * Sets the focus on the previous tab's content & deletes the closed module from the Json array
    */
@@ -143,14 +141,10 @@ export const TabComponent = (props: TabProps) => {
     }
   };
 
-  const getSelectedTabId = (): string => {
-    let activeTabId = tabs[tabIndex].tabId;
-    console.log(activeTabId);
-    return activeTabId;
-  };
-
+  /**
+   * Updates modules's ids with current tab id in state
+   **/
   const handleSelected = () => {
-    debugger;
     let selectedTabId = getSelectedTabId();
     let updatedModules = modules.map((module: TsxObj) => {
       return {
