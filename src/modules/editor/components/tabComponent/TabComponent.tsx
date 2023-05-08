@@ -4,12 +4,17 @@ import React, { useRef } from 'react';
 import { useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
-import { parseTsxToJson } from 'src/utils/parser/TsxToJson';
+import { TsxObj, parseTsxToJson } from 'src/utils/parser/TsxToJson';
 import { IoIosClose } from 'react-icons/io';
 import axios from 'axios';
 import { SERVER_BASE_URL } from 'src/config/Config';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteJsonFromArray, setJsonArray } from '../../actions';
+import {
+  deleteJsonFromArray,
+  setJsonArray,
+  updateAllJsonsInArray,
+  updateJsonInArray,
+} from '../../actions';
 
 export interface TabProps {
   /**
@@ -106,8 +111,6 @@ export const TabComponent = (props: TabProps) => {
     return activeTabId;
   };
 
-  getSelectedTabId();
-
   /**
    * Sets the focus on the previous tab's content & deletes the closed module from the Json array
    */
@@ -138,6 +141,21 @@ export const TabComponent = (props: TabProps) => {
     }
   };
 
+  /**
+   * Updates modules's ids with current tab id in state
+   **/
+  const handleSelected = () => {
+    let selectedTabId = getSelectedTabId();
+    let updatedModules = modules.map((module: TsxObj) => {
+      return {
+        ...module,
+        id: selectedTabId,
+      };
+    });
+    dispatch(updateAllJsonsInArray(updatedModules));
+    console.log('modules', modules);
+  };
+
   return (
     <div className="tab-container">
       <div className="tab-container__trial-button-container">
@@ -159,6 +177,7 @@ export const TabComponent = (props: TabProps) => {
               key={tab.tabId}
               label={tab.tabLabel}
               value={index.toString()}
+              onClick={handleSelected}
               icon={
                 <IoIosClose
                   className="tab-container__tab-row__close"
