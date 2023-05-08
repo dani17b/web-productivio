@@ -9,7 +9,7 @@ import { IoIosClose } from 'react-icons/io';
 import axios from 'axios';
 import { SERVER_BASE_URL } from 'src/config/Config';
 import { useDispatch, useSelector } from 'react-redux';
-import { setJsonArray } from '../../actions';
+import { deleteJsonFromArray, setJsonArray } from '../../actions';
 
 export interface TabProps {
   /**
@@ -23,7 +23,7 @@ export interface TabProps {
   /**
    * Module placed inside that particular tab
    */
-  tabContent: string /*React.ReactNode*/;
+  tabContent: string;
 }
 
 export const TabComponent = (props: TabProps) => {
@@ -76,6 +76,7 @@ export const TabComponent = (props: TabProps) => {
         };
 
         const newTabs = [...tabs, newTab];
+        console.log('Tab abierta: ', newTab.tabId);
 
         setTabs(newTabs);
         setTabIndex(newTabs.length - 1);
@@ -100,6 +101,7 @@ export const TabComponent = (props: TabProps) => {
    * Sets the focus on the previous tab's content
    */
   const closeTab = (index: number) => {
+    const tabToClose = tabs[index];
     const newTabs = [...tabs];
     newTabs.splice(index, 1);
 
@@ -114,6 +116,14 @@ export const TabComponent = (props: TabProps) => {
     const focusedElement = document.activeElement as HTMLElement;
     if (focusedElement && focusedElement !== document.body) {
       focusedElement.focus();
+    }
+
+    const moduleToClose = modules.find(
+      (module: { id: string }) => module.id === tabToClose.tabId
+    );
+    if (moduleToClose) {
+      dispatch(deleteJsonFromArray(moduleToClose));
+      console.log('Tab cerrada: ', moduleToClose);
     }
   };
 
