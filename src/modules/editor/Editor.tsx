@@ -26,6 +26,7 @@ import { TabComponent } from './components/tabComponent/TabComponent';
 import { Likes, TaskProgressBar } from 'lib-productivio';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import uuid from 'react-uuid';
+import { v4 as uuidv4 } from 'uuid';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import axios from 'src/lib/axios';
@@ -218,7 +219,9 @@ export const Editor = () => {
     setLayout(newLayout);
   };
 
-  const setDefaultModule = (path: string) => {
+  const { modules } = useSelector((state: any) => state.editor);
+
+  useEffect(() => {
     axios
       .request({
         url: `file/${DEFAULT_TAB_PATH}`,
@@ -227,8 +230,9 @@ export const Editor = () => {
       })
       .then((response) => {
         const defaultModuleCode = response.data;
-        // const defaultTabId = uuidv4();
-        const defaultTab = parseTsxToJson(defaultModuleCode);
+        console.log(defaultModuleCode);
+        const defaultTabId = uuidv4();
+        const defaultTab = parseTsxToJson(defaultModuleCode, defaultTabId);
         dispatch(setJsonArray([...modules, defaultTab]));
         // const newDefaultTab = {
         //   tabId: defaultTabId,
@@ -236,7 +240,7 @@ export const Editor = () => {
         //   tabContent: defaultTab.component.content,
         // };
       });
-  };
+  }, []);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -283,22 +287,22 @@ export const Editor = () => {
           {/*  */}
           <TabComponent
             tabLabel="Default"
-            tabContent={
-              setDefaultModule()
-              // <div className="editor__canvas__wrapper">
-              //   {buildJsx(componentDef.components[0].dom, {
-              //     selectElement: (element) => {
-              //       console.log('edit element', element);
-              //       setSelectedElement(element);
-              //     },
-              //     removeElement: (element) => {
-              //       console.log('remove element', element);
-              //       setSelectedElement(element);
-              //     },
-              //   })}{' '}
-              //   <TestComponent text={text} style={styles} />
-              // </div>
-            }
+            // tabContent={
+            //   ''
+            //   // <div className="editor__canvas__wrapper">
+            //   //   {buildJsx(componentDef.components[0].dom, {
+            //   //     selectElement: (element) => {
+            //   //       console.log('edit element', element);
+            //   //       setSelectedElement(element);
+            //   //     },
+            //   //     removeElement: (element) => {
+            //   //       console.log('remove element', element);
+            //   //       setSelectedElement(element);
+            //   //     },
+            //   //   })}{' '}
+            //   //   <TestComponent text={text} style={styles} />
+            //   // </div>
+            // }
           />
 
           <div className="layout-grid">

@@ -3,18 +3,13 @@ import { v4 as uuidv4 } from 'uuid';
 import React, { useRef } from 'react';
 import { useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
-import { TabContext, TabPanel } from '@mui/lab';
-import { TsxObj, parseTsxToJson } from 'src/utils/parser/TsxToJson';
+import { TabContext } from '@mui/lab';
+import { parseTsxToJson } from 'src/utils/parser/TsxToJson';
 import { IoIosClose } from 'react-icons/io';
 import axios from 'axios';
 import { SERVER_BASE_URL } from 'src/config/Config';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  deleteJsonFromArray,
-  setJsonArray,
-  updateAllJsonsInArray,
-  updateJsonInArray,
-} from '../../actions';
+import { deleteJsonFromArray, pushJsonToArray } from '../../actions';
 
 export interface TabProps {
   /**
@@ -73,7 +68,7 @@ export const TabComponent = (props: TabProps) => {
         let code = response.data;
         const newTabId = uuidv4();
         const jsonTab = parseTsxToJson(code, newTabId);
-        dispatch(setJsonArray([...modules, jsonTab]));
+        dispatch(pushJsonToArray(jsonTab));
         const newTab = {
           tabId: newTabId,
           tabLabel: jsonTab.component.name,
@@ -142,18 +137,10 @@ export const TabComponent = (props: TabProps) => {
   };
 
   /**
-   * Updates modules's ids with current tab id in state
+   * Updates active tab id
    **/
   const handleSelected = () => {
     let selectedTabId = getSelectedTabId();
-    let updatedModules = modules.map((module: TsxObj) => {
-      return {
-        ...module,
-        id: selectedTabId,
-      };
-    });
-    dispatch(updateAllJsonsInArray(updatedModules));
-    console.log('modules', modules);
   };
 
   return (
@@ -187,13 +174,13 @@ export const TabComponent = (props: TabProps) => {
             />
           ))}
         </Tabs>
-        <div className="tab-container__tab-content">
+        {/* <div className="tab-container__tab-content">
           {tabs.map((tab, index) => (
             <TabPanel key={tab.tabId} value={index.toString()}>
               <div ref={handleContentRef(index)}>{tab.tabContent}</div>
             </TabPanel>
           ))}
-        </div>
+        </div> */}
       </TabContext>
     </div>
   );
