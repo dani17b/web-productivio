@@ -78,6 +78,7 @@ export const Editor = () => {
   const [files, setFiles] = useState([]);
   const [modules, setModules] = useState([]);
   const [setComponentCodeList] = useState([]);
+  const { modules } = useSelector((state) => state.editor);
 
   const fetchAndSetComponentCode = useCallback(async () => {
     if (files.length === 0) return;
@@ -182,12 +183,21 @@ export const Editor = () => {
     w: number;
     h: number;
   }
-  const AddGridItem = (component: JSX.Element) => {
+
+  const AddGridItem = (component: JSX.Element, layout?: any) => {
     const newItemUUID = uuid();
 
     setLayout((prevLayout) => [
       ...prevLayout,
-      { i: newItemUUID, x: 0, y: 0, w: 1.5, h: 1, static: false, maxH: 30 },
+      layout || {
+        i: newItemUUID,
+        x: 0,
+        y: 0,
+        w: 1,
+        h: 1,
+        static: false,
+        maxH: 30,
+      },
     ]);
 
     setLists((prevLists) => [...prevLists, { i: newItemUUID, component }]);
@@ -202,6 +212,19 @@ export const Editor = () => {
     { i: layout[0].i, component: <Likes totalLikes={100} likedByMe={false} /> },
     { i: layout[1].i, component: <TaskProgressBar /> },
   ]);
+
+  useEffect(() => {
+    //TODO: Seleccionar el módulo/tab/grid activo, no el primero
+    modules[0].component.returnedContent.dom.children.array.forEach(
+      (element) => {
+        AddGridItem(load(element.dom.path, element.dom.name), {
+          ...element.dom.layout,
+          static: false,
+          maxH: 30,
+        });
+      }
+    );
+  }, []);
 
   const onLayoutChange = (newLayout: Item[]) => {
     setLayout(newLayout);
