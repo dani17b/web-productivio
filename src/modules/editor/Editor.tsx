@@ -83,7 +83,11 @@ export const Editor = () => {
 
   const loadComponentFromRedux = async (element) => {
     const Component = await load(element.dom.path, element.dom.type);
-    AddGridItem(<Component />);
+    AddGridItem(<Component />, {
+      ...element.dom.layout,
+      static: false,
+      maxH: 30,
+    });
   };
   useEffect(() => {
     //TODO: Seleccionar el módulo/tab/grid activo, no el primero
@@ -201,21 +205,24 @@ export const Editor = () => {
 
   const AddGridItem = (component: JSX.Element, layout?: any) => {
     const newItemUUID = uuid();
-
+    // debugger;
     setLayout((prevLayout) => [
       ...prevLayout,
-      layout || {
-        i: newItemUUID,
-        x: 0,
-        y: 0,
-        w: 1,
-        h: 1,
+      {
+        i: layout.uuid || newItemUUID,
+        x: layout.x || 0,
+        y: layout.y || 0,
+        w: layout.w || 1,
+        h: layout.h || 1,
         static: false,
         maxH: 30,
       },
     ]);
 
-    setLists((prevLists) => [...prevLists, { i: newItemUUID, component }]);
+    setLists((prevLists) => [
+      ...prevLists,
+      { i: layout ? layout.uuid : newItemUUID, component },
+    ]);
   };
 
   const [layout, setLayout] = useState([
@@ -393,7 +400,7 @@ export const Editor = () => {
 
 async function load(path, componentName) {
   //let module = await import(`./../../components/header/Header.tsx`);
-  debugger;
+  // debugger;
   let module = await import(`./../../${path}`);
   const component = module[componentName];
   console.log(path);

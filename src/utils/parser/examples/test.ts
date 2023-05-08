@@ -16,7 +16,7 @@ export const tsxObj = {
               layout: {
                 uuid: 'sdpfosslsdlsdpldpsdflsdpfldsfp2309430493',
                 x: 3,
-                y: 1,
+                y: 4,
                 w: 2,
                 h: 2,
               },
@@ -30,7 +30,7 @@ export const tsxObj = {
               layout: {
                 uuid: '22fosslsdlsdpldpsdsfp23094304fff',
                 x: 5,
-                y: 5,
+                y: 6,
                 w: 1,
                 h: 1,
               },
