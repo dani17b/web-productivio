@@ -13,6 +13,7 @@ export const CREATE_JSON = 'CREATE_JSON';
 export const SET_JSON_ARRAY_REQUEST = 'SET_JSON_ARRAY_REQUEST';
 export const PUSH_JSON_TO_ARRAY = 'PUSH_JSON_TO_ARRAY';
 export const UPDATE_JSON_IN_ARRAY = 'UPDATE_JSON_IN_ARRAY';
+export const UPDATE_ALL_JSONS_IN_ARRAY = 'UPDATE_ALL_JSONS_IN_ARRAY';
 export const DELETE_JSON_FROM_ARRAY = 'DELETE_JSON_FROM_ARRAY';
 
 export const getFiles = (projectPath: string): any => {
@@ -46,6 +47,15 @@ export const updateJsonInArray = (module: TsxObj): any => {
     dispatch({
       type: UPDATE_JSON_IN_ARRAY,
       module,
+    });
+  };
+};
+
+export const updateAllJsonsInArray = (modules: TsxObj[]): any => {
+  return (dispatch: (arg0: any) => void) => {
+    dispatch({
+      type: UPDATE_ALL_JSONS_IN_ARRAY,
+      modules,
     });
   };
 };
