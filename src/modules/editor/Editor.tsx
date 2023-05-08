@@ -81,6 +81,20 @@ export const Editor = () => {
   const [setComponentCodeList] = useState([]);
   const { modules: reduxModules } = useSelector((state) => state.editor);
 
+  /*
+  Carga todos los componentes del redux en el grid
+*/
+  useEffect(() => {
+    //TODO: Seleccionar el módulo/tab/grid activo, no el primero
+    console.log('hola', tsxObj.component.returnedContent.dom);
+    tsxObj.component.returnedContent.dom.children.forEach((element) => {
+      loadComponentFromRedux(element);
+    });
+  }, []);
+
+  /*
+  Recibe un elemento (children) sacado del redux y lo añade al grid
+*/
   const loadComponentFromRedux = async (element) => {
     const Component = await load(element.dom.path, element.dom.type);
     AddGridItem(<Component />, {
@@ -89,15 +103,6 @@ export const Editor = () => {
       maxH: 30,
     });
   };
-  useEffect(() => {
-    //TODO: Seleccionar el módulo/tab/grid activo, no el primero
-    // modules[0]
-    // debugger;
-    console.log('hola', tsxObj.component.returnedContent.dom);
-    tsxObj.component.returnedContent.dom.children.forEach((element) => {
-      loadComponentFromRedux(element);
-    });
-  }, []);
 
   const fetchAndSetComponentCode = useCallback(async () => {
     if (files.length === 0) return;
@@ -399,10 +404,7 @@ export const Editor = () => {
 };
 
 async function load(path, componentName) {
-  //let module = await import(`./../../components/header/Header.tsx`);
-  // debugger;
   let module = await import(`./../../${path}`);
   const component = module[componentName];
-  console.log(path);
   return component;
 }
