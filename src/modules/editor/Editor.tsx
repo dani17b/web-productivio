@@ -26,44 +26,42 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 const BASE_URL =
   'C:\\Users\\fernando.valerio\\Desktop\\workspace\\dev\\web-productivio';
 
-export const Column = ({ children, className, title }) => {
-  const [{ canDrop, isOver }, drop] = useDrop({
+export const Column = ({ children, className, title, onAddComponent }) => {
+  const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: 'TYPE',
-    drop: () => ({ name: 'Some name' }),
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
-    }),
-  });
+    drop: (item, monitor) => {
+      const offset = monitor.getClientOffset();
+      onAddComponent({ ...item, x: offset.x, y: offset.y });
+    },
+  }));
 
-  console.log('options', { canDrop, isOver });
+  const isActive = canDrop && isOver;
+  const backgroundColor = isActive ? 'rgba(0, 255, 0, 0.1)' : 'transparent';
 
   return (
-    <div ref={drop} className={className}>
+    <div ref={drop} className={className} style={{ backgroundColor }}>
       {title}
       {children}
     </div>
   );
 };
 
-export const MovableItem = ({ children, onClick }) => {
-  const [{ isDragging }, drag] = useDrag({
-    item: { name: 'Any custom name' },
+export const MovableItem = ({ children, path }) => {
+  const [{ isDragging }, drag] = useDrag(() => ({
     type: 'TYPE',
+    item: {
+      componentName: children,
+      componentPath: path,
+    },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
-  });
+  }));
 
   const opacity = isDragging ? 0.4 : 1;
 
   return (
-    <div
-      ref={drag}
-      className="movable-item"
-      style={{ opacity }}
-      onClick={onClick}
-    >
+    <div ref={drag} className="movable-item" style={{ opacity }}>
       {children}
     </div>
   );
@@ -137,15 +135,37 @@ export const Editor = () => {
     w: number;
     h: number;
   }
-  const AddGridItem = (component: JSX.Element) => {
+  const AddGridItem = async (item) => {
     const newItemUUID = uuid();
+
+    const gridColumnWidth = 150;
+    const gridRowHeight = 30;
+    const gridMargin = 0;
+
+    const gridX = Math.floor(item.x / (gridColumnWidth + gridMargin));
+    const gridY = Math.floor(item.y / (gridRowHeight + gridMargin));
 
     setLayout((prevLayout) => [
       ...prevLayout,
-      { i: newItemUUID, x: 0, y: 0, w: 1.5, h: 1, static: false, maxH: 30 },
+      {
+        i: newItemUUID,
+        x: gridX,
+        y: gridY,
+        w: 1.5,
+        h: 1,
+        static: false,
+        maxH: 30,
+      },
     ]);
 
-    setLists((prevLists) => [...prevLists, { i: newItemUUID, component }]);
+    const componentName = item.componentName;
+    const path = item.componentPath;
+
+    const Component = await load(path, componentName);
+    setLists((prevLists) => [
+      ...prevLists,
+      { i: newItemUUID, component: <Component /> },
+    ]);
   };
 
   const [layout, setLayout] = useState([
@@ -168,21 +188,14 @@ export const Editor = () => {
         <div className="editor__components">
           <Column>
             {files.map((file, index) => {
-              console.log('file', file);
-              return (
-                <MovableItem
-                  key={index}
-                  onClick={async (e) => {
-                    let path =
-                      file.path.slice(file.path.indexOf('/') + 1) +
-                      '/' +
-                      file.name +
-                      '.tsx';
+              let path =
+                file.path.slice(file.path.indexOf('/') + 1) +
+                '/' +
+                file.name +
+                '.tsx';
 
-                    const Component = await load(path, file.name);
-                    AddGridItem(<Component />);
-                  }}
-                >
+              return (
+                <MovableItem key={index} path={path}>
                   {file.name}
                 </MovableItem>
               );
@@ -194,6 +207,7 @@ export const Editor = () => {
           className="editor__canvas"
           children={undefined}
           title={undefined}
+          onAddComponent={AddGridItem}
         >
           {buildJsx(componentDef.components[0].dom, {
             selectElement: (element) => {
