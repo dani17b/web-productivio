@@ -6,6 +6,9 @@ import {
   GET_FILE_CODE,
   POST_FILE,
   UPDATE_FILE,
+  PUSH_JSON_TO_ARRAY,
+  UPDATE_JSON_IN_ARRAY,
+  DELETE_JSON_FROM_ARRAY,
 } from './actions';
 
 export interface initialStateType {
@@ -31,18 +34,33 @@ export const editor = (state = initialState, action: any) => {
         files: action.files,
       };
     case SET_JSON_ARRAY_REQUEST:
-      debugger;
-      console.log('reducer holis :)');
       return {
         ...state,
         modules: action.modules,
+      };
+    case UPDATE_JSON_IN_ARRAY:
+      return {
+        ...state,
+        modules: state.modules.map((module) =>
+          module.id === action.module.id ? action.module : module
+        ),
+      };
+    case PUSH_JSON_TO_ARRAY:
+      return {
+        ...state,
+        modules: [...state.modules, action.module],
+      };
+    case DELETE_JSON_FROM_ARRAY:
+      return {
+        ...state,
+        modules: state.modules.filter(
+          (module) => module.id !== action.module.id
+        ),
       };
     default:
       return state;
   }
 };
-
-
 
 export const code = (state = initialState, action: any) => {
   switch (action.type) {

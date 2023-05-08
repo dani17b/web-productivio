@@ -11,6 +11,10 @@ export const UPDATE_FILE = 'UPDATE_FILE';
 export const CREATE_JSON = 'CREATE_JSON';
 
 export const SET_JSON_ARRAY_REQUEST = 'SET_JSON_ARRAY_REQUEST';
+export const PUSH_JSON_TO_ARRAY = 'PUSH_JSON_TO_ARRAY';
+export const UPDATE_JSON_IN_ARRAY = 'UPDATE_JSON_IN_ARRAY';
+export const DELETE_JSON_FROM_ARRAY = 'DELETE_JSON_FROM_ARRAY';
+
 export const getFiles = (projectPath: string): any => {
   return new Promise((resolve, reject) => {
     axios
@@ -33,6 +37,33 @@ export const setJsonArray = (modules: TsxObj[]): any => {
     dispatch({
       type: SET_JSON_ARRAY_REQUEST,
       modules,
+    });
+  };
+};
+
+export const updateJsonInArray = (module: TsxObj): any => {
+  return (dispatch: (arg0: any) => void) => {
+    dispatch({
+      type: UPDATE_JSON_IN_ARRAY,
+      module,
+    });
+  };
+};
+
+export const pushJsonToArray = (module: TsxObj): any => {
+  return (dispatch: (arg0: any) => void) => {
+    dispatch({
+      type: PUSH_JSON_TO_ARRAY,
+      module,
+    });
+  };
+};
+
+export const deleteJsonFromArray = (module: TsxObj): any => {
+  return (dispatch: (arg0: any) => void) => {
+    dispatch({
+      type: DELETE_JSON_FROM_ARRAY,
+      module,
     });
   };
 };
