@@ -222,9 +222,6 @@ export const Editor = () => {
                   let path = file.path + '/' + file.name + '.tsx';
                   let code = await getCode(file.path, `${file.name}.tsx`);
                   const Component = await load(path, file.name);
-                  console.log('CODE', code);
-                  //AddGridItem(<Component />);
-                  console.log(parseTsxToChild(file.name, path, code));
                   AddGridItem(<Component />);
                 }}
               >
@@ -251,9 +248,6 @@ export const Editor = () => {
                   let path = file.path + '/' + file.name + '.tsx';
                   let code = await getCode(file.path, `${file.name}.tsx`);
                   const Component = await load(path, file.name);
-                  console.log('CODE', code);
-                  //AddGridItem(<Component />);
-                  console.log(parseTsxToChild(file.name, path, code));
                   AddGridItem(<Component />);
                 }}
               >
@@ -279,7 +273,6 @@ export const Editor = () => {
           </Column>
         </div>
         <Column
-          style={{ color: 'red' }}
           className="editor__canvas"
           children={undefined}
           title={undefined}
