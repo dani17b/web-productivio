@@ -8,6 +8,7 @@ import { parse, buildJsx } from '../../lib/tsx-builder';
 import { InfoPanel } from './components/infoPanel/InfoPanel';
 import { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { tsxObj } from 'src/utils/parser/examples/test';
 import {
   getComponents,
   postFile,
@@ -78,7 +79,21 @@ export const Editor = () => {
   const [files, setFiles] = useState([]);
   const [modules, setModules] = useState([]);
   const [setComponentCodeList] = useState([]);
-  const { modules } = useSelector((state) => state.editor);
+  const { modules: reduxModules } = useSelector((state) => state.editor);
+
+  const loadComponentFromRedux = async (element) => {
+    const Component = await load(element.dom.path, element.dom.type);
+    AddGridItem(<Component />);
+  };
+  useEffect(() => {
+    //TODO: Seleccionar el módulo/tab/grid activo, no el primero
+    // modules[0]
+    // debugger;
+    console.log('hola', tsxObj.component.returnedContent.dom);
+    tsxObj.component.returnedContent.dom.children.forEach((element) => {
+      loadComponentFromRedux(element);
+    });
+  }, []);
 
   const fetchAndSetComponentCode = useCallback(async () => {
     if (files.length === 0) return;
@@ -212,19 +227,6 @@ export const Editor = () => {
     { i: layout[0].i, component: <Likes totalLikes={100} likedByMe={false} /> },
     { i: layout[1].i, component: <TaskProgressBar /> },
   ]);
-
-  useEffect(() => {
-    //TODO: Seleccionar el módulo/tab/grid activo, no el primero
-    modules[0].component.returnedContent.dom.children.array.forEach(
-      (element) => {
-        AddGridItem(load(element.dom.path, element.dom.name), {
-          ...element.dom.layout,
-          static: false,
-          maxH: 30,
-        });
-      }
-    );
-  }, []);
 
   const onLayoutChange = (newLayout: Item[]) => {
     setLayout(newLayout);
@@ -391,8 +393,9 @@ export const Editor = () => {
 
 async function load(path, componentName) {
   //let module = await import(`./../../components/header/Header.tsx`);
-
+  debugger;
   let module = await import(`./../../${path}`);
   const component = module[componentName];
+  console.log(path);
   return component;
 }
