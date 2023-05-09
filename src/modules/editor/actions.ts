@@ -102,25 +102,21 @@ export const getPath = () => {
   });
 };
 
-export const getCode = (path: string, file: string): any => {
-  return (dispatch: (arg0: any) => void) => {
-    dispatch({
-      type: requestType(GET_FILE_CODE),
-    });
-
+export const getCode = (path: string): any => {
+  return new Promise((resolve, reject) => {
     axios
       .request({
-        url: `/file/${path}/${file}`,
+        url: `/file/${path}`,
         method: 'GET',
         baseURL: SERVER_BASE_URL,
       })
       .then((response) => {
-        dispatch({
-          type: responseType(GET_FILE_CODE),
-          code: response.data,
-        });
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
       });
-  };
+  });
 };
 
 export const postFile = (file: any): any => {

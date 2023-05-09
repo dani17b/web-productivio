@@ -1,0 +1,17 @@
+/*.tabs {
+  display: flex;
+  background-color: black;
+
+  button {
+    color: white;
+    background-color: transparent;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+
+    &.active {
+      background-color: gray;
+    }
+  }
+}
+*/

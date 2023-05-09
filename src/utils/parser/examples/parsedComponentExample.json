@@ -29,6 +29,7 @@
           {
             "dom": {
               "type": "Header",
+              "path": "",
               "layout": {
                 "uuid": "sdpfosslsdlsdpldpsdflsdpfldsfp2309430493",
                 "x": 3,
