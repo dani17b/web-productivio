@@ -30,6 +30,7 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import { TabSelector } from './components/tabComponent/TabSelector';
 import { parseTsxToChild } from 'src/utils/parser/TsxToJson';
+import { Button } from '@mui/material';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -245,7 +246,7 @@ export const Editor = () => {
         {files.map((file, index) => {
           let path = file.path + '/' + file.name + '.tsx';
           //let code = await getCode(file.path, `${file.name}.tsx`);
-
+          console.log('path modules', path);
           return (
             <MovableItem key={index} path={path}>
               {file.name}
@@ -255,6 +256,7 @@ export const Editor = () => {
       </div>
     );
   };
+  const [showComponentButton, setComponentButton] = useState(true);
 
   const addComponentToJson = async (item: any) => {
     console.log('item', item);
@@ -274,24 +276,16 @@ export const Editor = () => {
   const moduleList = () => {
     return (
       <div>
-        {modulesFile.length > 0 &&
-          modulesFile.map((file, index) => {
-            return (
-              <MovableItem
-                key={index}
-                onClick={async (e) => {
-                  let path = file.path + '/' + file.name + '.tsx';
-                  //let code = await getCode(file.path, `${file.name}.tsx`);
-                  const Component = await load(path, file.name);
-                  AddGridItem(<Component />);
-                }}
-              >
-                <div>
-                  <h5>{file.name}</h5>
-                </div>
-              </MovableItem>
-            );
-          })}
+        {modulesFile.map((file, index) => {
+          let path = file.path + '/' + file.name + '.tsx';
+          //let code = await getCode(file.path, `${file.name}.tsx`);
+          console.log('path modules', path);
+          return (
+            <MovableItem key={index} path={path}>
+              {file.name}
+            </MovableItem>
+          );
+        })}
       </div>
     );
   };
@@ -300,84 +294,97 @@ export const Editor = () => {
     <DndProvider backend={HTML5Backend}>
       <div className="editor">
         <div className="editor__components">
-          <Column>
-            <TabSelector tabNames={['Components', 'Modules']}>
-              {componentList()}
-              {moduleList()}
-            </TabSelector>
-          </Column>
-        </div>
-        <TabComponent
-          tabLabel="Hello World"
-          tabContent={
-            <div className="editor__canvas__wrapper">
-              {buildJsx(componentDef.components[0].dom, {
-                selectElement: (element) => {
-                  console.log('edit element', element);
-                  setSelectedElement(element);
-                },
-                removeElement: (element) => {
-                  console.log('remove element', element);
-                  setSelectedElement(element);
-                },
-              })}{' '}
-              <TestComponent text={text} style={styles} />
-            </div>
-          }
-        />
-        {modules.length > 0 ? (
-          <Column
-            className="editor__canvas"
-            children={undefined}
-            title={undefined}
-            onAddComponent={addComponentToJson}
+          <button
+            onClick={() => {
+              setComponentButton(true);
+            }}
           >
-            {console.log('mdoue', modules[0])}
+            components
+          </button>
+          <button
+            onClick={() => {
+              setComponentButton(false);
+            }}
+          >
+            modules
+          </button>
+          {showComponentButton && <Column>{componentList()}</Column>}
+          {!showComponentButton && <Column>{moduleList()}</Column>}
+        </div>
+        <div>
+          <TabComponent
+            tabLabel="Hello World"
+            tabContent={
+              <div className="editor__canvas__wrapper">
+                {buildJsx(componentDef.components[0].dom, {
+                  selectElement: (element) => {
+                    console.log('edit element', element);
+                    setSelectedElement(element);
+                  },
+                  removeElement: (element) => {
+                    console.log('remove element', element);
+                    setSelectedElement(element);
+                  },
+                })}{' '}
+                <TestComponent text={text} style={styles} />
+              </div>
+            }
+          />
+          {modules.length > 0 ? (
+            <Column
+              className="editor__canvas"
+              children={undefined}
+              title={undefined}
+              onAddComponent={addComponentToJson}
+            >
+              {console.log('mdoue', modules[0])}
 
-            <div className="layout-grid">
-              <ResponsiveGridLayout
-                className="layout"
-                autoSize={false}
-                layouts={{ lg: layout }}
-                onLayoutChange={onLayoutChange}
-                margin={[0, 0]}
-                containerPadding={[0, 0]}
-                isBounded={true}
-                rowHeight={30}
-                isResizable={true}
-              >
-                {layout.map((lay) => (
-                  <div
-                    key={lay.i}
-                    id={lay.i}
-                    className="movable-item"
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      boxSizing: 'border-box',
-                    }}
-                  >
-                    <div>
-                      {lists.find((item) => lay.i === item.i)?.componentName}
+              <div className="layout-grid">
+                <ResponsiveGridLayout
+                  className="layout"
+                  autoSize={false}
+                  layouts={{ lg: layout }}
+                  onLayoutChange={onLayoutChange}
+                  margin={[0, 0]}
+                  containerPadding={[0, 0]}
+                  isBounded={true}
+                  rowHeight={30}
+                  isResizable={true}
+                >
+                  {layout.map((lay) => (
+                    <div
+                      key={lay.i}
+                      id={lay.i}
+                      className="movable-item"
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        boxSizing: 'border-box',
+                      }}
+                    >
+                      <div>
+                        {lists.find((item) => lay.i === item.i)?.componentName}
+                      </div>
+                      {lists.find((item) => lay.i === item.i)?.component}
                     </div>
-                    {lists.find((item) => lay.i === item.i)?.component}
-                  </div>
-                ))}
-              </ResponsiveGridLayout>
-            </div>
+                  ))}
+                </ResponsiveGridLayout>
+              </div>
 
-            <div className="editor-header">
-              <input
-                onChange={(e) => setInputValue(e.target.value)}
-                value={inputValue}
-              ></input>
-              <button onClick={handleSave}>Guardar</button>
-            </div>
-          </Column>
-        ) : (
-          ''
-        )}
+              <div className="editor-header">
+                <input
+                  onChange={(e) => setInputValue(e.target.value)}
+                  value={inputValue}
+                ></input>
+                <button onClick={handleSave}>Guardar</button>
+              </div>
+            </Column>
+          ) : (
+            ''
+          )}
+        </div>
+
         <div
           className="editor__element"
           style={{
