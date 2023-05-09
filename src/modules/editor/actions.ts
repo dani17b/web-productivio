@@ -102,11 +102,11 @@ export const getPath = () => {
   });
 };
 
-export const getCode = (path: string, file: string): any => {
+export const getCode = (path: string): any => {
   return new Promise((resolve, reject) => {
     axios
       .request({
-        url: `/file/${path}/${file}`,
+        url: `/file/${path}`,
         method: 'GET',
         baseURL: SERVER_BASE_URL,
       })
