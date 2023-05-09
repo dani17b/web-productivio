@@ -20,6 +20,7 @@ import {
 } from 'src/components/propsEditor/TestComponent';
 import { TabComponent } from './components/tabComponent/TabComponent';
 import { parseJsonToTsx } from 'src/utils/parser/JsonToTsx';
+import { parseJsonToScss } from 'src/utils/parser/JsonToScss';
 
 export const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -70,7 +71,7 @@ export const Editor = () => {
 
   
 
-
+  //Devuelve un Json con array de objetos con información de los módulos
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -86,21 +87,23 @@ export const Editor = () => {
 
   
 
- 
+ //Se ejecuta al darle al botón de guardar y contiene dos métodos que construyen los Json que necesita el back para guardar un archivo
   const handleSave = () => {
       const buildTsxJsonToSave = {
-       filename: inputValue + '.scss',
+       filename: inputValue + '.tsx',
        content: parseJsonToTsx(modules[0])   
    }
    saveOrUpdate(buildTsxJsonToSave);
    console.log(buildTsxJsonToSave);
 
-//   const buildScssJsonToSave = {
-//     filename: {inputValue} + '.scss',
-//     content: parseJsonToTsx(modules)   
-// }  
+   const buildScssJsonToSave = {
+     filename: inputValue + '.scss',
+     content: parseJsonToScss(modules[0])   
+ }  
+  saveOrUpdate(buildScssJsonToSave);
   };
 
+  //Recoge el objeto que se va a guardar y comprueba si existe en el back para decidir si hace un post o update
   const saveOrUpdate = (build) => {
     const {filename, content} = build;
     getFiles(path)
@@ -120,9 +123,7 @@ export const Editor = () => {
     });
   }
   
-
-  
-
+//Devuelve un Json con array de objetos con información de los módulos
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -136,6 +137,7 @@ export const Editor = () => {
     fetchData();
   }, []);
 
+  //Devuelve un Json con array de objetos con información de los componentes
   useEffect(() => {
     const fetchData = async () => {
       try {
