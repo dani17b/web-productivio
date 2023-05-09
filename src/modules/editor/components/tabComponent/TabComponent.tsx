@@ -105,12 +105,12 @@ export const TabComponent = (props: TabProps) => {
   /**
    * Obtains and returns the active tab id dynamically
    */
-  const getSelectedTabId = (): string => {
-    debugger;
-    let activeTabId = tabs[tabIndex].tabId;
-    console.log('Selected tabId: ', activeTabId);
-    return activeTabId;
-  };
+  // const getSelectedTabId = (): string => {
+  //   debugger;
+  //   let activeTabId = tabs[tabIndex].tabId;
+  //   console.log('Selected tabId: ', activeTabId);
+  //   return activeTabId;
+  // };
 
   /**
    * Sets the focus on the previous tab's content & deletes the closed module from the Json array
@@ -146,9 +146,9 @@ export const TabComponent = (props: TabProps) => {
   /**
    * Updates active tab id
    **/
-  const handleSelected = () => {
-    let selectedTabId = getSelectedTabId();
-    dispatch(setActiveTabId(selectedTabId));
+  const handleSelected = (tabId: string) => {
+    //let selectedTabId = getSelectedTabId();
+    dispatch(setActiveTabId(tabId));
   };
 
   /**
@@ -173,11 +173,11 @@ export const TabComponent = (props: TabProps) => {
 
         const newDefaultTab = {
           tabId: defaultTabId,
-          tabLabel: defaultTab.component.name,
+          tabLabel: 'Default',
           tabContent: '',
         };
 
-        const newTabs = [...tabs, newDefaultTab];
+        const newTabs = [newDefaultTab];
         setTabs(newTabs);
         console.log(newDefaultTab);
       });
@@ -199,24 +199,14 @@ export const TabComponent = (props: TabProps) => {
           value={tabIndex}
           onChange={handleChange}
         >
-          <Tab
-            key={tabs[0].tabId}
-            label={tabs[0].tabLabel}
-            value={'0'}
-            onClick={handleSelected}
-            icon={
-              <IoIosClose
-                className="tab-container__tab-row__close"
-                onClick={() => closeTab(0)}
-              />
-            }
-          ></Tab>
           {tabs.map((tab, index) => (
             <Tab
               key={tab.tabId}
               label={tab.tabLabel}
               value={index.toString()}
-              onClick={handleSelected}
+              onClick={() => {
+                handleSelected(tab.tabId);
+              }}
               icon={
                 <IoIosClose
                   className="tab-container__tab-row__close"
