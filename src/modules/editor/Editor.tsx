@@ -33,9 +33,10 @@ import 'react-resizable/css/styles.css';
 import axios from 'src/lib/axios';
 import { SERVER_BASE_URL } from 'src/config/Config';
 import { parseTsxToJson } from 'src/utils/parser/TsxToJson';
+import { TabProps } from './components/tabComponent/TabComponent';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
-const DEFAULT_TAB_PATH = 'modules/blankModule/BlankModule.tsx';
+
 const BASE_URL =
   'C:\\Users\\fernando.valerio\\Desktop\\workspace\\dev\\web-productivio';
 
@@ -222,27 +223,33 @@ export const Editor = () => {
 
   const { modules } = useSelector((state: any) => state.editor);
 
-  useEffect(() => {
-    axios
-      .request({
-        url: `file/${DEFAULT_TAB_PATH}`,
-        method: 'GET',
-        baseURL: SERVER_BASE_URL,
-      })
-      .then((response) => {
-        const defaultModuleCode = response.data;
-        console.log(defaultModuleCode);
-        const defaultTabId = uuidv4();
-        const defaultTab = parseTsxToJson(defaultModuleCode, defaultTabId);
-        dispatch(setJsonArray([...modules, defaultTab]));
-        dispatch(setActiveTabId(defaultTabId));
-        // const newDefaultTab = {
-        //   tabId: defaultTabId,
-        //   tabLabel: defaultTab.component.name,
-        //   tabContent: defaultTab.component.content,
-        // };
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .request({
+  //       url: `file/${DEFAULT_TAB_PATH}`,
+  //       method: 'GET',
+  //       baseURL: SERVER_BASE_URL,
+  //     })
+  //     .then((response) => {
+  //       debugger;
+  //       const defaultModuleCode = response.data;
+  //       console.log(defaultModuleCode);
+  //       const defaultTabId = uuidv4();
+  //       const defaultTab = parseTsxToJson(defaultModuleCode, defaultTabId);
+  //       dispatch(setJsonArray([...modules, defaultTab]));
+  //       dispatch(setActiveTabId(defaultTabId));
+
+  //       const newDefaultTab = {
+  //         tabId: defaultTabId,
+  //         tabLabel: defaultTab.component.name,
+  //         tabContent: defaultTab.component.content,
+  //       };
+
+  //       const newTabs = [newDefaultTab];
+  //       setTabs(newTabs);
+  //       console.log(newDefaultTab);
+  //     });
+  // }, []);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -288,7 +295,7 @@ export const Editor = () => {
           {/* })} */}
           {/*  */}
           <TabComponent
-            tabLabel="Default"
+            tabLabel={'Default'}
             // tabContent={
             //   ''
             //   // <div className="editor__canvas__wrapper">

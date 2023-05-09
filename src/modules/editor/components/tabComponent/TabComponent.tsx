@@ -1,6 +1,6 @@
 import './tabComponent.scss';
 import { v4 as uuidv4 } from 'uuid';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
 import { TabContext } from '@mui/lab';
@@ -13,6 +13,7 @@ import {
   deleteJsonFromArray,
   pushJsonToArray,
   setActiveTabId,
+  setJsonArray,
 } from '../../actions';
 
 export interface TabProps {
@@ -105,6 +106,7 @@ export const TabComponent = (props: TabProps) => {
    * Obtains and returns the active tab id dynamically
    */
   const getSelectedTabId = (): string => {
+    debugger;
     let activeTabId = tabs[tabIndex].tabId;
     console.log('Selected tabId: ', activeTabId);
     return activeTabId;
@@ -137,6 +139,7 @@ export const TabComponent = (props: TabProps) => {
     if (moduleToClose) {
       dispatch(deleteJsonFromArray(moduleToClose));
       console.log('Tab cerrada: ', moduleToClose);
+      dispatch(setActiveTabId(newTabs[index].tabId));
     }
   };
 
@@ -147,6 +150,38 @@ export const TabComponent = (props: TabProps) => {
     let selectedTabId = getSelectedTabId();
     dispatch(setActiveTabId(selectedTabId));
   };
+
+  /**
+   * Sets default tab
+   */
+  const DEFAULT_TAB_PATH = 'modules/blankModule/BlankModule.tsx';
+  useEffect(() => {
+    axios
+      .request({
+        url: `file/${DEFAULT_TAB_PATH}`,
+        method: 'GET',
+        baseURL: SERVER_BASE_URL,
+      })
+      .then((response) => {
+        debugger;
+        const defaultModuleCode = response.data;
+        console.log(defaultModuleCode);
+        const defaultTabId = uuidv4();
+        const defaultTab = parseTsxToJson(defaultModuleCode, defaultTabId);
+        dispatch(setJsonArray([...modules, defaultTab]));
+        dispatch(setActiveTabId(defaultTabId));
+
+        const newDefaultTab = {
+          tabId: defaultTabId,
+          tabLabel: defaultTab.component.name,
+          tabContent: '',
+        };
+
+        const newTabs = [...tabs, newDefaultTab];
+        setTabs(newTabs);
+        console.log(newDefaultTab);
+      });
+  }, []);
 
   return (
     <div className="tab-container">
@@ -164,6 +199,18 @@ export const TabComponent = (props: TabProps) => {
           value={tabIndex}
           onChange={handleChange}
         >
+          <Tab
+            key={tabs[0].tabId}
+            label={tabs[0].tabLabel}
+            value={'0'}
+            onClick={handleSelected}
+            icon={
+              <IoIosClose
+                className="tab-container__tab-row__close"
+                onClick={() => closeTab(0)}
+              />
+            }
+          ></Tab>
           {tabs.map((tab, index) => (
             <Tab
               key={tab.tabId}
