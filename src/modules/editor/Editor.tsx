@@ -76,14 +76,11 @@ export const MovableItem = ({ children, path }) => {
 export const Editor = () => {
   const [selectedElement, setSelectedElement] = useState(null);
   const [inputValue, setInputValue] = useState('');
-  const {modules} = useSelector((state) => state.editor);
-  const [ path, setPath ] = useState(null);
+  const { modules } = useSelector((state) => state.editor);
+  const [path, setPath] = useState(null);
   const dispatch = useDispatch();
   const [files, setFiles] = useState([]);
   const [modulesFile, setModulesFile] = useState([]);
-
-
-  
 
   //Devuelve un Json con array de objetos con información de los módulos
   useEffect(() => {
@@ -99,45 +96,44 @@ export const Editor = () => {
     fetchData();
   }, []);
 
-  
-
- //Se ejecuta al darle al botón de guardar y contiene dos métodos que construyen los Json que necesita el back para guardar un archivo
+  //Se ejecuta al darle al botón de guardar y contiene dos métodos que construyen los Json que necesita el back para guardar un archivo
   const handleSave = () => {
-      const buildTsxJsonToSave = {
-       filename: inputValue + '.tsx',
-       content: parseJsonToTsx(modules[0])   
-   }
-   saveOrUpdate(buildTsxJsonToSave);
-   console.log(buildTsxJsonToSave);
+    const buildTsxJsonToSave = {
+      filename: inputValue + '.tsx',
+      content: parseJsonToTsx(modules[0]),
+    };
+    saveOrUpdate(buildTsxJsonToSave);
+    console.log(buildTsxJsonToSave);
 
-   const buildScssJsonToSave = {
-     filename: inputValue + '.scss',
-     content: parseJsonToScss(modules[0])   
- }  
-  saveOrUpdate(buildScssJsonToSave);
+    const buildScssJsonToSave = {
+      filename: inputValue + '.scss',
+      content: parseJsonToScss(modules[0]),
+    };
+    console.log('css', buildScssJsonToSave);
+    saveOrUpdate(buildScssJsonToSave);
   };
 
   //Recoge el objeto que se va a guardar y comprueba si existe en el back para decidir si hace un post o update
   const saveOrUpdate = (build) => {
-    const {filename, content} = build;
+    const { filename, content } = build;
     getFiles(path)
-    .then((data: any) => {
-      const fileExists = data.find((obj: any) => obj.name === filename);
-      if (fileExists) {
-        console.log('El archivo existe');
-        dispatch(updateFile(build));
-      } else {
-        console.log('El archivo no existe');
-        dispatch(postFile(build));
-        return false;
-      }
-    })
-    .catch((error: any) => {
-      console.log(error);
-    });
-  }
-  
-//Devuelve un Json con array de objetos con información de los módulos
+      .then((data: any) => {
+        const fileExists = data.find((obj: any) => obj.name === filename);
+        if (fileExists) {
+          console.log('El archivo existe');
+          dispatch(updateFile(build));
+        } else {
+          console.log('El archivo no existe');
+          dispatch(postFile(build));
+          return false;
+        }
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+  };
+
+  //Devuelve un Json con array de objetos con información de los módulos
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -167,7 +163,6 @@ export const Editor = () => {
     };
     fetchData();
   }, []);
-  
 
   const componentDef = parse(`export const ScreenSample = () => {
         return (
@@ -380,16 +375,13 @@ export const Editor = () => {
           )}
         </div>
 
-          <div className="editor-header">
-            
-          </div>
-        </Column>
+        <div className="editor-header"></div>
         <Column>
-        <input
-              onChange={(e) => setInputValue(e.target.value)}
-              value={inputValue}
-            ></input>
-            <button onClick={handleSave}>Guardar</button>
+          <input
+            onChange={(e) => setInputValue(e.target.value)}
+            value={inputValue}
+          ></input>
+          <button onClick={handleSave}>Guardar</button>
         </Column>
         <div
           className="editor__element"
