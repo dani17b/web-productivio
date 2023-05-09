@@ -16,12 +16,14 @@ import {
   getFiles,
   getPath,
 } from './actions';
-
+import { ComponentsList } from './components/componentList/ComponentList';
 import {
   TestComponent,
   TestComponentProps,
 } from 'src/components/propsEditor/TestComponent';
 import { TabComponent } from './components/tabComponent/TabComponent';
+import { parseJsonToTsx } from 'src/utils/parser/JsonToTsx';
+import { parseJsonToScss } from 'src/utils/parser/JsonToScss';
 import { Likes, TaskProgressBar } from 'lib-productivio';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import uuid from 'react-uuid';
@@ -75,6 +77,9 @@ export const MovableItem = ({ children, onClick }) => {
 
 export const Editor = () => {
   const [selectedElement, setSelectedElement] = useState(null);
+  const [inputValue, setInputValue] = useState('');
+  const {modules} = useSelector((state) => state.editor);
+  const [ path, setPath ] = useState(null);
   const dispatch = useDispatch();
   const [files, setFiles] = useState([]);
   const [modules, setModules] = useState([]);
@@ -110,25 +115,62 @@ export const Editor = () => {
     fetchAndSetComponentCode();
   }, [files, fetchAndSetComponentCode]);
 
-  const handleSave = (file: any) => {
-    getFiles(projectPath)
-      .then((data: any) => {
-        const fileExists = data.find((obj: any) => obj.name === inputValue);
-        if (fileExists) {
-          console.log('El archivo existe');
-          dispatch(updateFile(file));
-        } else {
-          console.log('El archivo no existe');
-          dispatch(postFile(file));
-          return false;
-        }
-      })
-      .catch((error: any) => {
+
+  
+
+  //Devuelve un Json con array de objetos con información de los módulos
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getPath();
+        setPath(response);
+      } catch (error) {
         console.log(error);
-      });
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  
+
+ //Se ejecuta al darle al botón de guardar y contiene dos métodos que construyen los Json que necesita el back para guardar un archivo
+  const handleSave = () => {
+      const buildTsxJsonToSave = {
+       filename: inputValue + '.tsx',
+       content: parseJsonToTsx(modules[0])   
+   }
+   saveOrUpdate(buildTsxJsonToSave);
+   console.log(buildTsxJsonToSave);
+
+   const buildScssJsonToSave = {
+     filename: inputValue + '.scss',
+     content: parseJsonToScss(modules[0])   
+ }  
+  saveOrUpdate(buildScssJsonToSave);
   };
 
-  //return modules
+  //Recoge el objeto que se va a guardar y comprueba si existe en el back para decidir si hace un post o update
+  const saveOrUpdate = (build) => {
+    const {filename, content} = build;
+    getFiles(path)
+    .then((data: any) => {
+      const fileExists = data.find((obj: any) => obj.name === filename);
+      if (fileExists) {
+        console.log('El archivo existe');
+        dispatch(updateFile(build));
+      } else {
+        console.log('El archivo no existe');
+        dispatch(postFile(build));
+        return false;
+      }
+    })
+    .catch((error: any) => {
+      console.log(error);
+    });
+  }
+  
+//Devuelve un Json con array de objetos con información de los módulos
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -144,7 +186,7 @@ export const Editor = () => {
     fetchData();
   }, []);
 
-  //return components
+  //Devuelve un Json con array de objetos con información de los componentes
   useEffect(() => {
     const fetchData = async () => {
       try {
