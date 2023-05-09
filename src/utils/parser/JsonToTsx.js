@@ -40,7 +40,7 @@ function createTsxDom(domJson) {
   const { type, children, attributes } = domJson.dom;
   let result = `<${type}`;
   attributes.map((attribute) => {
-    result += ` ${attribute.key} = ${attribute.value}`;
+    result += ` ${attribute.key} = "${attribute.value}"`;
   });
 
   result += '>';
