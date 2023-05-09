@@ -1,6 +1,6 @@
 import './tabComponent.scss';
 import { v4 as uuidv4 } from 'uuid';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
 import { TabContext } from '@mui/lab';
@@ -95,22 +95,12 @@ export const TabComponent = (props: TabProps) => {
     setTabIndex(newValue);
   };
 
-  const contentRefs = useRef<Array<HTMLDivElement | null>>([]);
+  //const contentRefs = useRef<Array<HTMLDivElement | null>>([]);
 
-  const handleContentRef =
-    (index: number) => (element: HTMLDivElement | null) => {
-      contentRefs.current[index] = element;
-    };
-
-  /**
-   * Obtains and returns the active tab id dynamically
-   */
-  // const getSelectedTabId = (): string => {
-  //   debugger;
-  //   let activeTabId = tabs[tabIndex].tabId;
-  //   console.log('Selected tabId: ', activeTabId);
-  //   return activeTabId;
-  // };
+  // const handleContentRef =
+  //   (index: number) => (element: HTMLDivElement | null) => {
+  //     contentRefs.current[index] = element;
+  //   };
 
   /**
    * Sets the focus on the previous tab's content & deletes the closed module from the Json array

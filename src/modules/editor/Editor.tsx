@@ -15,10 +15,7 @@ import {
   getCode,
   getFiles,
   getPath,
-  setJsonArray,
-  setActiveTabId,
 } from './actions';
-
 import {
   // TestComponent,
   TestComponentProps,
@@ -27,18 +24,10 @@ import { TabComponent } from './components/tabComponent/TabComponent';
 import { Likes, TaskProgressBar } from 'lib-productivio';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import uuid from 'react-uuid';
-import { v4 as uuidv4 } from 'uuid';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import axios from 'src/lib/axios';
-import { SERVER_BASE_URL } from 'src/config/Config';
-import { parseTsxToJson } from 'src/utils/parser/TsxToJson';
-import { TabProps } from './components/tabComponent/TabComponent';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
-
-const BASE_URL =
-  'C:\\Users\\fernando.valerio\\Desktop\\workspace\\dev\\web-productivio';
 
 export const Column = ({ children, className, title }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -220,36 +209,6 @@ export const Editor = () => {
   const onLayoutChange = (newLayout: Item[]) => {
     setLayout(newLayout);
   };
-
-  const { modules } = useSelector((state: any) => state.editor);
-
-  // useEffect(() => {
-  //   axios
-  //     .request({
-  //       url: `file/${DEFAULT_TAB_PATH}`,
-  //       method: 'GET',
-  //       baseURL: SERVER_BASE_URL,
-  //     })
-  //     .then((response) => {
-  //       debugger;
-  //       const defaultModuleCode = response.data;
-  //       console.log(defaultModuleCode);
-  //       const defaultTabId = uuidv4();
-  //       const defaultTab = parseTsxToJson(defaultModuleCode, defaultTabId);
-  //       dispatch(setJsonArray([...modules, defaultTab]));
-  //       dispatch(setActiveTabId(defaultTabId));
-
-  //       const newDefaultTab = {
-  //         tabId: defaultTabId,
-  //         tabLabel: defaultTab.component.name,
-  //         tabContent: defaultTab.component.content,
-  //       };
-
-  //       const newTabs = [newDefaultTab];
-  //       setTabs(newTabs);
-  //       console.log(newDefaultTab);
-  //     });
-  // }, []);
 
   return (
     <DndProvider backend={HTML5Backend}>
