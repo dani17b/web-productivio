@@ -82,7 +82,7 @@ export const Editor = () => {
   const [ path, setPath ] = useState(null);
   const dispatch = useDispatch();
   const [files, setFiles] = useState([]);
-  const [modules, setModules] = useState([]);
+  const [modulesList, setModulesList] = useState([]);
   const [setComponentCodeList] = useState([]);
 
   const fetchAndSetComponentCode = useCallback(async () => {
@@ -177,7 +177,7 @@ export const Editor = () => {
         const path = await getPath();
         const data = await getFiles(path);
 
-        setModules(data);
+        setModulesList(data);
         console.log(data);
       } catch (error) {
         console.log(error);
@@ -200,7 +200,7 @@ export const Editor = () => {
     };
     fetchData();
   }, []);
-  const [inputValue, setInputValue] = useState('');
+  
 
   const componentDef = parse(`export const ScreenSample = () => {
         return (
@@ -281,8 +281,8 @@ export const Editor = () => {
   const moduleList = () => {
     return (
       <div>
-        {modules.length > 0 &&
-          modules.map((file, index) => {
+        {modulesList.length > 0 &&
+          modulesList.map((file, index) => {
             return (
               <MovableItem
                 key={index}
