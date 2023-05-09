@@ -163,9 +163,7 @@ export const TabComponent = (props: TabProps) => {
         baseURL: SERVER_BASE_URL,
       })
       .then((response) => {
-        debugger;
         const defaultModuleCode = response.data;
-        console.log(defaultModuleCode);
         const defaultTabId = uuidv4();
         const defaultTab = parseTsxToJson(defaultModuleCode, defaultTabId);
         dispatch(setJsonArray([...modules, defaultTab]));
@@ -179,7 +177,6 @@ export const TabComponent = (props: TabProps) => {
 
         const newTabs = [newDefaultTab];
         setTabs(newTabs);
-        console.log(newDefaultTab);
       });
   }, []);
 
