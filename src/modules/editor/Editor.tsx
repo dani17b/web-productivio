@@ -89,35 +89,35 @@ export const Editor = () => {
     console.log('modules', modules[0]);
     setArrayTest(modules);
   }, [modules]);
-  const fetchAndSetComponentCode = useCallback(async () => {
-    if (files.length === 0) return;
+  // const fetchAndSetComponentCode = useCallback(async () => {
+  //   if (files.length === 0) return;
 
-    try {
-      const codePromises = files.map(async (file) => {
-        const filePath = file.path;
-        const fileName = file.name + '.tsx';
-        try {
-          const code = await dispatch(getCode(filePath, fileName));
-          return code;
-        } catch (error) {
-          console.error(`Error al obtener el código para ${fileName}`, error);
-        }
-      });
+  //   try {
+  //     const codePromises = files.map(async (file) => {
+  //       const filePath = file.path + file.name + '.tsx';
+  //       const fileName = file.name + '.tsx';
+  //       // try {
+  //       //   const code = await dispatch(getCode(filePath));
+  //       //   return code;
+  //       // } catch (error) {
+  //       //   console.error(`Error al obtener el código para ${fileName}`, error);
+  //       // }
+  //     });
 
-      const results = await Promise.all(codePromises);
-      const filteredCodeList = results.filter((code) => code);
-      setComponentCodeList(filteredCodeList);
-    } catch (error) {
-      console.error(
-        'Error al obtener el código para todos los componentes',
-        error
-      );
-    }
-  }, [dispatch, files]);
+  //     const results = await Promise.all(codePromises);
+  //     //const filteredCodeList = results.filter((code) => code);
+  //     setComponentCodeList(filteredCodeList);
+  //   } catch (error) {
+  //     console.error(
+  //       'Error al obtener el código para todos los componentes',
+  //       error
+  //     );
+  //   }
+  // }, [dispatch, files]);
 
-  useEffect(() => {
-    fetchAndSetComponentCode();
-  }, [files, fetchAndSetComponentCode]);
+  // useEffect(() => {
+  //   fetchAndSetComponentCode();
+  // }, [files, fetchAndSetComponentCode]);
 
   const handleSave = (file: any) => {
     getFiles(projectPath)
@@ -245,8 +245,7 @@ export const Editor = () => {
       <div>
         {files.map((file, index) => {
           let path = file.path + '/' + file.name + '.tsx';
-          //let code = await getCode(file.path, `${file.name}.tsx`);
-          console.log('path modules', path);
+          //let code = await getCode(file.path, `${file.name}.tsx`)
           return (
             <MovableItem key={index} path={path}>
               {file.name}
@@ -261,9 +260,6 @@ export const Editor = () => {
   const addComponentToJson = async (item: any) => {
     console.log('item', item);
     let code = await getCode(item.componentPath);
-    console.log('code', code);
-    console.log('modules', modules[0]);
-    console.log('files', files);
     modules[0].component.returnedContent.dom.children.push(
       parseTsxToChild(item.componentName, item.componentPath, code)
     );
@@ -278,8 +274,6 @@ export const Editor = () => {
       <div>
         {modulesFile.map((file, index) => {
           let path = file.path + '/' + file.name + '.tsx';
-          //let code = await getCode(file.path, `${file.name}.tsx`);
-          console.log('path modules', path);
           return (
             <MovableItem key={index} path={path}>
               {file.name}
