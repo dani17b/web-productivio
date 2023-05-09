@@ -377,12 +377,15 @@ export const Editor = () => {
           </div>
 
           <div className="editor-header">
-            <input
+            
+          </div>
+        </Column>
+        <Column>
+        <input
               onChange={(e) => setInputValue(e.target.value)}
               value={inputValue}
             ></input>
             <button onClick={handleSave}>Guardar</button>
-          </div>
         </Column>
         <div
           className="editor__element"
