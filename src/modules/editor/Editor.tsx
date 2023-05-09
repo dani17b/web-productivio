@@ -16,11 +16,7 @@ import {
   getFiles,
   getPath,
 } from './actions';
-import { ComponentsList } from './components/componentList/ComponentList';
-import {
-  TestComponent,
-  TestComponentProps,
-} from 'src/components/propsEditor/TestComponent';
+
 import { TabComponent } from './components/tabComponent/TabComponent';
 import { parseJsonToTsx } from 'src/utils/parser/JsonToTsx';
 import { parseJsonToScss } from 'src/utils/parser/JsonToScss';
@@ -344,7 +340,6 @@ export const Editor = () => {
                     setSelectedElement(element);
                   },
                 })}{' '}
-                <TestComponent text={text} style={styles} />
               </div>
             }
           />

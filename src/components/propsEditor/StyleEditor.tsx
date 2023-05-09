@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { TestComponentProps } from './TestComponent';
+import { TestStyleComponentProps } from './TestStyleComponent';
 
 interface StyleEditorProps {
   initialStyles: { [key: string]: string };
-  onStylesChange: (styles: TestComponentProps['style']) => void;
+  onStylesChange: (styles: TestStyleComponentProps['style']) => void;
 }
 
 export const StyleEditor: React.FC<StyleEditorProps> = ({
