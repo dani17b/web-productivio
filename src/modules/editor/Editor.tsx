@@ -80,44 +80,7 @@ export const Editor = () => {
   const dispatch = useDispatch();
   const [files, setFiles] = useState([]);
   const [modulesFile, setModulesFile] = useState([]);
-  const [setComponentCodeList] = useState([]);
   const { modules } = useSelector((state: any) => state.editor);
-
-  let [arrayTest, setArrayTest] = useState([]);
-
-  useEffect(() => {
-    console.log('modules', modules[0]);
-    setArrayTest(modules);
-  }, [modules]);
-  // const fetchAndSetComponentCode = useCallback(async () => {
-  //   if (files.length === 0) return;
-
-  //   try {
-  //     const codePromises = files.map(async (file) => {
-  //       const filePath = file.path + file.name + '.tsx';
-  //       const fileName = file.name + '.tsx';
-  //       // try {
-  //       //   const code = await dispatch(getCode(filePath));
-  //       //   return code;
-  //       // } catch (error) {
-  //       //   console.error(`Error al obtener el código para ${fileName}`, error);
-  //       // }
-  //     });
-
-  //     const results = await Promise.all(codePromises);
-  //     //const filteredCodeList = results.filter((code) => code);
-  //     setComponentCodeList(filteredCodeList);
-  //   } catch (error) {
-  //     console.error(
-  //       'Error al obtener el código para todos los componentes',
-  //       error
-  //     );
-  //   }
-  // }, [dispatch, files]);
-
-  // useEffect(() => {
-  //   fetchAndSetComponentCode();
-  // }, [files, fetchAndSetComponentCode]);
 
   const handleSave = (file: any) => {
     getFiles(projectPath)
@@ -240,6 +203,7 @@ export const Editor = () => {
     setLayout(newLayout);
   };
 
+  //list of components to show in the left column
   const componentList = () => {
     return (
       <div>
@@ -257,6 +221,7 @@ export const Editor = () => {
   };
   const [showComponentButton, setComponentButton] = useState(true);
 
+  //funtion to add children to the json in redux when on drop element
   const addComponentToJson = async (item: any) => {
     console.log('item', item);
     let code = await getCode(item.componentPath);
