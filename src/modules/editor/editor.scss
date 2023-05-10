@@ -18,7 +18,7 @@
     }
 
     &__element {
-        width: 250px;
+        width: 275px;
         transition: 0.5s ease all;
     }
 
@@ -44,4 +44,9 @@
 
 .layout-item {
     border: 2px solid black;
+}
+
+.columna-mia {
+    display: flex;
+    flex-direction: column;
 }
