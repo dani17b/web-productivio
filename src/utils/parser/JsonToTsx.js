@@ -3,9 +3,9 @@
  * @returns String/string  with all the component`s code
  */
 export function parseJsonToTsx(json) {
-  let result = '';
+  let result = '//@ts-ignore \n';
   result += createImportsFromJson(json.imports);
-  result += `\n ${createComponentsFromJson([json.component])}`;
+  result += `\n${createComponentsFromJson([json.component])};`;
 
   return result;
 }
@@ -40,7 +40,7 @@ function createTsxDom(domJson) {
   const { type, children, attributes } = domJson.dom;
   let result = `<${type}`;
   attributes.map((attribute) => {
-    result += ` ${attribute.key} = ${attribute.value}`;
+    result += ` ${attribute.key} = "${attribute.value}"`;
   });
 
   result += '>';

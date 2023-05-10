@@ -1,4 +1,4 @@
-import './blankModule.scss';
+
 
 export const blankModule = () => {
   return (
