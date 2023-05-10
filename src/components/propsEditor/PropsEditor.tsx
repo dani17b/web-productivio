@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { TestComponentProps } from './TestComponent';
+import { MyComponentProps } from './TestComponent';
 
 interface PropsEditorProps {
   initialText: string;
-  onTextChange: (text: TestComponentProps['text']) => void;
+  onTextChange: (text: MyComponentProps['text']) => void;
 }
 
 export const PropsEditor: React.FC<PropsEditorProps> = ({
