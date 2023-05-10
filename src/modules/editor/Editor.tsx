@@ -2,17 +2,16 @@
 /* eslint-disable max-len */
 import React from 'react';
 import './editor.scss';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { DndProvider, useDrag } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { parse, buildJsx } from '../../lib/tsx-builder';
 import { InfoPanel } from './components/infoPanel/InfoPanel';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getComponents,
   postFile,
   updateFile,
-  getCode,
   getFiles,
   getPath,
 } from './actions';
@@ -20,27 +19,27 @@ import {
 import { TabComponent } from './components/tabComponent/TabComponent';
 import { parseJsonToTsx } from 'src/utils/parser/JsonToTsx';
 import { parseJsonToScss } from 'src/utils/parser/JsonToScss';
-import { Likes, TaskProgressBar } from 'lib-productivio';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import uuid from 'react-uuid';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import { TabSelector } from './components/tabComponent/TabSelector';
+import { MyComponentProps } from 'src/components/propsEditor/TestComponent';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export const Column = ({ children, className, title }) => {
-  const [{ canDrop, isOver }, drop] = useDrop({
-    accept: 'TYPE',
-    drop: () => ({ name: 'Some name' }),
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
-    }),
-  });
+  // const [{ canDrop, isOver }, drop] = useDrop({
+  //   accept: 'TYPE',
+  //   drop: () => ({ name: 'Some name' }),
+  //   collect: (monitor) => ({
+  //     isOver: monitor.isOver(),
+  //     canDrop: monitor.canDrop(),
+  //   }),
+  // });
 
   return (
-    <div ref={drop} className={className}>
+    <div className={className}>
       {title}
       {children}
     </div>
@@ -50,7 +49,7 @@ export const Column = ({ children, className, title }) => {
 export const MovableItem = ({ children, onClick }) => {
   const [{ isDragging }, drag] = useDrag({
     item: { name: 'Any custom name' },
-          type: 'TYPE',
+    type: 'TYPE',
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -78,7 +77,7 @@ export const Editor = () => {
   const dispatch = useDispatch();
   const [files, setFiles] = useState([]);
   const [modulesList, setModulesList] = useState([]);
-  const [setComponentCodeList] = useState([]);
+
 
   //Devuelve un Json con array de objetos con información de los módulos
   useEffect(() => {
@@ -112,7 +111,7 @@ export const Editor = () => {
 
   //Recoge el objeto que se va a guardar y comprueba si existe en el back para decidir si hace un post o update
   const saveOrUpdate = (build) => {
-    const { filename, content } = build;
+    const { filename } = build;
     getFiles(path)
       .then((data: any) => {
         const fileExists = data.find((obj: any) => obj.name === filename);
@@ -167,7 +166,7 @@ export const Editor = () => {
         );
     }`);
 
-  const [styles, setStyles] = useState<TestComponentProps['style']>([
+  const [styles, setStyles] = useState<MyComponentProps['style']>([
     {
       color: '#1b1918',
       backgroundColor: '#C70039',
@@ -175,7 +174,7 @@ export const Editor = () => {
       textAlign: 'center',
     },
   ]);
-  const [text, setText] = useState<TestComponentProps['text']>('Hello World!');
+  const [text, setText] = useState<MyComponentProps['text']>('Hello World!');
 
   interface Item {
     i: string;
@@ -184,7 +183,7 @@ export const Editor = () => {
     w: number;
     h: number;
   }
-  const AddGridItem = (component: JSX.Element) => {
+  const AddGridItem = (component: any ) => {
     const newItemUUID = uuid();
 
     setLayout((prevLayout) => [
@@ -196,13 +195,11 @@ export const Editor = () => {
   };
 
   const [layout, setLayout] = useState([
-    { i: uuid(), x: 0, y: 0, w: 1.5, h: 1, static: false, maxH: 30 },
-    { i: uuid(), x: 0, y: 0, w: 3, h: 3, static: false, maxH: 30 },
+   
   ]);
 
   const [lists, setLists] = useState([
-    { i: layout[0].i, component: <Likes totalLikes={100} likedByMe={false} /> },
-    { i: layout[1].i, component: <TaskProgressBar /> },
+   
   ]);
 
   const onLayoutChange = (newLayout: Item[]) => {
@@ -221,7 +218,6 @@ export const Editor = () => {
                 key={index}
                 onClick={async (e) => {
                   let path = file.path + '/' + file.name + '.tsx';
-                  let code = await getCode(file.path, `${file.name}.tsx`);
                   const Component = await load(path, file.name);
                   AddGridItem(<Component />);
                 }}
@@ -247,7 +243,6 @@ export const Editor = () => {
                 key={index}
                 onClick={async (e) => {
                   let path = file.path + '/' + file.name + '.tsx';
-                  let code = await getCode(file.path, `${file.name}.tsx`);
                   const Component = await load(path, file.name);
                   AddGridItem(<Component />);
                 }}

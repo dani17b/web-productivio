@@ -52,7 +52,7 @@ export const RoundButton: React.FC<RoundButtonProps> = (props) => {
     }
   };
 
-  let IconComponent = FaBan;
+  let IconComponent = FaPlus;
   switch (iconName) {
     case 'AddPerson':
       IconComponent = FaUserPlus;
