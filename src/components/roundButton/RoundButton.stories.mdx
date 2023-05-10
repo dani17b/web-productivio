@@ -1,0 +1,38 @@
+import { Meta, Story, Canvas, Props, ArgsTable } from '@storybook/addon-docs';
+import { RoundButton } from './RoundButton';
+
+<Meta title="Components/Content/RoundButton" component={RoundButton} />
+
+# RoundButton
+
+RoundButton is a component that can be used to make a round button with different background color, a set of icons and a function to execute.
+
+<Props of={RoundButton} />
+
+export const Template = (args) => (
+  <RoundButton
+    onClick={args.onClick}
+    iconName={args.iconName}
+    bgColor={args.bgColor}
+  />
+);
+export const Basic = Template.bind({});
+
+## Basic
+
+<Canvas>
+  <Story
+    name="Basic"
+    args={{
+        iconName:'AddPerson',
+        bgColor:'#f0f0f0'
+    }}
+    actions={{
+      onClick: 'onClick',
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Basic" />

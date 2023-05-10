@@ -1,0 +1,29 @@
+import { Meta, Story, Canvas, Props, ArgsTable } from '@storybook/addon-docs';
+import { SendButton } from './SendButton';
+
+<Meta title="Components/Content/SendButton" component={SendButton} />
+
+# SendButton
+
+SendButton component.
+
+<Props of={SendButton} />
+
+export const Template = (args) => (
+  <SendButton sendButton={args.sendButton} />
+);
+
+## Basic
+
+<Canvas>
+  <Story
+    name="Basic"
+    args={{
+      
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Basic" />

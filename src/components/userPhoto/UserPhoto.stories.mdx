@@ -1,0 +1,31 @@
+import { Meta, Story, Canvas, Props, ArgsTable } from '@storybook/addon-docs';
+import { UserPhoto } from './UserPhoto';
+
+<Meta title="Components/Content/UserPhoto" component={UserPhoto} />
+
+# UserImage
+
+UserImage component to render in the project a photo with variable colour borders and in round format. 
+
+<Props of={UserPhoto} />
+
+export const Template = (args) => (
+  <UserPhoto imageSrc={args.imageSrc} borderColor={args.borderColor} />
+);
+
+## Basic
+
+<Canvas>
+  <Story
+    name="Basic"
+    args={{
+      imageSrc:
+        'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80',
+      borderColor: 'red',
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Basic" />

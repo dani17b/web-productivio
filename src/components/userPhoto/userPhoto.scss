@@ -1,0 +1,30 @@
+.user-photo {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__circle-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  &__circle-image {
+    width: inherit;
+    height: inherit;
+    object-fit: cover;
+  }
+}

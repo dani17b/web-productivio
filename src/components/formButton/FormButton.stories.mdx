@@ -1,0 +1,56 @@
+import { Meta, Story, Canvas, Props, ArgsTable } from '@storybook/addon-docs';
+import { FormButton } from './FormButton';
+
+<Meta title="Components/Content/FormButton" component={FormButton} />
+
+# FormButton
+
+Reusable button originally created to use in forms. Its text can be changed
+according to its functionality, which can also be changed based on what the
+programmer needs.
+
+<Props of={FormButton} />
+
+export const Template = (args) => (
+  <FormButton
+    buttonText={args.buttonText}
+    fontSize={args.fontSize}
+    buttonColor={args.buttonColor}
+    buttonWidth={args.buttonWidth}
+  />
+);
+
+## Basic
+
+<Canvas>
+  <Story
+    name="Basic"
+    argTypes={{
+      buttonColor: {
+        table: {
+          defaultValue: { summary: '#1a3891' },
+        },
+      },
+      fontSize: {
+        table: {
+          defaultValue: { summary: 12 },
+        },
+      },
+      buttonWidth: {
+        table: {
+          defaultValue: { summary: '40' },
+        },
+      },
+    }}
+    args={{
+      buttonText: 'Text displayed inside the button',
+      fontSize: 'Changes the font size',
+      buttonColor: '#1a3891',
+      buttonWidth: '40px',
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable of={FormButton} story="Basic" />
