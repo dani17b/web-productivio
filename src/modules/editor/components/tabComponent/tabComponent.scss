@@ -25,9 +25,35 @@
     }
   }
 
-  &__tab-content {
-    padding: 1rem;
+  &__group {
+    display: flex;
+    flex-direction: row;
+    width: 80px;
+  }
 
+  &__tab-content {
+    height: 0px;
+    visibility: hidden;
+
+    &>div {
+      padding: 0;
+    }
+  }
+
+  &__trial-button-container {
+    display: flex;
+
+    &>svg {
+      height: 30px;
+      width: 30px;
+      margin: 0px 10px;
+      color: #000;
+      cursor: pointer;
+
+      &:hover {
+        color: #ffea00;
+      }
+    }
   }
 
   .css-aym9vq-MuiButtonBase-root-MuiTab-root {
@@ -39,5 +65,25 @@
 
   .css-heg063-MuiTabs-flexContainer {
     gap: 15px;
+  }
+
+  .element-wrapper {
+    visibility: none;
+
+    &>div {
+      display: none;
+    }
+
+    &__buttons {
+      display: block !important;
+
+      &-item {
+        visibility: visible;
+
+        &:last-child {
+          display: none;
+        }
+      }
+    }
   }
 }
