@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './tabSelector.scss';
 
 interface TabSelectorProps {
   tabNames: string[];
@@ -17,9 +18,13 @@ export const TabSelector: React.FC<TabSelectorProps> = ({
 
   return (
     <div>
-      <div>
+      <div className="left-column-buttons">
         {tabNames.map((name, index) => (
-          <button key={index} onClick={() => handleTabClick(index)}>
+          <button
+            className="left-column-buttons__button"
+            key={index}
+            onClick={() => handleTabClick(index)}
+          >
             {name}
           </button>
         ))}
