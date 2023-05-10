@@ -4,9 +4,8 @@ import React from 'react';
 import './editor.scss';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { parse /* buildJsx */ } from '../../lib/tsx-builder';
 import { InfoPanel } from './components/infoPanel/InfoPanel';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getComponents,
@@ -15,117 +14,104 @@ import {
   getCode,
   getFiles,
   getPath,
+  setJsonArray,
 } from './actions';
-import {
-  // TestComponent,
-  TestComponentProps,
-} from 'src/components/propsEditor/TestComponent';
 import { TabComponent } from './components/tabComponent/TabComponent';
-import { Likes, TaskProgressBar } from 'lib-productivio';
+import { parseJsonToTsx } from 'src/utils/parser/JsonToTsx';
+import { parseJsonToScss } from 'src/utils/parser/JsonToScss';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import uuid from 'react-uuid';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
+import { parseTsxToChild } from 'src/utils/parser/TsxToJson';
+import { MyComponentProps } from 'src/components/propsEditor/TestComponent';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-export const Column = ({ children, className, title }) => {
-  const [{ canDrop, isOver }, drop] = useDrop({
+interface FileType {
+  path: string;
+  name: string;
+}
+export const Column = ({ children, className, title, onAddComponent }) => {
+  const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: 'TYPE',
-    drop: () => ({ name: 'Some name' }),
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
-    }),
-  });
+    drop: (item, monitor) => {
+      //const offset = monitor.getClientOffset();
 
-  console.log('options', { canDrop, isOver });
+      onAddComponent(item);
+    },
+  }));
+
+  const isActive = canDrop && isOver;
+  const backgroundColor = isActive ? 'rgba(0, 255, 0, 0.1)' : 'transparent';
 
   return (
-    <div ref={drop} className={className}>
+    <div ref={drop} className={className} style={{ backgroundColor }}>
       {title}
       {children}
     </div>
   );
 };
-
-export const MovableItem = ({ children, onClick }) => {
-  const [{ isDragging }, drag] = useDrag({
-    item: { name: 'Any custom name' },
+export const MovableItem = ({ children, path }) => {
+  const [{ isDragging }, drag] = useDrag(() => ({
     type: 'TYPE',
+    item: {
+      componentName: children,
+      componentPath: path,
+    },
+
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
-  });
+  }));
 
   const opacity = isDragging ? 0.4 : 1;
 
   return (
-    <div
-      ref={drag}
-      className="movable-item"
-      style={{ opacity }}
-      onClick={onClick}
-    >
+    <div ref={drag} className="movable-item" style={{ opacity }}>
       {children}
     </div>
   );
 };
-
 export const Editor = () => {
   const [selectedElement, setSelectedElement] = useState(null);
+  const [inputValue, setInputValue] = useState('');
+  const { modules } = useSelector((state: any) => state.editor);
+  const [path, setPath] = useState(null);
   const dispatch = useDispatch();
-  const { files } = useSelector((state) => state.editor);
-  const { code } = useSelector((state) => state.code);
-  const [setComponentCodeList] = useState([]);
-  /*const objectNames = files.map((file) => file.name);*/
+  const [components, setComponents] = useState([]);
+  const [modulesFile, setModulesFile] = useState([]);
+  const [showComponentButton, setComponentButton] = useState(true);
 
-  console.log('code', code);
-  /*
-  useEffect(() => {
-    dispatch(getFiles(BASE_URL));
-  }, [dispatch]);
-*/
-  const fetchAndSetComponentCode = useCallback(async () => {
-    if (files.length === 0) return;
+  //Se ejecuta al darle al botón de guardar y contiene dos métodos que construyen los Json que necesita el back para guardar un archivo
+  const handleSave = () => {
+    const buildTsxJsonToSave = {
+      filename: inputValue + '.tsx',
+      content: parseJsonToTsx(modules[0]),
+    };
+    saveOrUpdate(buildTsxJsonToSave);
+    console.log('tsx', buildTsxJsonToSave);
 
-    try {
-      const codePromises = files.map(async (file) => {
-        const filePath = file.path;
-        const fileName = file.name + '.tsx';
-        try {
-          const code = await dispatch(getCode(filePath, fileName));
-          return code;
-        } catch (error) {
-          console.error(`Error al obtener el código para ${fileName}`, error);
-        }
-      });
+    const buildScssJsonToSave = {
+      filename: inputValue + '.scss',
+      content: parseJsonToScss(modules[0]),
+    };
+    console.log('css', buildScssJsonToSave);
+    saveOrUpdate(buildScssJsonToSave);
+  };
 
-      const results = await Promise.all(codePromises);
-      const filteredCodeList = results.filter((code) => code);
-      setComponentCodeList(filteredCodeList);
-    } catch (error) {
-      console.error(
-        'Error al obtener el código para todos los componentes',
-        error
-      );
-    }
-  }, [dispatch, files]);
-
-  useEffect(() => {
-    fetchAndSetComponentCode();
-  }, [files, fetchAndSetComponentCode]);
-
-  const handleSave = (file: any) => {
-    getFiles(projectPath)
+  //Recoge el objeto que se va a guardar y comprueba si existe en el back para decidir si hace un post o update
+  const saveOrUpdate = (build) => {
+    const { filename } = build;
+    getFiles(path)
       .then((data: any) => {
-        const fileExists = data.find((obj: any) => obj.name === inputValue);
+        const fileExists = data.find((obj: any) => obj.name === filename);
         if (fileExists) {
           console.log('El archivo existe');
-          dispatch(updateFile(file));
+          dispatch(updateFile(build));
         } else {
           console.log('El archivo no existe');
-          dispatch(postFile(file));
+          dispatch(postFile(build));
           return false;
         }
       })
@@ -134,41 +120,47 @@ export const Editor = () => {
       });
   };
 
+  //Devuelve un Json con array de objetos con información de componentes
+  const fetchComponents = async () => {
+    try {
+      const path = await getPath();
+      const data = await getComponents(path);
+      setComponents(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //Devuelve un Json con array de objetos con información de los módulos
+  const fetchModules = async () => {
+    try {
+      const path = await getPath();
+      const data = await getFiles(path);
+      setModulesFile(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //Devuelve un Json con array de objetos con información de los módulos
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const path = await getPath();
-        const data = await getFiles(path);
-        console.log(data);
+        const response = await getPath();
+        setPath(response);
       } catch (error) {
         console.log(error);
       }
     };
+    //TODO borrar en el merge de MARCOS y BRUNO
+    console.log('Addgrid', AddGridItem);
     fetchData();
+    fetchComponents();
+    fetchModules();
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const path = await getPath();
-        const data = await getComponents(path);
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
-  const [inputValue, setInputValue] = useState('');
-
-  const componentDef = parse(`export const ScreenSample = () => {
-        return (
-            <div>Hola mundo</div>
-        );
-    }`);
-
-  console.log(componentDef);
-  const [styles, setStyles] = useState<TestComponentProps['style']>([
+  const [styles, setStyles] = useState<MyComponentProps['style']>([
     {
       color: '#1b1918',
       backgroundColor: '#C70039',
@@ -176,7 +168,7 @@ export const Editor = () => {
       textAlign: 'center',
     },
   ]);
-  const [text, setText] = useState<TestComponentProps['text']>('Hello World!');
+  const [text, setText] = useState<MyComponentProps['text']>('Hello World!');
 
   interface Item {
     i: string;
@@ -185,134 +177,171 @@ export const Editor = () => {
     w: number;
     h: number;
   }
-  const AddGridItem = (component: JSX.Element) => {
+  const AddGridItem = async (item) => {
     const newItemUUID = uuid();
+
+    const gridColumnWidth = 150;
+    const gridRowHeight = 30;
+    const gridMargin = 0;
+
+    const gridX = Math.floor(item.x / (gridColumnWidth + gridMargin));
+    const gridY = Math.floor(item.y / (gridRowHeight + gridMargin));
 
     setLayout((prevLayout) => [
       ...prevLayout,
-      { i: newItemUUID, x: 0, y: 0, w: 1.5, h: 1, static: false, maxH: 30 },
+      {
+        i: newItemUUID,
+        x: gridX,
+        y: gridY,
+        w: 1.5,
+        h: 1,
+        static: false,
+        maxH: 30,
+      },
     ]);
 
-    setLists((prevLists) => [...prevLists, { i: newItemUUID, component }]);
+    const componentName = item.componentName;
+    const path = item.componentPath;
+
+    const Component = await load(path, componentName);
+    console.log('component', Component);
+    setLists((prevLists) => [
+      ...prevLists,
+      { i: newItemUUID, component: <Component /> },
+    ]);
   };
 
-  const [layout, setLayout] = useState([
-    { i: uuid(), x: 0, y: 0, w: 1.5, h: 1, static: false, maxH: 30 },
-    { i: uuid(), x: 0, y: 0, w: 3, h: 3, static: false, maxH: 30 },
-  ]);
+  const [layout, setLayout] = useState([]);
 
-  const [lists, setLists] = useState([
-    { i: layout[0].i, component: <Likes totalLikes={100} likedByMe={false} /> },
-    { i: layout[1].i, component: <TaskProgressBar /> },
-  ]);
+  const [lists, setLists] = useState([]);
 
   const onLayoutChange = (newLayout: Item[]) => {
     setLayout(newLayout);
+  };
+
+  //funtion to add children to the json in redux when on drop element
+  const addComponentToJson = async (item: any) => {
+    console.log('item', item);
+    let code = await getCode(item.componentPath);
+    modules[0].component.returnedContent.dom.children.push(
+      parseTsxToChild(item.componentName, item.componentPath, code)
+    );
+    console.log('modules', modules[0]);
+
+    dispatch(setJsonArray(modules));
+  };
+
+  //This function render the module list from the project
+  const elementList = (list: FileType[]) => {
+    return (
+      <div>
+        {list.map((file, index) => {
+          let path = file.path + '/' + file.name + '.tsx';
+          return (
+            <MovableItem key={index} path={path}>
+              {file.name}
+            </MovableItem>
+          );
+        })}
+      </div>
+    );
   };
 
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="editor">
         <div className="editor__components">
-          <Column>
-            {files.map((file, index) => {
-              console.log('file', file);
-              return (
-                <MovableItem
-                  key={index}
-                  onClick={async (e) => {
-                    let path =
-                      file.path.slice(file.path.indexOf('/') + 1) +
-                      '/' +
-                      file.name +
-                      '.tsx';
-
-                    const Component = await load(path, file.name);
-                    AddGridItem(<Component />);
-                  }}
-                >
-                  {file.name}
-                </MovableItem>
-              );
-            })}
-          </Column>
+          <button
+            onClick={() => {
+              setComponentButton(true);
+            }}
+          >
+            components
+          </button>
+          <button
+            onClick={() => {
+              setComponentButton(false);
+            }}
+          >
+            modules
+          </button>
+          {showComponentButton && components && (
+            <Column>{elementList(components)}</Column>
+          )}
+          {!showComponentButton && modulesFile && (
+            <Column>{elementList(modulesFile)}</Column>
+          )}
         </div>
-        <Column
-          className="editor__canvas"
-          children={undefined}
-          title={undefined}
-        >
-          {/* {buildJsx(componentDef.components[0].dom, {
-            selectElement: (element) => {
-              console.log('edit element', element);
-              setSelectedElement(element);
-            },
-            removeElement: (element) => {
-              console.log('remove element', element);
-              setSelectedElement(element);
-            }, */}
-          {/* })} */}
-          {/*  */}
+        <div>
           <TabComponent
-            tabLabel={'Default'}
-            // tabContent={
-            //   ''
-            //   // <div className="editor__canvas__wrapper">
-            //   //   {buildJsx(componentDef.components[0].dom, {
-            //   //     selectElement: (element) => {
-            //   //       console.log('edit element', element);
-            //   //       setSelectedElement(element);
-            //   //     },
-            //   //     removeElement: (element) => {
-            //   //       console.log('remove element', element);
-            //   //       setSelectedElement(element);
-            //   //     },
-            //   //   })}{' '}
-            //   //   <TestComponent text={text} style={styles} />
-            //   // </div>
-            // }
+            tabLabel="Hello World"
+            tabContent={
+              <div className="editor__canvas__wrapper">
+                {/* {buildJsx(componentDef.components[0].dom, {
+                  selectElement: (element) => {
+                    console.log('edit element', element);
+                    setSelectedElement(element);
+                  },
+                  removeElement: (element) => {
+                    console.log('remove element', element);
+                    setSelectedElement(element);
+                  },
+                })}{' '} */}
+              </div>
+            }
           />
-
-          <div className="layout-grid">
-            <ResponsiveGridLayout
-              className="layout"
-              autoSize={false}
-              layouts={{ lg: layout }}
-              onLayoutChange={onLayoutChange}
-              margin={[0, 0]}
-              containerPadding={[0, 0]}
-              isBounded={true}
-              rowHeight={30}
-              isResizable={true}
+          {modules.length > 0 ? (
+            <Column
+              className="editor__canvas"
+              children={undefined}
+              title={undefined}
+              onAddComponent={addComponentToJson}
             >
-              {layout.map((lay) => (
-                <div
-                  key={lay.i}
-                  id={lay.i}
-                  className="movable-item"
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    boxSizing: 'border-box',
-                  }}
+              <div className="layout-grid">
+                <ResponsiveGridLayout
+                  className="layout"
+                  autoSize={false}
+                  layouts={{ lg: layout }}
+                  onLayoutChange={onLayoutChange}
+                  margin={[0, 0]}
+                  containerPadding={[0, 0]}
+                  isBounded={true}
+                  rowHeight={30}
+                  isResizable={true}
                 >
-                  <div>
-                    {lists.find((item) => lay.i === item.i)?.componentName}
-                  </div>
-                  {lists.find((item) => lay.i === item.i)?.component}
-                </div>
-              ))}
-            </ResponsiveGridLayout>
-          </div>
+                  {layout.map((lay) => (
+                    <div
+                      key={lay.i}
+                      id={lay.i}
+                      className="movable-item"
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        boxSizing: 'border-box',
+                      }}
+                    >
+                      <div>
+                        {lists.find((item) => lay.i === item.i)?.componentName}
+                      </div>
+                      {lists.find((item) => lay.i === item.i)?.component}
+                    </div>
+                  ))}
+                </ResponsiveGridLayout>
+              </div>
+            </Column>
+          ) : (
+            ''
+          )}
+        </div>
 
-          <div className="editor-header">
-            <input
-              onChange={(e) => setInputValue(e.target.value)}
-              value={inputValue}
-            ></input>
-            <button onClick={handleSave}>Guardar</button>
-          </div>
+        <div className="editor-header"></div>
+        <Column>
+          <input
+            onChange={(e) => setInputValue(e.target.value)}
+            value={inputValue}
+          ></input>
+          <button onClick={handleSave}>Guardar</button>
         </Column>
         <div
           className="editor__element"
@@ -334,8 +363,10 @@ export const Editor = () => {
   );
 };
 
+//function to import the component
 async function load(path, componentName) {
-  let module = await import(`../${path}`);
+  let module = await import(`./../../${path}`);
   const component = module[componentName];
+  console.log('load', component);
   return component;
 }
