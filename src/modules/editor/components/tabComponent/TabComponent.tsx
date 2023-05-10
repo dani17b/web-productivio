@@ -79,6 +79,7 @@ export const TabComponent = (props: TabProps) => {
           tabLabel: jsonTab.component.name,
           tabContent: 'Holis',
         };
+        dispatch(setActiveTabId(newTab.tabId));
 
         const newTabs = [...tabs, newTab];
         console.log('Tab abierta: ', newTab.tabId);
@@ -107,7 +108,8 @@ export const TabComponent = (props: TabProps) => {
   /**
    * Sets the focus on the previous tab's content & deletes the closed module from the Json array
    */
-  const closeTab = (index: number) => {
+  const closeTab = (e: React.SyntheticEvent, index: number) => {
+    e.stopPropagation();
     const tabToClose = tabs[index];
     const newTabs = [...tabs];
     newTabs.splice(index, 1);
@@ -142,7 +144,7 @@ export const TabComponent = (props: TabProps) => {
     if (moduleToClose) {
       dispatch(deleteJsonFromArray(moduleToClose));
       console.log('Tab cerrada: ', moduleToClose);
-      dispatch(setActiveTabId(newTabs[index].tabId));
+      dispatch(setActiveTabId(newTabs[newTabIndex].tabId));
     }
   };
 
@@ -150,7 +152,7 @@ export const TabComponent = (props: TabProps) => {
    * Updates active tab id
    **/
   const handleSelected = (tabId: string) => {
-    //let selectedTabId = getSelectedTabId();
+    console.log('click');
     dispatch(setActiveTabId(tabId));
   };
 
@@ -210,7 +212,7 @@ export const TabComponent = (props: TabProps) => {
               icon={
                 <IoIosClose
                   className="tab-container__tab-row__close"
-                  onClick={() => closeTab(index)}
+                  onClick={(e) => closeTab(e, index)}
                 />
               }
               ref={(element) => (tabRefs.current[index] = element)}
