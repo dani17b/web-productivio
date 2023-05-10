@@ -1,6 +1,6 @@
 import './tabComponent.scss';
 import { v4 as uuidv4 } from 'uuid';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
 import { TabContext } from '@mui/lab';
@@ -93,9 +93,11 @@ export const TabComponent = (props: TabProps) => {
    */
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
+    const selectedTab = tabs[newValue];
+    console.log('Pestaña seleccionada:', selectedTab);
   };
 
-  //const contentRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const tabRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   // const handleContentRef =
   //   (index: number) => (element: HTMLDivElement | null) => {
@@ -118,9 +120,20 @@ export const TabComponent = (props: TabProps) => {
     setTabIndex(newTabIndex);
     setTabs(newTabs);
 
-    const focusedElement = document.activeElement as HTMLElement;
-    if (focusedElement && focusedElement !== document.body) {
-      focusedElement.focus();
+    const previousTabIndex = Math.max(0, newTabIndex - 1);
+
+    if (previousTabIndex >= 0 && tabRefs.current[previousTabIndex]) {
+      const previousTab = tabRefs.current[previousTabIndex];
+      previousTab?.focus();
+
+      console.log('Enfoque establecido en el tab anterior:', previousTab);
+      console.log('ID del tab anterior:', newTabs[previousTabIndex].tabId);
+    } else if (newTabs.length > 0 && tabRefs.current[newTabIndex]) {
+      const nextTab = tabRefs.current[newTabIndex];
+      nextTab?.focus();
+
+      console.log('Enfoque establecido en el siguiente tab:', nextTab);
+      console.log('ID del siguiente tab:', newTabs[newTabIndex].tabId);
     }
 
     const moduleToClose = modules.find(
@@ -200,16 +213,11 @@ export const TabComponent = (props: TabProps) => {
                   onClick={() => closeTab(index)}
                 />
               }
+              ref={(element) => (tabRefs.current[index] = element)}
             />
           ))}
         </Tabs>
-        {/* <div className="tab-container__tab-content">
-          {tabs.map((tab, index) => (
-            <TabPanel key={tab.tabId} value={index.toString()}>
-              <div ref={handleContentRef(index)}>{tab.tabContent}</div>
-            </TabPanel>
-          ))}
-        </div> */}
+        {/* In case it's needed, the TabPanel, which contains the content. Goes here. */}
       </TabContext>
     </div>
   );
