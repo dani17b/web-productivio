@@ -18,17 +18,22 @@ export const TabSelector: React.FC<TabSelectorProps> = ({
 
   return (
     <div>
-      <div className="left-column-buttons">
+      <select
+        className="left-column-dropdown"
+        value={selectedTab}
+        onChange={(event) => setSelectedTab(Number(event.target.value))}
+      >
         {tabNames.map((name, index) => (
-          <button
-            className="left-column-buttons__button"
+          <option
             key={index}
-            onClick={() => handleTabClick(index)}
+            value={index}
+            className="left-column-dropdown__option"
           >
             {name}
-          </button>
+          </option>
         ))}
-      </div>
+      </select>
+
       <div>{children[selectedTab]}</div>
     </div>
   );

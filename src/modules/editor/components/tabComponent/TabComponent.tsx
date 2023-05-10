@@ -118,14 +118,6 @@ export const TabComponent = (props: TabProps) => {
 
   return (
     <div className="tab-container">
-      <div className="tab-container__trial-button-container">
-        <button className="tab-container__trial-button" onClick={addPage}>
-          Open Page
-        </button>
-        <button className="tab-container__trial-button" onClick={addNewPage}>
-          New Page
-        </button>
-      </div>
       <TabContext value={tabIndex.toString()}>
         <Tabs
           className="tab-container__tab-row"
@@ -154,6 +146,14 @@ export const TabComponent = (props: TabProps) => {
           ))}
         </div>
       </TabContext>
+      <div className="tab-container__trial-button-container">
+        <button className="tab-container__trial-button" onClick={addPage}>
+          Open Page
+        </button>
+        <button className="tab-container__trial-button" onClick={addNewPage}>
+          New Page
+        </button>
+      </div>
     </div>
   );
 };

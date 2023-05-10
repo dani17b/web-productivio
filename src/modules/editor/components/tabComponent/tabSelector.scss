@@ -1,16 +1,32 @@
 @import 'src/vars.scss';
 
-.left-column-buttons {
+@mixin dropdown-style {
+    border: none;
+    outline: none;
+    background-color: $primary-color;
+    padding: 10px;
+    font-weight: 800;
+    font-size: 19px;
+    text-transform: uppercase;
+    border-radius: 0;
+}
+
+.left-column-dropdown {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    @include dropdown-style;
+    border-bottom: 2px solid #a4a4a4;
 
-    &__button {
-        border: none;
-        background-color: $primary-color;
-        // font-family: $title-font;
-        font-weight: 800;
-        font-size: 20px;
-        text-transform: uppercase;
+    &__option {
+        @include dropdown-style;
+        height: 25px;
+
+
+        &:hover {
+            box-shadow: 0 0 10px 100px #ff1100 inset;
+        }
     }
+
+
 
 }
