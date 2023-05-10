@@ -1,0 +1,19 @@
+.formButton {
+  display: inline-block;
+  // padding: 0.5em 1em;
+  background-color: #0074d9;
+  color: #fff;
+  font-size: 1em;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0062ac;
+  }
+
+  &:active {
+    background-color: #00508c;
+  }
+}

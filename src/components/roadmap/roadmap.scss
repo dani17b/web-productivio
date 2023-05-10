@@ -1,0 +1,71 @@
+.roadmap-container {
+  width: 100vw;
+  height: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  position: relative;
+  box-sizing: border-box;
+
+  &__left-column {
+    flex: 1;
+    position: absolute;
+    left: 20px;
+  }
+
+  &__center-column {
+    flex: 1;
+    position: absolute;
+    left: 120px;
+  }
+
+  &__right-column {
+    flex: 1;
+    flex-direction: row;
+    position: absolute;
+    left: 172px;
+  }
+
+  // Left column elements
+  &__date {
+    color: rgb(104, 101, 101);
+    font-size: 11pt;
+  }
+
+  // Center column elements
+  &__dot-line-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  &__dot {
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+  }
+
+  &__line {
+    position: absolute;
+    bottom: calc(100%);
+    width: 2px;
+    height: calc(50% + 66px);
+    background-color: rgb(190, 187, 187);
+  }
+
+  // Right column elements
+  &__task-name {
+    color: black;
+    font-size: 12pt;
+  }
+
+  &__difficulty {
+    color: rgb(104, 101, 101);
+    font-size: 10pt;
+  }
+}

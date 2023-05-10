@@ -1,0 +1,33 @@
+import { Meta, Story, Canvas, Props, ArgsTable } from '@storybook/addon-docs';
+import { InputWithLabel } from './InputWithLabel';
+
+<Meta title="Components/Content/InputWithLabel" component={InputWithLabel} />
+
+# Input With Label
+
+InputWithLabel component.
+
+<Props of={InputWithLabel} />
+
+export const Template = (args) => (
+  <InputWithLabel label={args.label} height={args.height} width={args.width} name={args.name} textColor={args.textColor} borderColor={args.borderColor} fontSize={args.fontSize} placeHolder={args.placeHolder} />
+);
+
+## Basic
+<Canvas>
+  <Story 
+    name="Basic"   
+    args={{
+        label : "Example",
+        height : 40,
+        width: 250,
+        name: "Example"
+    }}
+     
+  
+   >
+        {Template.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Basic" />

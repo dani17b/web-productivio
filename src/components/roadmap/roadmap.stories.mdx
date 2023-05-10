@@ -1,0 +1,37 @@
+import { Meta, Story, Canvas, Props, ArgsTable } from '@storybook/addon-docs';
+import { Roadmap } from './Roadmap';
+
+<Meta title="Components/Content/Roadmap" component={Roadmap} />
+
+# Roadmap
+
+Component tha includes information about the users tasks and level ups
+
+<Props of={Roadmap} />
+
+export const Template = (args) => (
+  <Roadmap
+    date={args.date}
+    name={args.name}
+    difficulty={args.difficulty}
+    bigStyle={args.bigStyle}
+  />
+);
+
+## Basic
+
+<Canvas>
+  <Story
+    name="Basic"
+    args={{
+      date: '2023-04-10',
+      name: 'Task name',
+      difficulty: 100,
+      bigStyle: false,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable of={Roadmap} story="Basic" />
