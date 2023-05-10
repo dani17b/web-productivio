@@ -81,38 +81,6 @@ export const Editor = () => {
   const [modulesList, setModulesList] = useState([]);
   const [setComponentCodeList] = useState([]);
 
-  const fetchAndSetComponentCode = useCallback(async () => {
-    if (files.length === 0) return;
-
-    try {
-      const codePromises = files.map(async (file) => {
-        const filePath = file.path;
-        const fileName = file.name + '.tsx';
-        try {
-          const code = await dispatch(getCode(filePath, fileName));
-          return code;
-        } catch (error) {
-          console.error(`Error al obtener el código para ${fileName}`, error);
-        }
-      });
-
-      const results = await Promise.all(codePromises);
-      const filteredCodeList = results.filter((code) => code);
-      setComponentCodeList(filteredCodeList);
-    } catch (error) {
-      console.error(
-        'Error al obtener el código para todos los componentes',
-        error
-      );
-    }
-  }, [dispatch, files]);
-
-  useEffect(() => {
-    fetchAndSetComponentCode();
-  }, [files, fetchAndSetComponentCode]);
-
-
-  
 
   //Devuelve un Json con array de objetos con información de los módulos
   useEffect(() => {
