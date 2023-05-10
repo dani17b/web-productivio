@@ -226,10 +226,7 @@ export const Editor = () => {
     { i: uuid(), x: 0, y: 0, w: 3, h: 3, static: false, maxH: 30 },
   ]);
 
-  const [lists, setLists] = useState([
-    { i: layout[0].i, component: <Likes totalLikes={100} likedByMe={false} /> },
-    { i: layout[1].i, component: <TaskProgressBar /> },
-  ]);
+  const [lists, setLists] = useState([]);
 
   const onLayoutChange = (newLayout: Item[]) => {
     setLayout(newLayout);
@@ -307,7 +304,7 @@ export const Editor = () => {
             tabLabel="Hello World"
             tabContent={
               <div className="editor__canvas__wrapper">
-                {buildJsx(componentDef.components[0].dom, {
+                {/* {buildJsx(componentDef.components[0].dom, {
                   selectElement: (element) => {
                     console.log('edit element', element);
                     setSelectedElement(element);
@@ -316,7 +313,7 @@ export const Editor = () => {
                     console.log('remove element', element);
                     setSelectedElement(element);
                   },
-                })}{' '}
+                })}{' '} */}
               </div>
             }
           />
@@ -327,8 +324,6 @@ export const Editor = () => {
               title={undefined}
               onAddComponent={addComponentToJson}
             >
-              {console.log('mdoue', modules[0])}
-
               <div className="layout-grid">
                 <ResponsiveGridLayout
                   className="layout"
