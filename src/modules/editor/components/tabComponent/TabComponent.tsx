@@ -29,6 +29,10 @@ export interface TabProps {
    * Module placed inside that particular tab
    */
   tabContent: string;
+  /**
+   * Determines whether or not a tab is selected & focused on
+   */
+  selectedTab: boolean;
 }
 
 export const TabComponent = (props: TabProps) => {
@@ -40,6 +44,7 @@ export const TabComponent = (props: TabProps) => {
       tabId: '',
       tabLabel: props.tabLabel,
       tabContent: props.tabContent,
+      selectedTab: true,
     },
   ]);
   const [tabIndex, setTabIndex] = useState(0);
@@ -78,6 +83,7 @@ export const TabComponent = (props: TabProps) => {
           tabId: newTabId,
           tabLabel: jsonTab.component.name,
           tabContent: 'Holis',
+          selectedTab: true,
         };
         dispatch(setActiveTabId(newTab.tabId));
 
@@ -93,17 +99,23 @@ export const TabComponent = (props: TabProps) => {
    * Sets a new tab index when the parent component changes a new tab is added
    */
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTabIndex(newValue);
+    const updatedTabs = tabs.map((tab, index) => ({
+      ...tab,
+      selectedTab: index === newValue,
+    }));
+
     const selectedTab = tabs[newValue];
     console.log('Pestaña seleccionada:', selectedTab);
+
+    setTabIndex(newValue);
+    setTabs(updatedTabs);
   };
 
   const tabRefs = useRef<Array<HTMLDivElement | null>>([]);
 
-  // const handleContentRef =
-  //   (index: number) => (element: HTMLDivElement | null) => {
-  //     contentRefs.current[index] = element;
-  //   };
+  const handleTabRef = (index: number) => (element: HTMLDivElement | null) => {
+    tabRefs.current[index] = element;
+  };
 
   /**
    * Sets the focus on the previous tab's content & deletes the closed module from the Json array
@@ -119,24 +131,37 @@ export const TabComponent = (props: TabProps) => {
       newTabIndex = Math.max(0, tabIndex - 1);
     }
 
+    const updatedTabs = newTabs.map((tab, newIndex) => ({
+      ...tab,
+      selected: newIndex === newTabIndex,
+    }));
+
     setTabIndex(newTabIndex);
-    setTabs(newTabs);
+    setTabs(updatedTabs);
 
-    const previousTabIndex = Math.max(0, newTabIndex - 1);
+    const focusedElement = tabRefs.current[newTabIndex];
+    if (focusedElement) {
+      focusedElement.focus();
 
-    if (previousTabIndex >= 0 && tabRefs.current[previousTabIndex]) {
-      const previousTab = tabRefs.current[previousTabIndex];
-      previousTab?.focus();
-
-      console.log('Enfoque establecido en el tab anterior:', previousTab);
-      console.log('ID del tab anterior:', newTabs[previousTabIndex].tabId);
-    } else if (newTabs.length > 0 && tabRefs.current[newTabIndex]) {
-      const nextTab = tabRefs.current[newTabIndex];
-      nextTab?.focus();
-
-      console.log('Enfoque establecido en el siguiente tab:', nextTab);
-      console.log('ID del siguiente tab:', newTabs[newTabIndex].tabId);
+      console.log('Foco establecido en la pestaña anterior');
+      console.log('Pestaña anterior:', newTabs[newTabIndex]);
     }
+
+    // const previousTabIndex = Math.max(0, newTabIndex - 1);
+
+    // if (previousTabIndex >= 0 && tabRefs.current[previousTabIndex]) {
+    //   const previousTab = tabRefs.current[previousTabIndex];
+    //   previousTab?.focus();
+
+    //   console.log('Enfoque establecido en el tab anterior:', previousTab);
+    //   console.log('ID del tab anterior:', newTabs[previousTabIndex].tabId);
+    // } else if (newTabs.length > 0 && tabRefs.current[newTabIndex]) {
+    //   const nextTab = tabRefs.current[newTabIndex];
+    //   nextTab?.focus();
+
+    //   console.log('Enfoque establecido en el siguiente tab:', nextTab);
+    //   console.log('ID del siguiente tab:', newTabs[newTabIndex].tabId);
+    // }
 
     const moduleToClose = modules.find(
       (module: { id: string }) => module.id === tabToClose.tabId
@@ -178,6 +203,7 @@ export const TabComponent = (props: TabProps) => {
           tabId: defaultTabId,
           tabLabel: 'Default',
           tabContent: '',
+          selectedTab: true,
         };
 
         const newTabs = [newDefaultTab];
@@ -215,7 +241,7 @@ export const TabComponent = (props: TabProps) => {
                   onClick={(e) => closeTab(e, index)}
                 />
               }
-              ref={(element) => (tabRefs.current[index] = element)}
+              ref={handleTabRef(index)}
             />
           ))}
         </Tabs>
