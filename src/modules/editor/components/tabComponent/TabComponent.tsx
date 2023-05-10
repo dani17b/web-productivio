@@ -127,49 +127,37 @@ export const TabComponent = (props: TabProps) => {
     newTabs.splice(index, 1);
 
     let newTabIndex = tabIndex;
-    if (index <= tabIndex) {
+    if (newTabs.length === 1) {
+      newTabIndex = 0;
+    } else if (index <= tabIndex) {
       newTabIndex = Math.max(0, tabIndex - 1);
     }
 
-    const updatedTabs = newTabs.map((tab, newIndex) => ({
-      ...tab,
-      selected: newIndex === newTabIndex,
-    }));
-
-    setTabIndex(newTabIndex);
-    setTabs(updatedTabs);
-
-    const focusedElement = tabRefs.current[newTabIndex];
-    if (focusedElement) {
-      focusedElement.focus();
-
-      console.log('Foco establecido en la pestaña anterior');
-      console.log('Pestaña anterior:', newTabs[newTabIndex]);
-    }
-
-    // const previousTabIndex = Math.max(0, newTabIndex - 1);
-
-    // if (previousTabIndex >= 0 && tabRefs.current[previousTabIndex]) {
-    //   const previousTab = tabRefs.current[previousTabIndex];
-    //   previousTab?.focus();
-
-    //   console.log('Enfoque establecido en el tab anterior:', previousTab);
-    //   console.log('ID del tab anterior:', newTabs[previousTabIndex].tabId);
-    // } else if (newTabs.length > 0 && tabRefs.current[newTabIndex]) {
-    //   const nextTab = tabRefs.current[newTabIndex];
-    //   nextTab?.focus();
-
-    //   console.log('Enfoque establecido en el siguiente tab:', nextTab);
-    //   console.log('ID del siguiente tab:', newTabs[newTabIndex].tabId);
-    // }
+    setTabs(newTabs);
 
     const moduleToClose = modules.find(
       (module: { id: string }) => module.id === tabToClose.tabId
     );
+
     if (moduleToClose) {
       dispatch(deleteJsonFromArray(moduleToClose));
       console.log('Tab cerrada: ', moduleToClose);
-      dispatch(setActiveTabId(newTabs[newTabIndex].tabId));
+    }
+
+    if (newTabIndex !== tabIndex) {
+      setTabIndex(newTabIndex);
+
+      const focusedElement = tabRefs.current[newTabIndex];
+      if (focusedElement) {
+        focusedElement.focus();
+        focusedElement.setAttribute('aria-selected', 'true');
+        console.log('Pestaña anterior:', newTabs[newTabIndex]);
+      }
+    } else {
+      const nextTab = newTabs[newTabIndex];
+      if (nextTab) {
+        dispatch(setActiveTabId(nextTab.tabId));
+      }
     }
   };
 
