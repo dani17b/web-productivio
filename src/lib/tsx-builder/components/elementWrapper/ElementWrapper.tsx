@@ -1,4 +1,5 @@
 import './elementWrapper.scss';
+import { AiTwotoneEdit } from 'react-icons/ai';
 
 export const ElementWrapper = ({
   children,
@@ -10,9 +11,12 @@ export const ElementWrapper = ({
       Wrapper
       {children}
       <div className="element-wrapper__buttons">
-        <div className="element-wrapper__buttons-item" onClick={selectElement}>
+        <AiTwotoneEdit
+          className="element-wrapper__buttons-item"
+          onClick={selectElement}
+        >
           Editar
-        </div>
+        </AiTwotoneEdit>
         <div className="element-wrapper__buttons-item" onClick={removeElement}>
           Borrar
         </div>

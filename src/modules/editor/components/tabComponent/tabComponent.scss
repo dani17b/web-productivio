@@ -79,6 +79,12 @@
 
       &-item {
         visibility: visible;
+        background-color: transparent;
+        height: 30px;
+        width: 30px;
+        margin-top: 15px;
+        color: #000;
+        cursor: pointer;
 
         &:last-child {
           display: none;
