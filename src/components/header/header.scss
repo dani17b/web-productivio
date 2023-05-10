@@ -3,10 +3,8 @@
   color: #fff;
   height: 50px;
   padding: 10px;
-  position: fixed;
-  left: 0;
-  right: 0;
   display: flex;
+  width: 100%;
   align-items: center;
 
   h1 {
@@ -23,7 +21,7 @@
     position: relative;
 
     svg {
-      color:white;
+      color: white;
       font-size: 30px;
       margin-right: 10px;
       cursor: pointer;
