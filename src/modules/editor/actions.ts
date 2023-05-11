@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { SERVER_BASE_URL } from 'src/config/Config';
-import { requestType, responseType } from 'src/utils/ReduxUtils';
+
 import { TsxObj } from 'src/utils/parser/TsxToJson';
 
 export const GET_PROJECT_FILES = 'GET_PROJECT_FILES';

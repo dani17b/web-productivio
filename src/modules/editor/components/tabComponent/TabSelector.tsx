@@ -12,9 +12,9 @@ export const TabSelector: React.FC<TabSelectorProps> = ({
 }) => {
   const [selectedTab, setSelectedTab] = React.useState(0);
 
-  const handleTabClick = (index: number) => {
-    setSelectedTab(index);
-  };
+  // const handleTabClick = (index: number) => {
+  //   setSelectedTab(index);
+  // };
 
   return (
     <div>

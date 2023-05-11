@@ -8,15 +8,15 @@ import './home.scss';
 
 export const Home = () => {
   const dispatch = useDispatch();
-  const { posts, loading } = useSelector((state: any) => state.home);
+  const { loading } = useSelector((state: any) => state.home);
 
   useEffect(() => {
     dispatch(getPosts());
   }, [dispatch]);
 
-  const onClick = () => {
-    console.log('dsdfsdf');
-  };
+  // const onClick = () => {
+  //   console.log('dsdfsdf');
+  // };
 
   return (
     <div>
