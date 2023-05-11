@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './tabSelector.scss';
 
 interface TabSelectorProps {
   tabNames: string[];
@@ -17,13 +18,22 @@ export const TabSelector: React.FC<TabSelectorProps> = ({
 
   return (
     <div>
-      <div>
+      <select
+        className="left-column-dropdown"
+        value={selectedTab}
+        onChange={(event) => setSelectedTab(Number(event.target.value))}
+      >
         {tabNames.map((name, index) => (
-          <button key={index} onClick={() => handleTabClick(index)}>
+          <option
+            key={index}
+            value={index}
+            className="left-column-dropdown__option"
+          >
             {name}
-          </button>
+          </option>
         ))}
-      </div>
+      </select>
+
       <div>{children[selectedTab]}</div>
     </div>
   );

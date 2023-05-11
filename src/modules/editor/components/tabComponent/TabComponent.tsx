@@ -10,6 +10,8 @@ import axios from 'axios';
 import { SERVER_BASE_URL } from 'src/config/Config';
 import { useDispatch, useSelector } from 'react-redux';
 import { setJsonArray } from '../../actions';
+import { HiOutlineFolderOpen } from 'react-icons/hi';
+import { IoMdAddCircleOutline } from 'react-icons/io';
 
 export interface TabProps {
   /**
@@ -118,14 +120,6 @@ export const TabComponent = (props: TabProps) => {
 
   return (
     <div className="tab-container">
-      <div className="tab-container__trial-button-container">
-        <button className="tab-container__trial-button" onClick={addPage}>
-          Open Page
-        </button>
-        <button className="tab-container__trial-button" onClick={addNewPage}>
-          New Page
-        </button>
-      </div>
       <TabContext value={tabIndex.toString()}>
         <Tabs
           className="tab-container__tab-row"
@@ -146,12 +140,28 @@ export const TabComponent = (props: TabProps) => {
             />
           ))}
         </Tabs>
-        <div className="tab-container__tab-content">
-          {tabs.map((tab, index) => (
-            <TabPanel key={tab.tabId} value={index.toString()}>
-              <div ref={handleContentRef(index)}>{tab.tabContent}</div>
-            </TabPanel>
-          ))}
+        <div className="tab-container__group">
+          <div className="tab-container__trial-button-container">
+            <HiOutlineFolderOpen
+              className="tab-container__trial-button"
+              onClick={addPage}
+            >
+              Open Page
+            </HiOutlineFolderOpen>
+            <IoMdAddCircleOutline
+              className="tab-container__trial-button"
+              onClick={addNewPage}
+            >
+              New Page
+            </IoMdAddCircleOutline>
+          </div>
+          <div className="tab-container__tab-content">
+            {tabs.map((tab, index) => (
+              <TabPanel key={tab.tabId} value={index.toString()}>
+                <div ref={handleContentRef(index)}>{tab.tabContent}</div>
+              </TabPanel>
+            ))}
+          </div>
         </div>
       </TabContext>
     </div>

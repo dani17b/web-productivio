@@ -78,7 +78,6 @@ export const Editor = () => {
   const [files, setFiles] = useState([]);
   const [modulesList, setModulesList] = useState([]);
 
-
   //Devuelve un Json con array de objetos con información de los módulos
   useEffect(() => {
     const fetchData = async () => {
@@ -335,28 +334,30 @@ export const Editor = () => {
           </div>
 
           <div className="editor-header"></div>
-        </Column>
-        <Column>
-          <input
-            onChange={(e) => setInputValue(e.target.value)}
-            value={inputValue}
-          ></input>
-          <button onClick={handleSave}>Guardar</button>
-        </Column>
-        <div
-          className="editor__element"
-          style={{
-            marginRight: selectedElement == null ? -250 : 0,
-          }}
-        >
-          <InfoPanel
-            element={selectedElement}
-            onClose={() => setSelectedElement(null)}
-            styles={styles}
-            setStyles={setStyles}
-            text={text}
-            setText={setText}
-          />
+        </Column>{' '}
+        <div className="columna-mia">
+          <Column>
+            <input
+              onChange={(e) => setInputValue(e.target.value)}
+              value={inputValue}
+            ></input>
+            <button onClick={handleSave}>Guardar</button>
+          </Column>
+          <div
+            className="editor__element"
+            style={{
+              marginRight: selectedElement == null ? -250 : 0,
+            }}
+          >
+            <InfoPanel
+              element={selectedElement}
+              onClose={() => setSelectedElement(null)}
+              styles={styles}
+              setStyles={setStyles}
+              text={text}
+              setText={setText}
+            />
+          </div>
         </div>
       </div>
     </DndProvider>
